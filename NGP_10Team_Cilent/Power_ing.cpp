@@ -1,4 +1,6 @@
+
 #include "Power_ing.h"
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	//--------------------------------------------------------------------------------------------------------------//
@@ -203,7 +205,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_TIMER:
 		switch (wParam) {
-		case 0:								// 여기가 주로 움직이는 구간													//GetAsyncKeyState - 키가 눌린 상태로 진행되는함수 (끊김없이)http://www.silverwolf.co.kr/cplusplus/4842
+		case 0:								// 여기가 주로 움직이는 구간	//GetAsyncKeyState - 키가 눌린 상태로 진행되는함수 (끊김없이)
 			if (EscMode)
 			{
 				if (PreTime > -5) PreTime--;
@@ -339,12 +341,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			ReactorImg.Draw(memdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y, Controllroom_window_x, Controllroom_window_y, 0, 0, Controllroom_size_x, Controllroom_size_y);
 			Reactor_RailImg.Draw(memdc, Pibot_x - 782 * window_half, Pibot_y - 782 * window_half, 782 * window_size, 782 * window_size, 0, 0, 782, 782);
 
-			DisplayReflector(ReflectorHead);
+			DisplayReflector(ReflectorHead);			// 반사판그리기
 
 			if (ReactorEffect < 12) Reactor_EffectImg.Draw(memdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, Reactor_size* (ReactorEffect % 6), Reactor_size * (int)(ReactorEffect / 6), Reactor_size, Reactor_size);
 			else Reactor_EffectImg.Draw(memdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, 5000, 1000, Reactor_size, Reactor_size);
 
-			DisplayOrb(OrbHead);
+			DisplayOrb(OrbHead);						// 공 그리기
 			
 			Cherenkov_LeverImg.Draw(memdc, Pibot_x - (740 * window_size), Pibot_y - (100 * window_size), 200 * window_size, 200 * window_size, 200 * Cherenkov.lever, 0, 200, 200);
 

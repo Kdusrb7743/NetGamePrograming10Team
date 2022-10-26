@@ -1,4 +1,8 @@
 #include "Power_ing.h"
+//----------------------------------------------
+// Çö cpp¿¡ Orb(°ø)°ú ÆÐ³Î(¹Ý»çÆÇ)À» °è»ê
+//----------------------------------------------
+
 //--------------------------------------------------------------------------------------------------------------//
 bool GameStart;
 float Score, Temperture, Mole, TotalScore;
@@ -7,7 +11,7 @@ struct Power_Cherenkov Cherenkov;
 struct Power_Orb* OrbHead = (Power_Orb*)malloc(sizeof(struct Power_Orb));
 struct Power_Reflector* ReflectorHead = (Power_Reflector*)malloc(sizeof(struct Power_Reflector));
 //--------------------------------------------------------------------------------------------------------------//
-void CherenkovCheck()													// »èÁ¦
+void CherenkovCheck()													// °ÔÀÓ ÇÇ¹ö¸ðµå - »èÁ¦
 {
 	if (Cherenkov.cherenkov)
 	{
@@ -48,7 +52,7 @@ void GeneralReset()															// °ø, ¹öÆ°, ½Ã°£, ¾À, Á¡¼ö, ÀÌÆåÆ® Å¸ÀÓ ÃÊ±âÈ
 	for (int i = 0; i < 5; i++) Button[i] = 0;
 	Time = 0, GameStart = false, Score = 0, ReactorEffect = 0, Temperture = Kelvin, Mole = MaxMole * 0.5;
 }
-void GameRestart()														// Á¡¼ö, ½Ã°£ ÃÊ±âÈ­
+void GameRestart()														// Á¡¼ö, ½Ã°£ ÃÊ±âÈ­ °ÔÀÓ Àç½ÃÀÛ
 {
 	if (RestartPressure)
 	{
@@ -60,7 +64,7 @@ void GameRestart()														// Á¡¼ö, ½Ã°£ ÃÊ±âÈ­
 	if (Time % 5 == 0) ReactorEffect--;
 	Time--;
 }
-void ButtonActive()
+void ButtonActive()															// ¹öÆ° ÀÛµ¿ (ÀÌ¹ÌÁö) ¹× Ãâ·Â
 {
 	if ((Button[1] < 0 && Temperture + Button[1] > Kelvin) || (Button[1] > 0 && Temperture + Button[1] < MaxTemp && PressureCaculate(Mole, Temperture + Button[1]) < 1)) Temperture += Button[1];
 	else Button[1] = 0;
@@ -70,12 +74,12 @@ void ButtonActive()
 	if (Button[4] > 0) Button[4]--;
 }
 //--------------------------------------------------------------------------------------------------------------//
-bool PressureCheck()													// »èÁ¦
+bool PressureCheck()													// ¿ÂµµÃ¼Å© - »èÁ¦
 {
 	return (PressureCaculate(Mole, Temperture) <= 0.875 && (PressureCaculate(Mole, Temperture) >= 0.375 || PressureCaculate(Mole, Temperture) <= 0));
 }
 //--------------------------------------------------------------------------------------------------------------//
-struct Power_Orb* OrbPosition(struct Power_Orb* Orb)
+struct Power_Orb* OrbPosition(struct Power_Orb* Orb)					// ½ºÇÇµå¿¡ µû¸¥ °ø À§Ä¡ °è»ê
 {
 	if (Cherenkov.cherenkov)
 	{
@@ -89,7 +93,7 @@ struct Power_Orb* OrbPosition(struct Power_Orb* Orb)
 	}
 	//--------------------------------¿Àºê ÀÜ»ó ¸Å¹ø ¹è¿­¿¡ À§Ä¡°ª ³Ö±â
 
-	if (Orb->major)
+	if (Orb->major)												//ÀÜ»ó ÀÌ¹ÌÁö °è»ê
 	{
 		for (int i = 0; i < Orb->effect_count; i++) {
 			Orb->afterx[Orb->effect_count - i] = Orb->afterx[Orb->effect_count - i - 1];
@@ -113,7 +117,7 @@ struct Power_Orb* OrbPosition(struct Power_Orb* Orb)
 	//---------------------------------
 	return Orb;
 }
-struct Power_Orb* OrbSpeed(struct Power_Orb* Orb)
+struct Power_Orb* OrbSpeed(struct Power_Orb* Orb)						// °ø ½ºÇÇµå
 {
 	Orb->speed = SpeedCaculate(Orb->power, Mole, Temperture);
 	Orb->speedx = Orb->speed * cos(M_TU * Orb->angle) * 5;
@@ -122,7 +126,8 @@ struct Power_Orb* OrbSpeed(struct Power_Orb* Orb)
 	Orb->shelly = sin(M_TU * Orb->angle) * Orb->size;
 	return Orb;
 }
-void CollisionDetect(struct Power_Orb* Orb)
+
+void CollisionDetect(struct Power_Orb* Orb)								// ¸ÞÀÎ °ø Ãæµ¹ Çß´ÂÁö
 {
 	if (Orb->next != OrbHead)
 	{
@@ -149,7 +154,7 @@ void CollisionDetect(struct Power_Orb* Orb)
 	}
 	else return;
 }
-bool OrbMajorCheck(struct Power_Orb* Orb)
+bool OrbMajorCheck(struct Power_Orb* Orb)						// ÀÌ ÇÔ¼ö ¾²´Â ºÎºÐ ¾øÀ½(¹Ì¿Ï¼º), ¸ÞÀÎ °ø Ã¼Å© - »èÁ¦
 {
 	if (Orb->next != OrbHead)
 	{
@@ -158,7 +163,7 @@ bool OrbMajorCheck(struct Power_Orb* Orb)
 	}
 	else return true;
 }
-void OrbCreate(struct Power_Orb* Orb, int Type, bool Major, float x, float y, float Angle)
+void OrbCreate(struct Power_Orb* Orb, int Type, bool Major, float x, float y, float Angle)	//¸ÞÀÎ ¾À¿¡¼­ ºÒ·¯ÁÜ. °ø »ý¼º½Ã °´Ã¼ ÃÊ±âÈ­
 {
 	if (Orb->next == OrbHead)
 	{
@@ -169,13 +174,13 @@ void OrbCreate(struct Power_Orb* Orb, int Type, bool Major, float x, float y, fl
 	}
 	else OrbCreate(Orb->next, Type, Major, x, y, Angle);
 }
-void OrbRemove(struct Power_Orb* NextOrb, struct Power_Orb* Orb)
+void OrbRemove(struct Power_Orb* NextOrb, struct Power_Orb* Orb)							// °ø »èÁ¦
 {
 	Orb->next = Orb->next->next;
 	delete NextOrb;
 	return;
 }
-void OrbClear(struct Power_Orb* Orb)
+void OrbClear(struct Power_Orb* Orb)														// °ø ÀüÃ¼ »èÁ¦
 {
 	if (Orb->next != OrbHead)
 	{
@@ -184,9 +189,10 @@ void OrbClear(struct Power_Orb* Orb)
 	}
 	else return;
 }
-struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x, float y, float Angle)
+
+struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x, float y, float Angle) // °ø »ý¼º½Ã Å©±â ÃÊ±âÈ­
 {
-	if (Major)
+	if (Major)													// ÇöÀç °øÀÌ ¸ÞÀÎ °øÀÌ¸é
 	{
 		switch (Type)
 		{
@@ -201,7 +207,7 @@ struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x,
 			break;
 		}
 	}
-	else
+	else														// ÇöÀç °øÀÌ º¸Á¶ °ø(Á¡¼ö¿ë)
 	{
 		switch (Type)
 		{
@@ -221,7 +227,7 @@ struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x,
 	return Orb;
 }
 //--------------------------------------------------------------------------------------------------------------//
-void ReflectDetect(struct Power_Orb* Orb, struct Power_Reflector* Reflector)
+void ReflectDetect(struct Power_Orb* Orb, struct Power_Reflector* Reflector)		// ¹Ý»çÆÇÀÇ Ãæµ¹ °¨Áö
 {
 	if (Orb->next != OrbHead)					// ÇöÀç ÇÃ·¹ÀÌ ¾À, °øÀÌ ÀÖ´ÂÁö
 	{
@@ -234,7 +240,7 @@ void ReflectDetect(struct Power_Orb* Orb, struct Power_Reflector* Reflector)
 	}
 	else return;
 }
-void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)
+void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	// ¹Ý»çÆÇ Ãæµ¹ °Ë»ç ¹× Ãæµ¹ÇÏ¸é ÆÇ¿¡ ´ëÇÑ °Ë¼ö(Á¡¼ö, Æ¨±è ¾Ö´Ï¸ÞÀÌ¼Ç) ÇÔ¼ö
 {
 	if (Orb->next->major)
 	{
@@ -308,18 +314,18 @@ void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)
 		OrbRemove(Orb->next, Orb);
 	}
 }
-struct Power_Orb* ReflectReflectorOrb(struct Power_Orb* Orb, struct Power_Reflector* Reflector)
+struct Power_Orb* ReflectReflectorOrb(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	// °ø°ú ÆÐ³ÎÀÇ Ãæµ¹ °Ë»ç ÈÄ °øÀ§Ä¡ Á¶Á¤
 {
 	if (Reflector->module_charged[3])
 	{
 		if (Reflector->module[3] == 1) Orb->power += 0.1;
 		else if (Reflector->module[3] == 2) Orb->power -= 0.1;
 	}
-	ReflectOrb(Orb, Reflector->angle);
-	OrbPosition(Orb);
+	ReflectOrb(Orb, Reflector->angle);						// °øÀÇ °¢µµ º¯°æ
+	OrbPosition(Orb);										// °øÀÇ À§Ä¡ º¯°æ
 	return Orb;
 }
-struct Power_Orb* ReflectOrb(struct Power_Orb* Orb, float Angle)
+struct Power_Orb* ReflectOrb(struct Power_Orb* Orb, float Angle)				// ¹Ý»çµÈ °øÀÇ °¢µµ º¯°æ
 {
 	if (ObtuseDetect(AngleOverflow(Orb->angle - Angle)))
 	{
@@ -331,7 +337,7 @@ struct Power_Orb* ReflectOrb(struct Power_Orb* Orb, float Angle)
 	return Orb;
 }
 //--------------------------------------------------------------------------------------------------------------//
-void ReflectorPosition(struct Power_Reflector* Reflector, short Left, short Right, short Up, short Down)
+void ReflectorPosition(struct Power_Reflector* Reflector, short Left, short Right, short Up, short Down)	// ¹Ý»çÆÇÀÇ À§Ä¡¸¦ ¸Å¹ø °è»ê
 {
 	if (Reflector->next != ReflectorHead)
 	{
@@ -375,7 +381,7 @@ void ReflectorPosition(struct Power_Reflector* Reflector, short Left, short Righ
 	}
 	else return;
 }
-void ReflectorCreate(struct Power_Reflector* Reflector, int Count)
+void ReflectorCreate(struct Power_Reflector* Reflector, int Count)				// ¹Ý»çÆÇ »ý¼º½Ã
 {
 	if (Reflector->next == ReflectorHead)
 	{
@@ -387,13 +393,13 @@ void ReflectorCreate(struct Power_Reflector* Reflector, int Count)
 	}
 	else ReflectorCreate(Reflector->next, Count);
 }
-void ReflectorRemove(struct Power_Reflector* NextReflector, struct Power_Reflector* Reflector)
+void ReflectorRemove(struct Power_Reflector* NextReflector, struct Power_Reflector* Reflector) //¹Ý»çÆÇ »èÁ¦
 {
 	Reflector->next = Reflector->next->next;
 	delete NextReflector;
 	return;
 }
-void ReflectClear(struct Power_Reflector* Reflector)
+void ReflectClear(struct Power_Reflector* Reflector)											// ¹Ý»çÆÇ ÀüÃ¼ »èÁ¦
 {
 	if (Reflector->next != ReflectorHead)
 	{
@@ -402,7 +408,7 @@ void ReflectClear(struct Power_Reflector* Reflector)
 	}
 	else return;
 }
-struct Power_Reflector* ReflectorReset(struct Power_Reflector* Reflector)
+struct Power_Reflector* ReflectorReset(struct Power_Reflector* Reflector)						// ¹Ý»çÆÇ ¸®¼Â -- °ÔÀÓ ½ÃÀÛ½Ã, ESCÀÏ¶§ ÀÌ¹ÌÁö¸¦ »èÁ¦ÇØÁà¾ß ÇØ¼­ ±×¶§¸¶´Ù ¸®¼Â ÈÄ ´Ù½Ã »ý¼º
 {
 	ReflectClear(ReflectorHead);
 	Reflector->module[0] = 0, Reflector->module[1] = 0, Reflector->module[2] = 0, Reflector->module[3] = 0, Reflector->module[4] = 0;
@@ -416,7 +422,7 @@ struct Power_Reflector* ReflectorReset(struct Power_Reflector* Reflector)
 	else Reflector->angle = 0.25;
 	return Reflector;
 }
-struct Power_Reflector* ReflectorApply(struct Power_Reflector* Reflector, int Count)
+struct Power_Reflector* ReflectorApply(struct Power_Reflector* Reflector, int Count)			// ¹Ý»çÆÇ Àû¿ë
 {
 	Reflector->position = ReflectorHead->position;
 	Reflector->size = ReflectorHead->size;

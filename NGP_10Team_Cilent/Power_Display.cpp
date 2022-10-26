@@ -77,7 +77,7 @@ void EffectPrint(struct Power_Effect* Effect)
 	else return;
 }
 //--------------------------------------------------------------------------------------------------------------//
-void DisplayLoad()
+void DisplayLoad()														// 이미지 로드
 {
 	ReactorImg.Load(TEXT("Img\\Reactor.png"));
 	Reactor_EffectImg.Load(TEXT("Img\\Reactor_Effect.png"));

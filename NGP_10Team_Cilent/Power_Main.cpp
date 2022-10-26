@@ -2,6 +2,8 @@
 
 //-------------------------------------------------------NGP 10팀 Server
 
+//---------------------------------------------------------------------------
+// 전역변수
 float window_size = 0.96;
 bool WASD = false, RestartPressure = false, ChargedMod = false, debug = false, keyboard = true;
 int Reflector1Left = 0x25;				//0x25 - 왼쪽 방향
@@ -10,7 +12,9 @@ int Reflector1Up = 0X26;
 int Reflector1Down = 0X28;
 
 int Player1RGB[3] = {255,255,0};
+//---------------------------------------------------------------------------
 
+//윈 API 초기화
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Power.ing";
 LPCTSTR lpszWindowName = L"Power.ing";
