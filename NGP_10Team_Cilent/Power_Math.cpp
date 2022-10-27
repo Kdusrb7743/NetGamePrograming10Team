@@ -45,21 +45,25 @@ float AnglePosition(float x, float y)								// 절대 각도를 반환?????
 {
 	return atan2( - y, - x) / M_TU + 0.5;							// 절대 각도 / 2파이 + 0.5?
 }
-float Reflect(float Angle, float Reflector)							// ????????
+
+float Reflect(float Angle, float Reflector)							// 반사된 각도를 반환(튕길 때 공 각도에 적용)
 {
 	Angle = 0.5 - Angle + Reflector * 2;
 	return Angle;
 }
-float DistancePosition(float x, float y)							// 원점으로 부터의 거리 반환
+
+float DistancePosition(float x, float y)							// 원점으로 부터의 거리 반환 - 삭제 (쓰이는 곳 삭제)
 {
 	return sqrt((x * x) + (y * y));
 }
-int PNcmp(float num)												//??????
+
+int PNcmp(float num)												// 버튼 클릭 계산용 함수 - 삭제
 {
 	if (num > 0) return 1;
 	else if (num < 0) return -1;
 	else return 0;
 }
+
 bool Distancecmp(float x, float y, float dis)						// 거리가 레일 안쪽이면 트루
 {
 	return ((x * x) + (y * y) < dis * dis);
@@ -68,11 +72,11 @@ bool DistanceOvercmp(float x, float y, float dis)					// 거리가 레일 밖으로 나갔
 {
 	return ((x * x) + (y * y) > dis * dis);
 }
-bool DistanceDetect(float x, float y, float Angle, float Distance, float Size)	//??????
+bool DistanceDetect(float x, float y, float Angle, float Distance, float Size)	// 충돌시 - 거리감지 계산용
 {
 	return (x * x + y * y > (Distance * Distance - Size * Size * 0.25) / (cos(Angle * M_TU) * cos(Angle * M_TU)));
 }
-bool AngleDetect(float x, float y, float Angle)						// ??????
+bool AngleDetect(float x, float y, float Angle)						// 충돌시 - 패널각도 감지 계산용
 {	
 	Angle = AngleOverflow(AnglePosition(x, y) - Angle);
 	return (Angle < 0.13) || (0.87 < Angle);
