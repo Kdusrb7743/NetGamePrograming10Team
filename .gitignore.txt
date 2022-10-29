@@ -1,4 +1,4 @@
-NGP_10Team_Cilent/.vs/
-NGP_10Team_Cilent/x64/
-WinPle_Project_10Team/.vs/
-WinPle_Project_10Team/.64/
+/NGP_10Team_Cilent/.vs/
+/NGP_10Team_Cilent/x64/
+/WinPle_Project_10Team/.vs/
+/WinPle_Project_10Team/.64/
