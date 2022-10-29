@@ -45,14 +45,14 @@ void CherenkovCheck()													// 게임 피버모드 - 삭제
 		}
 	}
 }
-void GeneralReset()															// 공, 버튼, 시간, 씬, 점수, 이펙트 타임 초기화
+void GeneralReset()														// 서버 - 공, 버튼, 시간, 씬, 점수, 이펙트 타임 초기화
 {
 	OrbClear(OrbHead);
 	Cherenkov.cherenkov = false, Cherenkov.meter = 0, Cherenkov.counter = 0, Cherenkov.lever = 0;
 	for (int i = 0; i < 5; i++) Button[i] = 0;
 	Time = 0, GameStart = false, Score = 0, ReactorEffect = 0, Temperture = Kelvin, Mole = MaxMole * 0.5;
 }
-void GameRestart()														// 점수, 시간 초기화 게임 재시작
+void GameRestart()														// 일시정지 용 - 삭제
 {
 	if (RestartPressure)
 	{
@@ -64,7 +64,7 @@ void GameRestart()														// 점수, 시간 초기화 게임 재시작
 	if (Time % 5 == 0) ReactorEffect--;
 	Time--;
 }
-void ButtonActive()															// 버튼 작동 (이미지) 및 출력
+void ButtonActive()															// 버튼 작동 (이미지) 및 출력 - 삭제
 {
 	if ((Button[1] < 0 && Temperture + Button[1] > Kelvin) || (Button[1] > 0 && Temperture + Button[1] < MaxTemp && PressureCaculate(Mole, Temperture + Button[1]) < 1)) Temperture += Button[1];
 	else Button[1] = 0;
@@ -79,7 +79,7 @@ bool PressureCheck()													// 온도체크 - 삭제
 	return (PressureCaculate(Mole, Temperture) <= 0.875 && (PressureCaculate(Mole, Temperture) >= 0.375 || PressureCaculate(Mole, Temperture) <= 0));
 }
 //--------------------------------------------------------------------------------------------------------------//
-struct Power_Orb* OrbPosition(struct Power_Orb* Orb)					// 스피드에 따른 공 위치 계산
+struct Power_Orb* OrbPosition(struct Power_Orb* Orb)					// 서버 - 스피드에 따른 공 위치 계산
 {
 	if (Cherenkov.cherenkov)
 	{
@@ -117,7 +117,7 @@ struct Power_Orb* OrbPosition(struct Power_Orb* Orb)					// 스피드에 따른 공 위�
 	//---------------------------------
 	return Orb;
 }
-struct Power_Orb* OrbSpeed(struct Power_Orb* Orb)						// 공 스피드
+struct Power_Orb* OrbSpeed(struct Power_Orb* Orb)						// 서버 - 공 스피드
 {
 	Orb->speed = SpeedCaculate(Orb->power, Mole, Temperture);
 	Orb->speedx = Orb->speed * cos(M_TU * Orb->angle) * 5;
@@ -127,7 +127,7 @@ struct Power_Orb* OrbSpeed(struct Power_Orb* Orb)						// 공 스피드
 	return Orb;
 }
 
-void CollisionDetect(struct Power_Orb* Orb)								// 메인 공 충돌 했는지
+void CollisionDetect(struct Power_Orb* Orb)								// 서버 - 메인 공 충돌 했는지
 {
 	if (Orb->next != OrbHead)
 	{
@@ -163,7 +163,7 @@ bool OrbMajorCheck(struct Power_Orb* Orb)						// 이 함수 쓰는 부분 없음(미완성)
 	}
 	else return true;
 }
-void OrbCreate(struct Power_Orb* Orb, int Type, bool Major, float x, float y, float Angle)	//메인 씬에서 불러줌. 공 생성시 객체 초기화
+void OrbCreate(struct Power_Orb* Orb, int Type, bool Major, float x, float y, float Angle)	//서버 - 메인 씬에서 불러줌. 공 생성시 객체 초기화
 {
 	if (Orb->next == OrbHead)
 	{
@@ -174,13 +174,13 @@ void OrbCreate(struct Power_Orb* Orb, int Type, bool Major, float x, float y, fl
 	}
 	else OrbCreate(Orb->next, Type, Major, x, y, Angle);
 }
-void OrbRemove(struct Power_Orb* NextOrb, struct Power_Orb* Orb)							// 공 삭제
+void OrbRemove(struct Power_Orb* NextOrb, struct Power_Orb* Orb)							// 서버 - 공 삭제
 {
 	Orb->next = Orb->next->next;
 	delete NextOrb;
 	return;
 }
-void OrbClear(struct Power_Orb* Orb)														// 공 전체 삭제
+void OrbClear(struct Power_Orb* Orb)														// 서버 - 공 전체 삭제
 {
 	if (Orb->next != OrbHead)
 	{
@@ -190,7 +190,7 @@ void OrbClear(struct Power_Orb* Orb)														// 공 전체 삭제
 	else return;
 }
 
-struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x, float y, float Angle) // 공 생성시 크기 초기화
+struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x, float y, float Angle) // 서버 - 공 생성시 크기 초기화
 {
 	if (Major)													// 현재 공이 메인 공이면
 	{
@@ -227,7 +227,7 @@ struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x,
 	return Orb;
 }
 //--------------------------------------------------------------------------------------------------------------//
-void ReflectDetect(struct Power_Orb* Orb, struct Power_Reflector* Reflector)		// 반사판의 충돌 감지
+void ReflectDetect(struct Power_Orb* Orb, struct Power_Reflector* Reflector)		// 서버 - 반사판의 충돌 감지
 {
 	if (Orb->next != OrbHead)					// 현재 플레이 씬, 공이 있는지
 	{
@@ -240,7 +240,7 @@ void ReflectDetect(struct Power_Orb* Orb, struct Power_Reflector* Reflector)		//
 	}
 	else return;
 }
-void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	// 반사판 충돌 검사 및 충돌하면 판에 대한 검수(점수, 튕김 애니메이션) 함수
+void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	// 서버 - 반사판 충돌 검사 및 충돌하면 판에 대한 검수(점수, 튕김 애니메이션) 함수
 {
 	if (Orb->next->major)
 	{
@@ -314,7 +314,7 @@ void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	
 		OrbRemove(Orb->next, Orb);
 	}
 }
-struct Power_Orb* ReflectReflectorOrb(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	// 공과 패널의 충돌 검사 후 공위치 조정
+struct Power_Orb* ReflectReflectorOrb(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	// 서버 - 공과 패널의 충돌 검사 후 공위치 조정
 {
 	if (Reflector->module_charged[3])
 	{
@@ -325,7 +325,7 @@ struct Power_Orb* ReflectReflectorOrb(struct Power_Orb* Orb, struct Power_Reflec
 	OrbPosition(Orb);										// 공의 위치 변경
 	return Orb;
 }
-struct Power_Orb* ReflectOrb(struct Power_Orb* Orb, float Angle)				// 반사된 공의 각도 변경
+struct Power_Orb* ReflectOrb(struct Power_Orb* Orb, float Angle)				// 서버 - 반사된 공의 각도 변경
 {
 	if (ObtuseDetect(AngleOverflow(Orb->angle - Angle)))
 	{

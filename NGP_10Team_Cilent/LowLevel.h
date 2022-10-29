@@ -18,7 +18,7 @@ enum PacketType		//Scene 정보
 // 로비씬에서는 헤더파일만 넘겨주면 끝인거 같은데
 
 #pragma region [Struct]
-struct PositionData	//double로 해야될수도...
+struct PositionData
 {
 	float x = 0.f, y = 0.f;
 };
@@ -100,7 +100,97 @@ void InitBall();										// 공 속도 및 각도 초기화, 남은 공 갯수 감소
 bool EndCheck();										// 게임이 종료됐는지 체크하는 함수
 #pragma endregion
 
+
+//---------------------------------------------------------------------------------- 2022.10.27 로우레벨 추가용
+//	기본적으로 공과 패널은 연결리스트로 구현되어 있음
+//  각도는 0 ~ 1
+//	--인자 설명--
+// Orb = 공
+// Reflector = 패널(움직일 수 있는 반사판)
+// 좌표 = x, y
+// 각도 = Angle
+// 공의 타입 = Type -- 삭제 예정
+// dis = 거리
+// 
+// count = 패널모듈 추가 - 삭제
+// Major = 메인 공 - 삭제
+
+// -----------------------------------------------------------------서버
+// Power_Orb.cpp
+// 공 인자들(스피드, 각도, 좌표) 리셋 및 계산
+void GeneralReset();												// 공, 버튼, 시간, 씬, 점수, 이펙트 타임 초기화
+struct Power_Orb* OrbPosition(struct Power_Orb* Orb);				// 스피드에 따른 공 위치 계산
+struct Power_Orb* OrbSpeed(struct Power_Orb* Orb);					// 공 스피드계산
+void OrbCreate(struct Power_Orb* Orb, int Type,
+	bool Major, float x, float y, float Angle);						// 메인 씬에서 불러줌. 공 생성시 객체 초기화
+void OrbRemove(struct Power_Orb* NextOrb, struct Power_Orb* Orb);	// 공 하나 삭제
+void OrbClear(struct Power_Orb* Orb);								// 공 전체 삭제 및 리셋용
+struct Power_Orb* OrbApply(struct Power_Orb* Orb,
+	int Type, bool Major, float x, float y, float Angle);			// 공 생성시 크기 초기화
+
+// 공, 패널 충돌부분
+void CollisionDetect(struct Power_Orb* Orb);						// 메인 공 충돌 했는지
+struct Power_Orb* ReflectReflectorOrb(struct Power_Orb* Orb,
+	struct Power_Reflector* Reflector);								// 공과 패널의 충돌 검사 후 공위치 조정
+struct Power_Orb* ReflectOrb(struct Power_Orb* Orb, float Angle);	// 반사된 공의 각도 변경
+void ReflectDetect(struct Power_Orb* Orb,
+	struct Power_Reflector* Reflector);								// 반사판의 충돌 감지
+
+//---------------------------------------------------------------------중요 !!클라 , 서버로 내부를 분리해야할 함수!!
+void ReflectReflector(struct Power_Orb* Orb,
+	struct Power_Reflector* Reflector);								// 반사판 충돌 검사 및 충돌하면 판에 대한 검수(점수, 튕김 애니메이션) 함수
+//----------------------------------------------------------------------
+
+// 반사판(패널) 인자들(스피드, 각도, 좌표) 리셋 및 계산
+void ReflectorPosition(struct Power_Reflector* Reflector,
+	short Left, short Right, short Up, short Down);					// 반사판의 위치를 매번 계산
+void ReflectorCreate(struct Power_Reflector* Reflector, int Count);	// 반사판 생성시
+void ReflectorRemove(struct Power_Reflector* NextReflector,
+	struct Power_Reflector* Reflector);								// 반사판 하나 삭제
+void ReflectClear(struct Power_Reflector* Reflector);				// 반사판 전체 삭제
+struct Power_Reflector* ReflectorReset(struct Power_Reflector* Reflector);				// 반사판 리셋 -- 게임 시작시 리셋 후 다시 생성
+struct Power_Reflector* ReflectorApply(struct Power_Reflector* Reflector, int Count);	// 반사판 적용
+
+
+// Power_Math.cpp
+float OrbScore(float Speed);										// 스피드에 따라 점수를 얻는다.
+float AngleOverflow(float Angle);									// 각도 계산용 - 각도 360초과시 다시 0으로 돌린다.
+
+float AnglePosition(float x, float y);								// 충돌용 - 절대 각도를 반환?
+float Reflect(float Angle, float Reflector);						// 충돌용 - 반사된 각도를 반환(공 튕길 때 공 각도에 적용)
+bool Distancecmp(float x, float y, float dis);						// 충돌용 - 거리가 레일 안쪽이면 트루
+bool DistanceOvercmp(float x, float y, float dis);					// 충돌용 - 거리가 레일 밖으로 나갔을 때 트루
+bool DistanceDetect(float x, float y, float Angle,
+	float Distance, float Size);									// 충돌용 - 거리감지 계산용
+bool AngleDetect(float x, float y, float Angle);					// 충돌시 - 패널각도 감지 계산용
+bool ObtuseDetect(float Angle);										// 충돌용 - 둔각으로 충돌시
 #pragma endregion
+
+
+//------------------------------------------------------------------클라
+// Power_Display.cpp는 클라에 전부 적용
+
+struct Power_Effect								// 이펙트 용 구조체
+{
+	float x, y, score;
+	int age;
+	struct Power_Effect* next;
+};
+
+struct Power_Orb								// 공의 정보
+{
+	int type, effect, effect_count;				// 이펙트효과
+	float x, y;									// 위치
+	float afterx[25], aftery[25];				// 잔상 저장용 배열
+	struct Power_Orb* next;
+};
+
+struct Power_Reflector							// 패널 정보
+{
+	float angle, position;
+	int effect;
+	struct Power_Reflector* next;
+};
 
 
 

@@ -225,7 +225,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			else											// 이 부분에서 좌우 체크하면서
 			{
 				if (Time == 0 && PreTime < 25) PreTime = 25;
-				ButtonActive();
+				//ButtonActive();
 				ReflectorPosition(ReflectorHead, GetAsyncKeyState(Reflector1Left), GetAsyncKeyState(Reflector1Right), GetAsyncKeyState(Reflector1Up), GetAsyncKeyState(Reflector1Down));
 				if (GameStart)
 				{
