@@ -1,0 +1,2 @@
+NGP_10Team_Cilent/.vs
+WinPle_Project_10Team/.vs
