@@ -22,6 +22,7 @@ struct PositionData
 {
 	float x = 0.f, y = 0.f;
 };
+
 struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터
 {
 	PositionData m_clientPos;		// 중점의 좌표
@@ -31,6 +32,7 @@ struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터
 	unsigned short m_clientScore;
 	char m_clientColor;				// RGB
 };
+
 struct ballData					// 서버에서 작업할 때, 필요한 Ball 데이터
 {
 	PositionData m_ballPos;		// BallPosition
@@ -80,7 +82,7 @@ struct CS_MainPacket
 
 #pragma region [Thread]
 DWORD WINAPI ClientThread(LPVOID arg);					// 클라이언트와의 통신을 수행, 
-DWORD WINAPI CalculateThread(LPVOID arg);				// 모든 계산을 수행
+DWORD WINAPI ProcessThread(LPVOID arg);					// 모든 계산을 수행
 #pragma endregion
 
 #pragma region [ServerFunction]
