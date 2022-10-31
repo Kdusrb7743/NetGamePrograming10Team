@@ -221,3 +221,7 @@ int CS_Send_Position(PositionData clientPosition);		// 다음 위치값 패킷 전송
 // 전역변수
 clientData Client[3];
 ballData Ball;
+
+//	쓰레드 동기화용 Flag
+HANDLE clientThreadFlag[3];
+HANDLE processThreadFlag;
