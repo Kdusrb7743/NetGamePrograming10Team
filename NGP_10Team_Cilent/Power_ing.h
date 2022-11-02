@@ -41,11 +41,11 @@ BOOL CALLBACK Option_Proc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam);
 // Power_Orb
 // 
 //--------------------------------------------------------------------------------------------------------------//
-struct Power_Cherenkov
-{
-	bool cherenkov, levertrigger;
-	int meter, counter, lever;
-};
+//struct Power_Cherenkov
+//{
+//	bool cherenkov, levertrigger;
+//	int meter, counter, lever;
+//};
 struct Power_Effect
 {
 	float x, y, score;
@@ -55,9 +55,9 @@ struct Power_Effect
 struct Power_Orb
 {
 	bool major;
-	int type, effect, effect_count;
+	int type = 2, effect, effect_count;
 	float speedx, speedy, shellx, shelly;
-	float x, y, speed, angle, power, size;
+	float x, y, speed, angle, power = 2.f, size;
 	float afterx[25], aftery[25];
 	struct Power_Orb* next;
 };
@@ -69,18 +69,18 @@ struct Power_Reflector
 	struct Power_Reflector* next;
 };
 extern bool GameStart;
-extern float Score, Temperture, Mole, TotalScore;
+extern float Score, TotalScore;//, Temperture, Mole;
 extern int Time, PreTime, ReactorEffect, Button[5], OrbType, Orbcount;
-extern struct Power_Cherenkov Cherenkov;
+//extern struct Power_Cherenkov Cherenkov;
 extern struct Power_Orb* OrbHead;
 extern struct Power_Reflector* ReflectorHead;
 //--------------------------------------------------------------------------------------------------------------//
-void CherenkovCheck();
+//void CherenkovCheck();
 void GeneralReset();
 void GameRestart();
-void ButtonActive();
+//void ButtonActive();
 //--------------------------------------------------------------------------------------------------------------//
-bool PressureCheck();
+//bool PressureCheck();
 //--------------------------------------------------------------------------------------------------------------//
 struct Power_Orb* OrbPosition(struct Power_Orb* Orb);
 struct Power_Orb* OrbSpeed(struct Power_Orb* Orb);

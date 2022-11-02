@@ -58,13 +58,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		if (wParam == VK_RETURN) {
 			if (GameStart)
 			{
-				if (Cherenkov.lever == 0 || Cherenkov.meter >= 875 && Cherenkov.lever < 6 && Cherenkov.cherenkov == false)
+				/*if (Cherenkov.lever == 0 || Cherenkov.meter >= 875 && Cherenkov.lever < 6 && Cherenkov.cherenkov == false)
 				{
 					Cherenkov.levertrigger = true;
 					Cherenkov.lever++;
-				}
+				}*/
 			}
-			else if (PressureCheck())
+			else if (1)
 			{
 				if (Orbselect_scene)
 				{
@@ -79,7 +79,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_KEYUP:
 		if (wParam == VK_RETURN) {
-			Cherenkov.levertrigger = false;
+			//Cherenkov.levertrigger = false;
 		}
 		break;
 	case WM_MOUSEMOVE:
@@ -112,18 +112,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				}
 			}
 		}
-		else if (Cherenkov.levertrigger)
+		/*else if (Cherenkov.levertrigger)
 		{
 			if (Cherenkov.lever == 0 || Cherenkov.meter >= 875 && Cherenkov.lever < 6 && Cherenkov.cherenkov == false)
 			{
 				if (UIButtonSelected(-737.5, -67.5, 200, 167.5, Mouse) && Cherenkov.lever == 0) Cherenkov.lever = 1;
 				else if (UIButtonSelected(-737.5, -42.5, 200, 142.5, Mouse) && Cherenkov.lever == 1) Cherenkov.lever = 2;
 				else if (UIButtonSelected(-737.5, -15, 200, 115, Mouse) && Cherenkov.lever == 2) Cherenkov.lever = 3;
-				else if (UIButtonSelected(-737.5, 15, 200, 85, Mouse) && Cherenkov.lever == 3) Cherenkov.lever = 4;
+				else if (UIButtonSelected(-737.5, 15, 200, 85, Mouse) && Cherenkov.lever == 3) `.lever = 4;
 				else if (UIButtonSelected(-737.5, 42.5, 200, 57.5, Mouse) && Cherenkov.lever == 4) Cherenkov.lever = 5;
 				else if (UIButtonSelected(-737.5, 67.5, 200, 32.5, Mouse) && Cherenkov.lever == 5) Cherenkov.lever = 6;
 			}
-		}
+		}*/
 		else if (keyboard == false)
 		{
 			Mouse = MAKEPOINTS(lParam);
@@ -193,15 +193,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		else
 		{
 			Mouse = MAKEPOINTS(lParam);
-			if (UIButtonSelected(-737.5, -100, 200, 200, Mouse)) Cherenkov.levertrigger = true;
+			/*if (UIButtonSelected(-737.5, -100, 200, 200, Mouse)) Cherenkov.levertrigger = true;
 			if (UIButtonSelected(653.5, 250, 50, 50, Mouse)) Button[3] = 10;
-			else if (UIButtonSelected(796.5, 250, 50, 50, Mouse)) Button[4] = 10;
+			else if (UIButtonSelected(796.5, 250, 50, 50, Mouse)) Button[4] = 10;*/
 		}
 		break;
 	case WM_LBUTTONUP:
 		Button[1] = 0;
 		Button[2] = 0;
-		Cherenkov.levertrigger = false;
+		//Cherenkov.levertrigger = false;
 		break;
 	case WM_TIMER:
 		switch (wParam) {
@@ -235,7 +235,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 						OrbCreate(OrbHead, OrbType, true, 0, 0, 0.25);
 					}
 					Time++;
-					CherenkovCheck();						// 체렌코프 뺌
+					//CherenkovCheck();						// 체렌코프 뺌
 					CollisionDetect(OrbHead);
 					if (ReactorEffect > 5)
 					{
@@ -348,18 +348,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			DisplayOrb(OrbHead);						// 공 그리기
 			
-			Cherenkov_LeverImg.Draw(memdc, Pibot_x - (740 * window_size), Pibot_y - (100 * window_size), 200 * window_size, 200 * window_size, 200 * Cherenkov.lever, 0, 200, 200);
+			//Cherenkov_LeverImg.Draw(memdc, Pibot_x - (740 * window_size), Pibot_y - (100 * window_size), 200 * window_size, 200 * window_size, 200 * Cherenkov.lever, 0, 200, 200);
 
-			Button_PressureImg.Draw(memdc, Pibot_x - (861.5 * window_size), Pibot_y + (260 * window_size), 80 * window_size, 80 * window_size, 80 * (PNcmp(Button[1]) + 1), 0, 80, 80);
-			Button_PressureImg.Draw(memdc, Pibot_x - (718.5 * window_size), Pibot_y + (260 * window_size), 80 * window_size, 80 * window_size, 80 * (PNcmp(Button[2]) + 1), 0, 80, 80);
-			Button_OrbImg.Draw(memdc, Pibot_x + (653.5 * window_size), Pibot_y + (251 * window_size), 50 * window_size, 50 * window_size, 50 * (int)(Button[3] / 3), 0, 50, 50);
-			Button_OrbImg.Draw(memdc, Pibot_x + (796.5 * window_size), Pibot_y + (251 * window_size), 50 * window_size, 50 * window_size, 50 * (int)(Button[4] / 3), 50, 50, 50);
+			//Button_PressureImg.Draw(memdc, Pibot_x - (861.5 * window_size), Pibot_y + (260 * window_size), 80 * window_size, 80 * window_size, 80 * (PNcmp(Button[1]) + 1), 0, 80, 80);
+			//Button_PressureImg.Draw(memdc, Pibot_x - (718.5 * window_size), Pibot_y + (260 * window_size), 80 * window_size, 80 * window_size, 80 * (PNcmp(Button[2]) + 1), 0, 80, 80);
+			//Button_OrbImg.Draw(memdc, Pibot_x + (653.5 * window_size), Pibot_y + (251 * window_size), 50 * window_size, 50 * window_size, 50 * (int)(Button[3] / 3), 0, 50, 50);
+			//Button_OrbImg.Draw(memdc, Pibot_x + (796.5 * window_size), Pibot_y + (251 * window_size), 50 * window_size, 50 * window_size, 50 * (int)(Button[4] / 3), 50, 50, 50);
 
-			DisplayRotatedImage(-860, 0, 20, 110, Cherenkov.meter / 1500.0 - 1.0 / 3.0, 1);
-			DisplayRotatedImage(-700, -405, 14, 80, PressureCaculate(Mole, Temperture), 2);
-			DisplayRotatedImage(-821.5, 300, 80, 80, (Temperture - Kelvin) / (MaxTemp - Kelvin), 3);
-			DisplayRotatedImage(-678.5, 300, 80, 80, Mole / MaxPressure * Kelvin / 3 - 1.0 / 6.0, 4);
-			DisplayRotatedImage(-825, -355, 15, 190, 0, 5);
+			//DisplayRotatedImage(-860, 0, 20, 110, 
+			// .meter / 1500.0 - 1.0 / 3.0, 1);
+			//DisplayRotatedImage(-700, -405, 14, 80, PressureCaculate(Mole, Temperture), 2);
+			//DisplayRotatedImage(-821.5, 300, 80, 80, (Temperture - Kelvin) / (MaxTemp - Kelvin), 3);
+			//DisplayRotatedImage(-678.5, 300, 80, 80, Mole / MaxPressure * Kelvin / 3 - 1.0 / 6.0, 4);
+			//DisplayRotatedImage(-825, -355, 15, 190, 0, 5);
 
 			if (debug)	UIDebugInfo();
 			if (Orbselect_scene) OrbImg.Draw(memdc, int(Pibot_x + 700 * window_size), int(Pibot_y - 380 * window_size), int(100 * window_size), int(100 * window_size), 500, Orb_size * OrbType, Orb_size, Orb_size);

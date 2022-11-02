@@ -261,11 +261,16 @@ void DisplayOrb(struct Power_Orb* Orb)
 {
 	if (Orb->next != OrbHead)
 	{
-		for (int i = Orb->next->effect_count; i > 0; i--) OrbImg.AlphaBlend(memdc, int(Pibot_x + (Orb->next->afterx[i] - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->aftery[i] - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (4 * Cherenkov.cherenkov + 10 * Orb->next->major + 2), Orb_size * Orb->next->type, Orb_size, Orb_size, 1.5 * (Orb->next->effect_count - i));
+		/*for (int i = Orb->next->effect_count; i > 0; i--) OrbImg.AlphaBlend(memdc, int(Pibot_x + (Orb->next->afterx[i] - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->aftery[i] - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (4 * Cherenkov.cherenkov + 10 * Orb->next->major + 2), Orb_size * Orb->next->type, Orb_size, Orb_size, 1.5 * (Orb->next->effect_count - i));
 		for (int i = Orb->next->effect_count; i > 0; i--) OrbImg.AlphaBlend(memdc, int(Pibot_x + (Orb->next->afterx[i] - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->aftery[i] - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (4 * Cherenkov.cherenkov + 10 * Orb->next->major + 3), Orb_size * Orb->next->type, Orb_size, Orb_size, 1.5 * (Orb->next->effect_count - i));
 		for (int i = Orb->next->effect_count; i > 0; i--) OrbImg.AlphaBlend(memdc, int(Pibot_x + (Orb->next->afterx[i] - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->aftery[i] - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (4 * Cherenkov.cherenkov + 10 * Orb->next->major + 4), Orb_size * Orb->next->type, Orb_size, Orb_size, 1.5 * (Orb->next->effect_count - i));
 		for (int i = Orb->next->effect_count; i > 0; i--) OrbImg.AlphaBlend(memdc, int(Pibot_x + (Orb->next->afterx[i] - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->aftery[i] - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (4 * Cherenkov.cherenkov + 10 * Orb->next->major + 5), Orb_size * Orb->next->type, Orb_size, Orb_size, 1.5 * (Orb->next->effect_count - i));
-		OrbImg.Draw(memdc, int(Pibot_x + (Orb->next->x - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->y - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (Cherenkov.cherenkov + 10 * Orb->next->major), Orb_size * Orb->next->type, Orb_size, Orb_size);
+		OrbImg.Draw(memdc, int(Pibot_x + (Orb->next->x - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->y - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (Cherenkov.cherenkov + 10 * Orb->next->major), Orb_size * Orb->next->type, Orb_size, Orb_size); */
+		for (int i = Orb->next->effect_count; i > 0; i--) OrbImg.AlphaBlend(memdc, int(Pibot_x + (Orb->next->afterx[i] - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->aftery[i] - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (4 * 0 + 10 * Orb->next->major + 2), Orb_size * Orb->next->type, Orb_size, Orb_size, 1.5 * (Orb->next->effect_count - i));
+		for (int i = Orb->next->effect_count; i > 0; i--) OrbImg.AlphaBlend(memdc, int(Pibot_x + (Orb->next->afterx[i] - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->aftery[i] - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (4 * 0 + 10 * Orb->next->major + 3), Orb_size * Orb->next->type, Orb_size, Orb_size, 1.5 * (Orb->next->effect_count - i));
+		for (int i = Orb->next->effect_count; i > 0; i--) OrbImg.AlphaBlend(memdc, int(Pibot_x + (Orb->next->afterx[i] - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->aftery[i] - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (4 * 0 + 10 * Orb->next->major + 4), Orb_size * Orb->next->type, Orb_size, Orb_size, 1.5 * (Orb->next->effect_count - i));
+		for (int i = Orb->next->effect_count; i > 0; i--) OrbImg.AlphaBlend(memdc, int(Pibot_x + (Orb->next->afterx[i] - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->aftery[i] - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (4 * 0 + 10 * Orb->next->major + 5), Orb_size * Orb->next->type, Orb_size, Orb_size, 1.5 * (Orb->next->effect_count - i));
+		OrbImg.Draw(memdc, int(Pibot_x + (Orb->next->x - Orb->next->size) * window_size), int(Pibot_y + (Orb->next->y - Orb->next->size) * window_size), int(Orb->next->size * 2 * window_size), int(Orb->next->size * 2 * window_size), Orb_size * (0 + 10 * Orb->next->major), Orb_size * Orb->next->type, Orb_size, Orb_size);
 		DisplayOrb(Orb->next);
 	}
 	else return;
@@ -338,7 +343,7 @@ void DisplayRotatedImage(float x, float y, float Sizex, float Sizey, float Angle
 		Button_ValveImg.PlgBlt(memdc, Image_Point, 0, 0, Sizex, Sizey, Button_Valve_Mask_Img, 0, 0);
 		break;
 	case 5:
-		TempertureImg.PlgBlt(memdc, Image_Point, 0, 0, Sizex, Sizey, Temperture_Mask_Img, 0, Temperture / MaxTemp * 190);
+		//TempertureImg.PlgBlt(memdc, Image_Point, 0, 0, Sizex, Sizey, Temperture_Mask_Img, 0, Temperture / MaxTemp * 190);
 		break;
 	default:
 		break;
@@ -482,14 +487,18 @@ void UIDebugInfo()
 	TextOut(memdc, 0, 87, lpOut, lstrlen(lpOut));
 	swprintf_s(lpOut, 100, L"Time : %d ", Time);
 	TextOut(memdc, 0, 100, lpOut, lstrlen(lpOut));
-	swprintf_s(lpOut, 100, L"Cherenkov : %d ", Cherenkov.meter);
+	swprintf_s(lpOut, 100, L"Type : %d ", OrbHead->type);
 	TextOut(memdc, 0, 112, lpOut, lstrlen(lpOut));
-	swprintf_s(lpOut, 100, L"Cherenkov counter : %d ", Cherenkov.counter);
+	swprintf_s(lpOut, 100, L"Power : %d ", OrbHead->power);
 	TextOut(memdc, 0, 125, lpOut, lstrlen(lpOut));
-	swprintf_s(lpOut, 100, L"Temperture : %g ", Temperture);
-	TextOut(memdc, 0, 137, lpOut, lstrlen(lpOut));
-	swprintf_s(lpOut, 100, L"Mole : %g ", Mole);
-	TextOut(memdc, 0, 150, lpOut, lstrlen(lpOut));
+	//swprintf_s(lpOut, 100, L"Cherenkov : %d ", Cherenkov.meter);
+	//TextOut(memdc, 0, 112, lpOut, lstrlen(lpOut));
+	//swprintf_s(lpOut, 100, L"Cherenkov counter : %d ", Cherenkov.counter);
+	//TextOut(memdc, 0, 125, lpOut, lstrlen(lpOut));
+	//swprintf_s(lpOut, 100, L"Temperture : %g ", Temperture);
+	//TextOut(memdc, 0, 137, lpOut, lstrlen(lpOut));
+	//swprintf_s(lpOut, 100, L"Mole : %g ", Mole);
+	//TextOut(memdc, 0, 150, lpOut, lstrlen(lpOut));
 	swprintf_s(lpOut, 100, L"distance : %g ", sqrt(OrbHead->next->x * OrbHead->next->x + OrbHead->next->y * OrbHead->next->y));
 	TextOut(memdc, 0, 162, lpOut, lstrlen(lpOut));
 	swprintf_s(lpOut, 100, L"effect : %g ", OrbHead->next->afterx[0]);

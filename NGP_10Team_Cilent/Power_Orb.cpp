@@ -5,92 +5,92 @@
 
 //--------------------------------------------------------------------------------------------------------------//
 bool GameStart;
-float Score, Temperture, Mole, TotalScore;
-int Time, PreTime, ReactorEffect, Button[5], OrbType, Orbcount;
-struct Power_Cherenkov Cherenkov;
+float Score, TotalScore; //, Temperture, Mole;
+int Time, PreTime, ReactorEffect, Button[5], OrbType , Orbcount;
+//struct Power_Cherenkov Cherenkov;
 struct Power_Orb* OrbHead = (Power_Orb*)malloc(sizeof(struct Power_Orb));
 struct Power_Reflector* ReflectorHead = (Power_Reflector*)malloc(sizeof(struct Power_Reflector));
 //--------------------------------------------------------------------------------------------------------------//
-void CherenkovCheck()													// 게임 피버모드 - 삭제
-{
-	if (Cherenkov.cherenkov)
-	{
-		if (ReactorEffect < 5 && Time % 3 == 0)	ReactorEffect ++;
-		if (Cherenkov.counter > 0) Cherenkov.counter = 0;
-		if (Cherenkov.meter > 0)
-			Cherenkov.meter -= 2;
-		else
-		{
-			Cherenkov.lever = 5;
-			Cherenkov.cherenkov = false;
-		}
-	}
-	else
-	{
-		if (Cherenkov.levertrigger == false && Cherenkov.lever > 0 && Time % 3 == 0) Cherenkov.lever--;
-		if (Cherenkov.lever == 6) (Cherenkov.cherenkov = true);
-		if (ReactorEffect > 0 && ReactorEffect < 6 && Time % 3 == 0)
-		{
-			ReactorEffect--;
-		}
-		if (Cherenkov.meter > 1000)
-		{
-			Cherenkov.counter = 0;
-			Cherenkov.meter = 1000;
-		}
-		else if (Cherenkov.counter > 0)
-		{
-			Cherenkov.meter++;
-			Cherenkov.counter--;
-		}
-	}
-}
+//void CherenkovCheck()													// 게임 피버모드 - 삭제
+//{
+//	if (Cherenkov.cherenkov)
+//	{
+//		if (ReactorEffect < 5 && Time % 3 == 0)	ReactorEffect ++;
+//		if (Cherenkov.counter > 0) Cherenkov.counter = 0;
+//		if (Cherenkov.meter > 0)
+//			Cherenkov.meter -= 2;
+//		else
+//		{
+//			Cherenkov.lever = 5;
+//			Cherenkov.cherenkov = false;
+//		}
+//	}
+//	else
+//	{
+//		if (Cherenkov.levertrigger == false && Cherenkov.lever > 0 && Time % 3 == 0) Cherenkov.lever--;
+//		if (Cherenkov.lever == 6) (Cherenkov.cherenkov = true);
+//		if (ReactorEffect > 0 && ReactorEffect < 6 && Time % 3 == 0)
+//		{
+//			ReactorEffect--;
+//		}
+//		if (Cherenkov.meter > 1000)
+//		{
+//			Cherenkov.counter = 0;
+//			Cherenkov.meter = 1000;
+//		}
+//		else if (Cherenkov.counter > 0)
+//		{
+//			Cherenkov.meter++;
+//			Cherenkov.counter--;
+//		}
+//	}
+//}
 void GeneralReset()														// 서버 - 공, 버튼, 시간, 씬, 점수, 이펙트 타임 초기화
 {
 	OrbClear(OrbHead);
-	Cherenkov.cherenkov = false, Cherenkov.meter = 0, Cherenkov.counter = 0, Cherenkov.lever = 0;
+	//Cherenkov.cherenkov = false, Cherenkov.meter = 0, Cherenkov.counter = 0, Cherenkov.lever = 0;
 	for (int i = 0; i < 5; i++) Button[i] = 0;
-	Time = 0, GameStart = false, Score = 0, ReactorEffect = 0, Temperture = Kelvin, Mole = MaxMole * 0.5;
+	Time = 0, GameStart = false, Score = 0, ReactorEffect = 0; // Temperture = Kelvin, Mole = MaxMole * 0.5;
 }
 void GameRestart()														// 일시정지 용 - 삭제
 {
-	if (RestartPressure)
-	{
-		Temperture -= (Temperture - Kelvin) / (31.0 + Time);
-		Mole -= (Mole - MaxMole / 2) / (31.0 + Time);
-	}
-	Cherenkov.meter -= Cherenkov.meter / (31.0 + Time);
+	//if (RestartPressure)
+	//{
+	//	//Temperture -= (Temperture - Kelvin) / (31.0 + Time);
+	//	//Mole -= (Mole - MaxMole / 2) / (31.0 + Time);
+	//}
+	//Cherenkov.meter -= Cherenkov.meter / (31.0 + Time);
 	Score -= Score / (31.0 + Time);
 	if (Time % 5 == 0) ReactorEffect--;
 	Time--;
 }
-void ButtonActive()															// 버튼 작동 (이미지) 및 출력 - 삭제
-{
-	if ((Button[1] < 0 && Temperture + Button[1] > Kelvin) || (Button[1] > 0 && Temperture + Button[1] < MaxTemp && PressureCaculate(Mole, Temperture + Button[1]) < 1)) Temperture += Button[1];
-	else Button[1] = 0;
-	if ((Button[2] < 0 && Mole + Button[2] >= 0) || (Button[2] > 0 && Mole + Button[2] < MaxMole && PressureCaculate(Mole + Button[2], Temperture) < 1)) Mole += Button[2];
-	else Button[2] = 0;
-	if (Button[3] > 0) Button[3]--;
-	if (Button[4] > 0) Button[4]--;
-}
+//void ButtonActive()															// 버튼 작동 (이미지) 및 출력 - 삭제
+//{
+//	if ((Button[1] < 0 && Temperture + Button[1] > Kelvin) || (Button[1] > 0 && Temperture + Button[1] < MaxTemp && PressureCaculate(Mole, Temperture + Button[1]) < 1)) Temperture += Button[1];
+//	else Button[1] = 0;
+//	if ((Button[2] < 0 && Mole + Button[2] >= 0) || (Button[2] > 0 && Mole + Button[2] < MaxMole && PressureCaculate(Mole + Button[2], Temperture) < 1)) Mole += Button[2];
+//	else Button[2] = 0;
+//	if (Button[3] > 0) Button[3]--;
+//	if (Button[4] > 0) Button[4]--;
+//}
 //--------------------------------------------------------------------------------------------------------------//
-bool PressureCheck()													// 온도체크 - 삭제
-{
-	return (PressureCaculate(Mole, Temperture) <= 0.875 && (PressureCaculate(Mole, Temperture) >= 0.375 || PressureCaculate(Mole, Temperture) <= 0));
-}
+//bool PressureCheck()													// 온도체크 - 삭제
+//{
+//	return (PressureCaculate(Mole, Temperture) <= 0.875 && (PressureCaculate(Mole, Temperture) >= 0.375 || PressureCaculate(Mole, Temperture) <= 0));
+//}
 //--------------------------------------------------------------------------------------------------------------//
 struct Power_Orb* OrbPosition(struct Power_Orb* Orb)					// 서버 - 스피드에 따른 공 위치 계산
 {
-	if (Cherenkov.cherenkov)
+	/*if (Cherenkov.cherenkov)
 	{
 		Orb->x += Orb->speedx * 0.5;
 		Orb->y += Orb->speedy * 0.5;
-	}
-	else
-	{
+	}*/
+	//else
+	//{
 		Orb->x += Orb->speedx;
 		Orb->y += Orb->speedy;
-	}
+	//}
 	//--------------------------------오브 잔상 매번 배열에 위치값 넣기
 
 	if (Orb->major)												//잔상 이미지 계산
@@ -119,7 +119,7 @@ struct Power_Orb* OrbPosition(struct Power_Orb* Orb)					// 서버 - 스피드에 따른
 }
 struct Power_Orb* OrbSpeed(struct Power_Orb* Orb)						// 서버 - 공 스피드
 {
-	Orb->speed = SpeedCaculate(Orb->power, Mole, Temperture);
+	Orb->speed = SpeedCaculate(Orb->power);	
 	Orb->speedx = Orb->speed * cos(M_TU * Orb->angle) * 5;
 	Orb->speedy = Orb->speed * sin(M_TU * Orb->angle) * 5;
 	Orb->shellx = cos(M_TU * Orb->angle) * Orb->size;
@@ -197,13 +197,13 @@ struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x,
 		switch (Type)
 		{
 		case 1:
-			Orb->power = 1.5, Orb->size = 25, Orb->effect = 0;
+			Orb->power = 1, Orb->size = 25, Orb->effect = 0;
 			break;
 		case 2:
-			Orb->power = 2, Orb->size = 30, Orb->effect = 0;
+			Orb->power = 1, Orb->size = 30, Orb->effect = 0;
 			break;
 		default:
-			Orb->power = 2, Orb->size = 25, Orb->effect = 0;
+			Orb->power = 1, Orb->size = 25, Orb->effect = 0;
 			break;
 		}
 	}
@@ -212,13 +212,13 @@ struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x,
 		switch (Type)
 		{
 		case 1:
-			Orb->power = 2, Orb->size = 18.75, Orb->effect = 0;
+			Orb->power = 1, Orb->size = 18.75, Orb->effect = 0;
 			break;
 		case 2:
-			Orb->power = 2, Orb->size = 18.75, Orb->effect = 0;
+			Orb->power = 1, Orb->size = 18.75, Orb->effect = 0;
 			break;
 		default:
-			Orb->power = 2, Orb->size = 18.75, Orb->effect = 0;
+			Orb->power = 1, Orb->size = 18.75, Orb->effect = 0;
 			break;
 		}
 	}
@@ -264,7 +264,7 @@ void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	
 			}
 			switch (Orb->next->type)
 			{
-			case 1:
+			/*case 1:
 				if (Reflector->age > -100) score = OrbScore(Orb->next->speed, Mole, PressureCaculate(Mole, Temperture), 1 * Energy, Cherenkov.cherenkov);
 				else score = OrbScore(Orb->next->speed, Mole, PressureCaculate(Mole, Temperture), 0.5, Cherenkov.cherenkov);
 				if (Cherenkov.meter < 1000 && Cherenkov.cherenkov == false)	Cherenkov.counter += 125 * Cherenks;
@@ -273,11 +273,12 @@ void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	
 				if (Reflector->age > -100) score = OrbScore(Orb->next->speed, Mole, PressureCaculate(Mole, Temperture), 1.0125 * Energy, Cherenkov.cherenkov);
 				else score = OrbScore(Orb->next->speed, Mole, PressureCaculate(Mole, Temperture), 0.75 * Energy, Cherenkov.cherenkov);
 				if (Cherenkov.meter < 1000 && Cherenkov.cherenkov == false)	Cherenkov.counter += 100 * Orb->next->speed * Orb->next->speed * Cherenks;
-				break;
+				break; */
 			default:
-				if (Reflector->age > -100) score = OrbScore(Orb->next->speed, Mole, PressureCaculate(Mole, Temperture), 1.35 * Energy, Cherenkov.cherenkov);
-				else score = OrbScore(Orb->next->speed, Mole, PressureCaculate(Mole, Temperture), 1 * Energy, Cherenkov.cherenkov);
-				if (Cherenkov.meter < 1000 && Cherenkov.cherenkov == false)	Cherenkov.counter += 125 * Cherenks;
+				if (Reflector->age > -100)
+					score = OrbScore(Orb->next->speed);
+				else score = OrbScore(Orb->next->speed);
+				//if (Cherenkov.meter < 1000 && Cherenkov.cherenkov == false)	Cherenkov.counter += 125 * Cherenks;
 				break;
 			}
 			CreateEffect(EffectHead, Orb->next->x, Orb->next->y, score);
@@ -300,15 +301,15 @@ void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	
 			else if (Reflector->module[2] != 0 && Reflector->module_charged[2] == false) Reflector->module_charged[2] = true;
 			else if (Reflector->module[3] != 0 && Reflector->module_charged[3] == false) Reflector->module_charged[3] = true;
 			else if (Reflector->module[4] != 0 && Reflector->module_charged[4] == false) Reflector->module_charged[4] = true;
-			else Score += OrbScore(Orb->next->speed, Mole, PressureCaculate(Mole, Temperture), 1, Cherenkov.cherenkov);
+			else Score += OrbScore(Orb->next->speed);
 			break;
 		case 1:
-			if (Temperture < MaxTemp - 1)	Temperture++;
-			else Temperture = MaxTemp;
+			//if (Temperture < MaxTemp - 1)	Temperture++;
+			//else Temperture = MaxTemp;
 			break;
 		case 2:
-			if (Temperture > 1)	Temperture--;
-			else Temperture = 0;
+			//if (Temperture > 1)	Temperture--;
+			//else Temperture = 0;
 			break;
 		}
 		OrbRemove(Orb->next, Orb);
@@ -341,10 +342,11 @@ void ReflectorPosition(struct Power_Reflector* Reflector, short Left, short Righ
 {
 	if (Reflector->next != ReflectorHead)
 	{
-		if (GameStart && Reflector->next->age <= 0) ReflectDetect(OrbHead, Reflector->next);
-		if (Reflector->next->effect % 100 == 0) Reflector->next->effect = 0;
-		else if ((Time & 1) && Reflector->next->effect > 0) Reflector->next->effect--;
-		if (Reflector->next->age > -101) Reflector->next->age--;
+		//if (GameStart && Reflector->next->age <= 100) ReflectDetect(OrbHead, Reflector->next);
+		ReflectDetect(OrbHead, Reflector->next);
+		//if (Reflector->next->effect % 100 == 0) Reflector->next->effect = 0;
+		//else if ((Time & 1) && Reflector->next->effect > 0) Reflector->next->effect--;
+		//if (Reflector->next->age > -101) Reflector->next->age--;
 		float Break = 1;
 		if ((Up & 0x8001) || (Down & 0x8001) || (Up & 0x8000) || (Down & 0x8000) && Reflector->next->position < 455 && Reflector->next->position > 270)
 		{

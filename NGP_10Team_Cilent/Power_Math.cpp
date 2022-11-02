@@ -17,20 +17,27 @@ float PointRotationY(float x, float y, float angle)					// 이미지 회전 출력을 위
 {
 	return x * sin(M_TU * angle) + y * cos(M_TU * angle);
 }
-float PressureCaculate(float Mole, float Temperture)								// 압력에 따른 계산 - 삭제
+//float PressureCaculate(float Mole, float Temperture)								// 압력에 따른 계산 - 삭제
+//{
+//	return Mole * Temperture / MaxPressure;
+//}
+float SpeedCaculate(float Power)						// 원자로양에 따른 계산 - 삭제
 {
-	return Mole * Temperture / MaxPressure;
-}
-float SpeedCaculate(float Power, float Mole, float Temperture)						// 원자로양에 따른 계산 - 삭제
-{
-	return Power * (1 - (Mole / MaxMole));
+	return Power;
 }
 float OrbScore(float Speed, float Mole, float Pressure, float Crits, bool Cherenkov)// 스피드,압력(삭제),원자량(삭제)에 따라 점수를 얻는다.
 {
 	Speed = Speed * Speed * 100;
-	if (Mole <= 0) return Speed * 0.75 * Crits;
-	else if (Pressure < 0.5) return (Speed * (Pressure + 0.25) + (Speed * Pressure * Cherenkov)) * Crits;
-	else return (Speed + (Speed * Cherenkov)) * Crits;
+	//if (Mole <= 0) return Speed * 0.75 * Crits;
+	//else if (Pressure < 0.5) return (Speed * (Pressure + 0.25) + (Speed * Pressure * Cherenkov)) * Crits;
+	return (Speed + (Speed * Cherenkov)) * Crits;
+}
+float OrbScore(float Speed)// 스피드,압력(삭제),원자량(삭제)에 따라 점수를 얻는다.
+{
+	Speed = Speed * Speed * 100;
+	//if (Mole <= 0) return Speed * 0.75 * Crits;
+	//else if (Pressure < 0.5) return (Speed * (Pressure + 0.25) + (Speed * Pressure * Cherenkov)) * Crits;
+	return Speed;
 }
 float AngleOverflow(float Angle)									// 각도 360초과시 다시 0으로 돌린다.
 {
@@ -57,12 +64,12 @@ float DistancePosition(float x, float y)							// 원점으로 부터의 거리 반환 - 삭
 	return sqrt((x * x) + (y * y));
 }
 
-int PNcmp(float num)												// 버튼 클릭 계산용 함수 - 삭제
-{
-	if (num > 0) return 1;
-	else if (num < 0) return -1;
-	else return 0;
-}
+//int PNcmp(float num)												// 버튼 클릭 계산용 함수 - 삭제
+//{
+//	if (num > 0) return 1;
+//	else if (num < 0) return -1;
+//	else return 0;
+//}
 
 bool Distancecmp(float x, float y, float dis)						// 거리가 레일 안쪽이면 트루
 {
