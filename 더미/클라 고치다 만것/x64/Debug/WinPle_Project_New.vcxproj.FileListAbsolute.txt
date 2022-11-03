@@ -1,0 +1,2 @@
+C:\Users\admun\Desktop\NetGameProgramming\NetGamePrograming10Team\NGP_10Team_Cilent\x64\Debug\NGP_10Team_Cilent.exe
+C:\Users\admun\Desktop\NetGameProgramming\WinPle_Project_10Team\NGP_10Team_Cilent\x64\Debug\NGP_10Team_Cilent.exe
