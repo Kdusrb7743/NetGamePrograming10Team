@@ -10,6 +10,8 @@ int Time, PreTime, ReactorEffect, Button[5], OrbType , Orbcount;
 //struct Power_Cherenkov Cherenkov;
 struct Power_Orb* OrbHead = (Power_Orb*)malloc(sizeof(struct Power_Orb));
 struct Power_Reflector* ReflectorHead = (Power_Reflector*)malloc(sizeof(struct Power_Reflector));
+struct Power_Reflector* ReflectorP2 = (Power_Reflector*)malloc(sizeof(struct Power_Reflector));
+struct Power_Reflector* ReflectorP3 = (Power_Reflector*)malloc(sizeof(struct Power_Reflector));
 //--------------------------------------------------------------------------------------------------------------//
 //void CherenkovCheck()													// 게임 피버모드 - 삭제
 //{
@@ -393,6 +395,7 @@ void ReflectorCreate(struct Power_Reflector* Reflector, int Count)				// 반사판 
 		if (Count < Reflector->module[0])  ReflectorCreate(Reflector->next, Count + 1);
 		else return;
 	}
+	
 	else ReflectorCreate(Reflector->next, Count);
 }
 void ReflectorRemove(struct Power_Reflector* NextReflector, struct Power_Reflector* Reflector) //반사판 삭제

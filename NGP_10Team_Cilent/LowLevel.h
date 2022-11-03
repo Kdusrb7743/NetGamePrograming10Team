@@ -194,8 +194,6 @@ struct Power_Reflector							// 패널 정보
 	struct Power_Reflector* next;
 };
 
-
-
 #pragma region [ClientFunction]
 void Recv_PacketType();									// 서버로부터 받은 고정길이(씬)을 받아 어떤 패킷구조를 받는지 판단하는 함수
 int SC_RecvData();

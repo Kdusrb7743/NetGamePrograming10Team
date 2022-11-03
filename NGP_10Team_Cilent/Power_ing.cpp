@@ -27,8 +27,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		GameStart = false;
 		EffectHead->next = EffectHead;
 		OrbHead->next = OrbHead;
-		ReflectorHead->next = ReflectorHead;
-		ReflectorHead = ReflectorReset(ReflectorHead);
+		ReflectorP1->next = ReflectorP1;
+		ReflectorP1 = ReflectorReset(ReflectorP1);
 		GeneralReset();
 		PreTime = -25;
 		TotalScore = 0;
@@ -226,7 +226,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			{
 				if (Time == 0 && PreTime < 25) PreTime = 25;
 				//ButtonActive();
-				ReflectorPosition(ReflectorHead, GetAsyncKeyState(Reflector1Left), GetAsyncKeyState(Reflector1Right), GetAsyncKeyState(Reflector1Up), GetAsyncKeyState(Reflector1Down));
+				ReflectorPosition(ReflectorP1, GetAsyncKeyState(Reflector1Left), GetAsyncKeyState(Reflector1Right), GetAsyncKeyState(Reflector1Up), GetAsyncKeyState(Reflector1Down));
 				if (GameStart)
 				{
 					if (Time == 25)
@@ -262,7 +262,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				GeneralReset();
 				Endscene = false;
 				Start_scene = true;
-				ReflectorReset(ReflectorHead);
+				ReflectorReset(ReflectorP1);
 			}
 			else if (EscMode)
 			{
@@ -272,7 +272,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				GeneralReset();
 				EscMode = false;
 				Start_scene = true;
-				ReflectorReset(ReflectorHead);
+				ReflectorReset(ReflectorP1);
 			}
 			else if (Start_scene)			// 스타트 버튼 누르면 1초뒤에 문열리는 애니메이션
 			{
@@ -284,7 +284,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				if (PreTime < 25) PreTime++;
 				else
 				{
-					ReflectorCreate(ReflectorHead, 0);
+					ReflectorCreate(ReflectorP1, 0);
 					Orbselect_scene = true;
 					SetTimer(hWnd, 0, 10, NULL);					//문이 열리고 부터는 
 					KillTimer(hWnd, 5);
@@ -341,7 +341,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			ReactorImg.Draw(memdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y, Controllroom_window_x, Controllroom_window_y, 0, 0, Controllroom_size_x, Controllroom_size_y);
 			Reactor_RailImg.Draw(memdc, Pibot_x - 782 * window_half, Pibot_y - 782 * window_half, 782 * window_size, 782 * window_size, 0, 0, 782, 782);
 
-			DisplayReflector(ReflectorHead);			// 반사판그리기
+			DisplayReflector(ReflectorP1);			// 반사판그리기
 
 			if (ReactorEffect < 12) Reactor_EffectImg.Draw(memdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, Reactor_size* (ReactorEffect % 6), Reactor_size * (int)(ReactorEffect / 6), Reactor_size, Reactor_size);
 			else Reactor_EffectImg.Draw(memdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, 5000, 1000, Reactor_size, Reactor_size);
@@ -406,35 +406,35 @@ BOOL CALLBACK Module_Proc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_RADIO1: ReflectorHead->module[0] = 0;
+		case IDC_RADIO1: ReflectorP1->module[0] = 0;
 			break;
-		case IDC_RADIO2: ReflectorHead->module[0] = 1;
+		case IDC_RADIO2: ReflectorP1->module[0] = 1;
 			break;
-		case IDC_RADIO3: ReflectorHead->module[0] = 2;
+		case IDC_RADIO3: ReflectorP1->module[0] = 2;
 			break;
-		case IDC_RADIO4: ReflectorHead->module[1] = 0;
+		case IDC_RADIO4: ReflectorP1->module[1] = 0;
 			break;
-		case IDC_RADIO5: ReflectorHead->module[1] = 1;
+		case IDC_RADIO5: ReflectorP1->module[1] = 1;
 			break;
-		case IDC_RADIO6: ReflectorHead->module[1] = 2;
+		case IDC_RADIO6: ReflectorP1->module[1] = 2;
 			break;
-		case IDC_RADIO7: ReflectorHead->module[2] = 0;
+		case IDC_RADIO7: ReflectorP1->module[2] = 0;
 			break;
-		case IDC_RADIO8: ReflectorHead->module[2] = 1;
+		case IDC_RADIO8: ReflectorP1->module[2] = 1;
 			break;
-		case IDC_RADIO9: ReflectorHead->module[2] = 2;
+		case IDC_RADIO9: ReflectorP1->module[2] = 2;
 			break;
-		case IDC_RADIO10: ReflectorHead->module[3] = 0;
+		case IDC_RADIO10: ReflectorP1->module[3] = 0;
 			break;
-		case IDC_RADIO11: ReflectorHead->module[3] = 1;
+		case IDC_RADIO11: ReflectorP1->module[3] = 1;
 			break;
-		case IDC_RADIO12: ReflectorHead->module[3] = 2;
+		case IDC_RADIO12: ReflectorP1->module[3] = 2;
 			break;
-		case IDC_RADIO13: ReflectorHead->module[4] = 0;
+		case IDC_RADIO13: ReflectorP1->module[4] = 0;
 			break;
-		case IDC_RADIO14: ReflectorHead->module[4] = 1;
+		case IDC_RADIO14: ReflectorP1->module[4] = 1;
 			break;
-		case IDC_RADIO15: ReflectorHead->module[4] = 2;
+		case IDC_RADIO15: ReflectorP1->module[4] = 2;
 			break;
 
 		case IDOK:

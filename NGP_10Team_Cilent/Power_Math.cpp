@@ -25,13 +25,13 @@ float SpeedCaculate(float Power)						// 원자로양에 따른 계산 - 삭제
 {
 	return Power;
 }
-float OrbScore(float Speed, float Mole, float Pressure, float Crits, bool Cherenkov)// 스피드,압력(삭제),원자량(삭제)에 따라 점수를 얻는다.
-{
-	Speed = Speed * Speed * 100;
-	//if (Mole <= 0) return Speed * 0.75 * Crits;
-	//else if (Pressure < 0.5) return (Speed * (Pressure + 0.25) + (Speed * Pressure * Cherenkov)) * Crits;
-	return (Speed + (Speed * Cherenkov)) * Crits;
-}
+//float OrbScore(float Speed, float Mole, float Pressure, float Crits, bool Cherenkov)// 스피드,압력(삭제),원자량(삭제)에 따라 점수를 얻는다.
+//{
+//	Speed = Speed * Speed * 100;
+//	//if (Mole <= 0) return Speed * 0.75 * Crits;
+//	//else if (Pressure < 0.5) return (Speed * (Pressure + 0.25) + (Speed * Pressure * Cherenkov)) * Crits;
+//	return (Speed + (Speed * Cherenkov)) * Crits;
+//}
 float OrbScore(float Speed)// 스피드,압력(삭제),원자량(삭제)에 따라 점수를 얻는다.
 {
 	Speed = Speed * Speed * 100;

@@ -73,7 +73,7 @@ extern float Score, TotalScore;//, Temperture, Mole;
 extern int Time, PreTime, ReactorEffect, Button[5], OrbType, Orbcount;
 //extern struct Power_Cherenkov Cherenkov;
 extern struct Power_Orb* OrbHead;
-extern struct Power_Reflector* ReflectorHead;
+extern struct Power_Reflector* ReflectorP1;
 //--------------------------------------------------------------------------------------------------------------//
 //void CherenkovCheck();
 void GeneralReset();

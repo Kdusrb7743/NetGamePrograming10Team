@@ -8,7 +8,7 @@ float PointRotationY(float x, float y, float angle);
 float PressureCaculate(float Mole, float Temperture);
 float SpeedCaculate(float Power, float Mole, float Temperture);
 float SpeedCaculate(float Power);
-float OrbScore(float Speed, float Mole, float Pressure, float Crits, bool Cherenkov);
+//float OrbScore(float Speed, float Mole, float Pressure, float Crits, bool Cherenkov);
 float OrbScore(float Speed);
 float AngleOverflow(float Angle);
 float AnglePosition(float x, float y);
