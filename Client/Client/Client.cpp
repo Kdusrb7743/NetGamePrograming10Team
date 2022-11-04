@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Client.h"
-#include "GameFramework.h"
+#include <WinSock2.h>
 
 #define MAX_LOADSTRING 100
 
@@ -8,6 +8,7 @@
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+
 static WGameFramework gGameFramework;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
@@ -154,7 +155,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			HDC GLayDC = CreateCompatibleDC(mainHDC);
 			SelectObject(GLayDC, GLay);
 
-			gGameFramework.OnDraw(GLayDC);
+			gGameFramework.Render(GLayDC);
 
 			BitBlt(mainHDC, 0, 0, FRAME_WIDTH, FRAME_HEIGHT, GLayDC, 0, 0, SRCCOPY);
 			DeleteDC(GLayDC);
@@ -165,7 +166,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_TIMER:
 		{
-			gGameFramework.OnUpdate();
+			gGameFramework.Update();
 			InvalidateRgn(hWnd, NULL, false);
 		}
 		break;

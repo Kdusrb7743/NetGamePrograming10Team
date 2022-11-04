@@ -22,6 +22,9 @@
     <Filter Include="GameFramework">
       <UniqueIdentifier>{3e2eaf91-a8f1-4b89-aafe-d4925852b1f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NetworkManger">
+      <UniqueIdentifier>{adc8c9e9-0e21-4468-99bb-e277be845e74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -42,6 +45,9 @@
     <ClInclude Include="GameFramework.h">
       <Filter>GameFramework</Filter>
     </ClInclude>
+    <ClInclude Include="CNetworkManger.h">
+      <Filter>NetworkManger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -52,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="GameFramework.cpp">
       <Filter>GameFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="CNetworkManger.cpp">
+      <Filter>NetworkManger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

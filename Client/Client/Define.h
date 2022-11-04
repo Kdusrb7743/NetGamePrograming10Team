@@ -46,4 +46,16 @@ enum VK_KEY
 	VK_Y,
 	VK_Z
 };
-// KeyBoard
+
+enum Packet_Type
+{
+	NONE,
+	LOBBY,
+	MAIN,
+	END,
+};
+
+struct PositionData
+{
+	float x = 0.f, y = 0.f;
+};

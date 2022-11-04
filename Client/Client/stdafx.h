@@ -21,7 +21,16 @@
 #include "Define.h"
 #include "GameFramework.h"
 
+#include "CNetworkManger.h"
+
 using namespace std;
 
 
 // 여기서 프로그램에 필요한 추가 헤더를 참조합니다.
+
+#define CYM_IP "59.15.41.159"
+#define KYG_IP NULL
+#define CJJ_IP NULL
+
+#define NOW_IP CYM_IP					//	IP주소 설정란
+	
