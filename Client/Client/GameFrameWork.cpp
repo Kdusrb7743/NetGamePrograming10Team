@@ -39,7 +39,7 @@ void WGameFramework::Update(const float frameTime)
 	m_SceneType = m_Net.getType();
 
 	//	받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
-	 
+	int a = 0;
 	
 	//	클라이언트의 post position을 send()한다.
 	 

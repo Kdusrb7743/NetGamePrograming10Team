@@ -1,7 +1,0 @@
-﻿  stdafx.cpp
-  CNetworkManger.cpp
-C:\Users\채영문\Desktop\넷겜플\term project\NetGamePrograming10Team\Client\Client\CNetworkManger.cpp(71,36): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  Client.cpp
-  GameFramework.cpp
-  코드를 생성하고 있습니다...
-  Client.vcxproj -> C:\Users\채영문\Desktop\넷겜플\term project\NetGamePrograming10Team\Client\x64\Debug\Client.exe
