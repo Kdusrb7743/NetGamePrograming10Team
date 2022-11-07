@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="InitAndCulFunction.cpp" />
     <ClCompile Include="Thread.cpp" />
     <ClCompile Include="소스.cpp" />
   </ItemGroup>

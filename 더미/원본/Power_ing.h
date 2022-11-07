@@ -57,7 +57,7 @@ struct Power_Orb
 	bool major;
 	int type = 2, effect, effect_count;
 	float speedx, speedy, shellx, shelly;
-	float x, y, speed, angle, power = 2.f, size;
+	float x, y, speed, angle, power = 2.f, size;		// size = 공크기 30고정, power는 삭제, 스피드를 따로 관리 
 	float afterx[25], aftery[25];
 	struct Power_Orb* next;
 };

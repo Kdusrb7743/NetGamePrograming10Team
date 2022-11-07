@@ -9,7 +9,7 @@ float Score, TotalScore; //, Temperture, Mole;
 int Time, PreTime, ReactorEffect, Button[5], OrbType , Orbcount;
 //struct Power_Cherenkov Cherenkov;
 struct Power_Orb* OrbHead = (Power_Orb*)malloc(sizeof(struct Power_Orb));
-struct Power_Reflector* ReflectorHead = (Power_Reflector*)malloc(sizeof(struct Power_Reflector));
+struct Power_Reflector* ReflectorP1 = (Power_Reflector*)malloc(sizeof(struct Power_Reflector));
 struct Power_Reflector* ReflectorP2 = (Power_Reflector*)malloc(sizeof(struct Power_Reflector));
 struct Power_Reflector* ReflectorP3 = (Power_Reflector*)malloc(sizeof(struct Power_Reflector));
 //--------------------------------------------------------------------------------------------------------------//
@@ -121,7 +121,7 @@ struct Power_Orb* OrbPosition(struct Power_Orb* Orb)					// 서버 - 스피드에 따른
 }
 struct Power_Orb* OrbSpeed(struct Power_Orb* Orb)						// 서버 - 공 스피드
 {
-	Orb->speed = SpeedCaculate(Orb->power);	
+	Orb->speed = 1;//SpeedCaculate(Orb->power);								
 	Orb->speedx = Orb->speed * cos(M_TU * Orb->angle) * 5;
 	Orb->speedy = Orb->speed * sin(M_TU * Orb->angle) * 5;
 	Orb->shellx = cos(M_TU * Orb->angle) * Orb->size;
@@ -134,9 +134,9 @@ void CollisionDetect(struct Power_Orb* Orb)								// 서버 - 메인 공 충돌 했는지
 	if (Orb->next != OrbHead)
 	{
 		OrbPosition(Orb->next);
-		if (DistanceOvercmp(Orb->next->x + Orb->next->shellx, Orb->next->y + Orb->next->shelly, 500))
+		if (DistanceOvercmp(Orb->next->x + 0, Orb->next->y + 0, 500))
 		{
-			if (((Orb->next->major == false && Orb->next->type == 0) || Orb->next->effect == 1) && Distancecmp(Orb->next->x + Orb->next->shellx, Orb->next->y + Orb->next->shelly, 525))
+			if (((Orb->next->major == false && Orb->next->type == 0) || Orb->next->effect == 1) && Distancecmp(Orb->next->x + 0, Orb->next->y + 0, 525))
 			{
 				ReflectOrb(Orb->next, AnglePosition(Orb->next->x, Orb->next->y));
 				if (Orb->next->effect == 1) Orb->next->effect = 0;
@@ -199,7 +199,7 @@ struct Power_Orb* OrbApply(struct Power_Orb* Orb, int Type, bool Major, float x,
 		switch (Type)
 		{
 		case 1:
-			Orb->power = 1, Orb->size = 25, Orb->effect = 0;
+			Orb->power = 1, Orb->size = 20, Orb->effect = 0;
 			break;
 		case 2:
 			Orb->power = 1, Orb->size = 30, Orb->effect = 0;
@@ -233,10 +233,10 @@ void ReflectDetect(struct Power_Orb* Orb, struct Power_Reflector* Reflector)		//
 {
 	if (Orb->next != OrbHead)					// 현재 플레이 씬, 공이 있는지
 	{
-		if (DistanceOvercmp(Orb->next->x + Orb->next->shellx, Orb->next->y + Orb->next->shelly, Reflector->position - 110) &&
-			AngleDetect(Orb->next->x + Orb->next->shellx, Orb->next->y + Orb->next->shelly, Reflector->angle) && 
-			Distancecmp(Orb->next->x + Orb->next->shellx, Orb->next->y + Orb->next->shelly, Reflector->position) &&
-			DistanceDetect(Orb->next->x + Orb->next->shellx, Orb->next->y + Orb->next->shelly, AnglePosition(Orb->next->x + Orb->next->shellx, Orb->next->y + Orb->next->shelly) - Reflector->angle, Reflector->position, Reflector->size))
+		if (DistanceOvercmp(Orb->next->x + 0, Orb->next->y + 0, Reflector->position - 110) &&
+			AngleDetect(Orb->next->x + 0, Orb->next->y + 0, Reflector->angle) && 
+			Distancecmp(Orb->next->x + 0, Orb->next->y + 0, Reflector->position) &&
+			DistanceDetect(Orb->next->x + 0, Orb->next->y + 0, AnglePosition(Orb->next->x + 0, Orb->next->y + 0) - Reflector->angle, Reflector->position, Reflector->size))
 			ReflectReflector(Orb, Reflector);
 		ReflectDetect(Orb->next, Reflector);
 	}
@@ -299,7 +299,7 @@ void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	
 		{
 		case 0:
 			if (Reflector->module[0] != 0 && Reflector->module_charged[0] == false) Reflector->module_charged[0] = true;
-			else if (ReflectorHead->next->module[1] != 0 && ReflectorHead->next->module_charged[1] == false) ReflectorHead->next->module_charged[1] = true;
+			else if (ReflectorP1->next->module[1] != 0 && ReflectorP1->next->module_charged[1] == false) ReflectorP1->next->module_charged[1] = true;
 			else if (Reflector->module[2] != 0 && Reflector->module_charged[2] == false) Reflector->module_charged[2] = true;
 			else if (Reflector->module[3] != 0 && Reflector->module_charged[3] == false) Reflector->module_charged[3] = true;
 			else if (Reflector->module[4] != 0 && Reflector->module_charged[4] == false) Reflector->module_charged[4] = true;
@@ -342,7 +342,7 @@ struct Power_Orb* ReflectOrb(struct Power_Orb* Orb, float Angle)				// 서버 - 반
 //--------------------------------------------------------------------------------------------------------------//
 void ReflectorPosition(struct Power_Reflector* Reflector, short Left, short Right, short Up, short Down)	// 반사판의 위치를 매번 계산
 {
-	if (Reflector->next != ReflectorHead)
+	if (Reflector->next != ReflectorP1)
 	{
 		//if (GameStart && Reflector->next->age <= 100) ReflectDetect(OrbHead, Reflector->next);
 		ReflectDetect(OrbHead, Reflector->next);
@@ -352,10 +352,10 @@ void ReflectorPosition(struct Power_Reflector* Reflector, short Left, short Righ
 		float Break = 1;
 		if ((Up & 0x8001) || (Down & 0x8001) || (Up & 0x8000) || (Down & 0x8000) && Reflector->next->position < 455 && Reflector->next->position > 270)
 		{
-			if (ReflectorHead->next->module_charged[1])
+			if (ReflectorP1->next->module_charged[1])
 			{
 				if (Reflector->next->module_charged[1] == false) Reflector->next->module_charged[1] = true;
-				switch (ReflectorHead->next->module[1])
+				switch (ReflectorP1->next->module[1])
 				{
 				case 1:
 					if ((Up & 0x8000) && Reflector->next->speed < 2) Reflector->next->speed += 0.5;
@@ -387,11 +387,11 @@ void ReflectorPosition(struct Power_Reflector* Reflector, short Left, short Righ
 }
 void ReflectorCreate(struct Power_Reflector* Reflector, int Count)				// 반사판 생성시
 {
-	if (Reflector->next == ReflectorHead)
+	if (Reflector->next == ReflectorP1)
 	{
 		Reflector->next = new Power_Reflector;
 		Reflector->next = ReflectorApply(Reflector->next, Count);
-		Reflector->next->next = ReflectorHead;
+		Reflector->next->next = ReflectorP1;
 		if (Count < Reflector->module[0])  ReflectorCreate(Reflector->next, Count + 1);
 		else return;
 	}
@@ -406,7 +406,7 @@ void ReflectorRemove(struct Power_Reflector* NextReflector, struct Power_Reflect
 }
 void ReflectClear(struct Power_Reflector* Reflector)											// 반사판 전체 삭제
 {
-	if (Reflector->next != ReflectorHead)
+	if (Reflector->next != ReflectorP1)
 	{
 		ReflectorRemove(Reflector->next, Reflector);
 		ReflectClear(Reflector->next);
@@ -415,7 +415,7 @@ void ReflectClear(struct Power_Reflector* Reflector)											// 반사판 전체 삭
 }
 struct Power_Reflector* ReflectorReset(struct Power_Reflector* Reflector)						// 반사판 리셋 -- 게임 시작시, ESC일때 이미지를 삭제해줘야 해서 그때마다 리셋 후 다시 생성
 {
-	ReflectClear(ReflectorHead);
+	ReflectClear(ReflectorP1);
 	Reflector->module[0] = 0, Reflector->module[1] = 0, Reflector->module[2] = 0, Reflector->module[3] = 0, Reflector->module[4] = 0;
 	for (int i = 0; i < 5; i++)
 	{
@@ -429,18 +429,18 @@ struct Power_Reflector* ReflectorReset(struct Power_Reflector* Reflector)						/
 }
 struct Power_Reflector* ReflectorApply(struct Power_Reflector* Reflector, int Count)			// 반사판 적용
 {
-	Reflector->position = ReflectorHead->position;
-	Reflector->size = ReflectorHead->size;
-	Reflector->speed = ReflectorHead->speed;
-	Reflector->age = ReflectorHead->age;
-	Reflector->effect = ReflectorHead->effect;
+	Reflector->position = ReflectorP1->position;
+	Reflector->size = ReflectorP1->size;
+	Reflector->speed = ReflectorP1->speed;
+	Reflector->age = ReflectorP1->age;
+	Reflector->effect = ReflectorP1->effect;
 	for (int i = 0; i < 5; i++)
 	{
-		Reflector->module[i] = ReflectorHead->module[i];
-		Reflector->module_charged[i] = ReflectorHead->module_charged[i];
+		Reflector->module[i] = ReflectorP1->module[i];
+		Reflector->module_charged[i] = ReflectorP1->module_charged[i];
 	}
 	if (Count == 0) Reflector->module_charged[0] = true;
-	Reflector->angle = ReflectorHead->angle + Count / (Reflector->module[0] + 1.0);
+	Reflector->angle = ReflectorP1->angle + Count / (Reflector->module[0] + 1.0);
 	return Reflector;
 }
 //--------------------------------------------------------------------------------------------------------------//

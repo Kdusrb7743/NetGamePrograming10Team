@@ -277,7 +277,7 @@ void DisplayOrb(struct Power_Orb* Orb)
 }
 void DisplayReflector(struct Power_Reflector* Reflector)
 {
-	if (Reflector->next != ReflectorHead)
+	if (Reflector->next != ReflectorP1)
 	{
 		POINT Reflector_Point[3] = {
 		ReflectorPaint1(Reflector->next, 0),
@@ -477,13 +477,13 @@ void UIDebugInfo()
 	TextOut(memdc, 0, 25, lpOut, lstrlen(lpOut));
 	swprintf_s(lpOut, 100, L"relative : %g ", AnglePosition(OrbHead->next->x, OrbHead->next->y));
 	TextOut(memdc, 0, 37, lpOut, lstrlen(lpOut));
-	swprintf_s(lpOut, 100, L"reflector : %g ", ReflectorHead->next->angle);
+	swprintf_s(lpOut, 100, L"reflector : %g ", ReflectorP1->next->angle);
 	TextOut(memdc, 0, 50, lpOut, lstrlen(lpOut));
-	swprintf_s(lpOut, 100, L"speed : %g ", ReflectorHead->next->speed);
+	swprintf_s(lpOut, 100, L"speed : %g ", ReflectorP1->next->speed);
 	TextOut(memdc, 0, 62, lpOut, lstrlen(lpOut));
-	swprintf_s(lpOut, 100, L"age : %d ", ReflectorHead->next->age);
+	swprintf_s(lpOut, 100, L"age : %d ", ReflectorP1->next->age);
 	TextOut(memdc, 0, 75, lpOut, lstrlen(lpOut));
-	swprintf_s(lpOut, 100, L"position : %g ", ReflectorHead->next->position);
+	swprintf_s(lpOut, 100, L"position : %g ", ReflectorP1->next->position);
 	TextOut(memdc, 0, 87, lpOut, lstrlen(lpOut));
 	swprintf_s(lpOut, 100, L"Time : %d ", Time);
 	TextOut(memdc, 0, 100, lpOut, lstrlen(lpOut));
