@@ -9,6 +9,7 @@
 
 enum PacketType
 {
+	NONE,
 	LOBBY,
 	MAIN,
 	END

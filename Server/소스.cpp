@@ -1,5 +1,7 @@
-#include "Global.h"
 #include "Thread.h"
+
+static HANDLE clientFlag[3];
+static HANDLE processFlag;
 
 int main(int argc, char* argv[])
 {
@@ -37,7 +39,7 @@ int main(int argc, char* argv[])
 		addrlen = sizeof(clientaddr);
 		client_sock = accept(listen_sock, (struct sockaddr*)&clientaddr, &addrlen);
 		if (client_sock == INVALID_SOCKET) break;
-
+		printf("접속성공\n");
 		hThread[clientNum] = CreateThread(NULL, 0, ClientThread, (LPVOID)client_sock, 0, NULL);
 		if (hThread[clientNum] == NULL) { closesocket(client_sock); }
 

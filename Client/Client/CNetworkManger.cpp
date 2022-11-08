@@ -37,7 +37,7 @@ void CNetworkManger::recv_fixed()
 {
 	Packet_Type pType{};
 
-	int retval = recv(m_sock, (char*)pType, sizeof(pType), MSG_WAITALL);
+	int retval = recv(m_sock, (char*)&pType, sizeof(pType), MSG_WAITALL);
 	if (retval == SOCKET_ERROR)
 	{
 		err_quit(L"패킷 타입 recv()");
@@ -47,6 +47,7 @@ void CNetworkManger::recv_fixed()
 	if(pType == Packet_Type::NONE)
 		m_pType = pType;
 
+	setType(pType);
 }
 
 void CNetworkManger::recv_variable()

@@ -17,7 +17,7 @@ public:			//	getter
 	Packet_Type getType() { return m_pType; }
 
 public:			//	setter
-
+	void setType(Packet_Type pType) { m_pType = pType; }
 
 private:
 	char*					m_chIP;

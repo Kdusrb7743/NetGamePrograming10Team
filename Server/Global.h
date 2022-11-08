@@ -12,11 +12,9 @@ using namespace std;
 #define SERVERPORT 9000
 #define BUFSIZE    16384
 
-HANDLE clientFlag[3];
-HANDLE processFlag;
-
 enum PacketType
 {
+	NONE,
 	LOBBY,
 	MAIN,
 	END
@@ -37,7 +35,3 @@ struct BallData							// 서버에서 작업할 때, 필요한 Ball 데이터
 
 	float size = 30;					// 공의 실제 크기 = 고정30
 };
-
-BallData Ball;
-
-PacketType packetType(LOBBY);

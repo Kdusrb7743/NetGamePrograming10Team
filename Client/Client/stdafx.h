@@ -31,6 +31,7 @@ using namespace std;
 #define CYM_IP "59.15.41.159"
 #define KYG_IP NULL
 #define CJJ_IP NULL
+#define LoopBack	"127.0.0.1"
 
-#define NOW_IP CYM_IP					//	IP주소 설정란
+#define NOW_IP LoopBack					//	IP주소 설정란
 	
