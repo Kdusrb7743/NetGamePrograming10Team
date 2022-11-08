@@ -13,27 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="SNetworkManager">
+      <UniqueIdentifier>{68462cdb-a1fb-4cdd-a9ee-5fd4a0decadf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="소스.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Thread.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Function.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="SNetworkManager.cpp">
+      <Filter>SNetworkManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Thread.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Function.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="SNetworkManager.h">
+      <Filter>SNetworkManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
