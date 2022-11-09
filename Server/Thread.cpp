@@ -3,48 +3,53 @@
 extern HANDLE clientFlag[PLAYERNUM];
 extern HANDLE processFlag;
 
+extern PacketType packetType;
+extern clientData client[PLAYERNUM];
+extern BallData Ball;
+
+
 DWORD WINAPI ProcessThread(LPVOID arg)
 {
 	int retval;
 	while (true)
 	{
+		//WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
 		switch (packetType)
 		{
-			case NONE:
+			case PacketType::NONE:
 				printf("packetType Error\n");
 				break;
-			case LOBBY:
+			case PacketType::LOBBY:
 			{
-				if (CheckPlayerReady(client))
+				if (CheckPlayerReady())
 				{
 					packetType = MAIN;
 					InitBall();
-					SetEvent(processFlag);
 				}
 				break;
 			}
-			case MAIN:
+			case PacketType::MAIN:
 			{
-				printf("Enter the Main Scene\n");
-				WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
 				UpdateBallData();
 				CalculateCollision();
 				if (CheckGameOver() == true)
 				{
 					packetType = END;
 				}
-				SetEvent(processFlag);
-				ResetEvent(processFlag);
 				break;
 			}
-			case END:
+			case PacketType::END:
+			{
 				break;
-			default: 
+			}
+			default:
 			{
 				printf("packetType Error\n");
 				break;
 			}
 		}
+		//SetEvent(processFlag);
+		//ResetEvent(processFlag);
 	}
 	return 0;
 }
@@ -53,17 +58,26 @@ DWORD WINAPI ClientThread(LPVOID arg)
 {
 	static int clientNum = 0;
 	int clientPID = clientNum++;
-	client[clientPID].m_clientReady = true;
 	int retval;
 	SOCKET client_sock = (SOCKET)arg;
 	while (1)
 	{
-		retval = send(client_sock, (char*)&packetType, sizeof(PacketType), 0);
-		//retval = WaitForSingleObject(processFlag, INFINITE);
+		retval = SC_SendFixedData(client_sock);
+		if (retval == SOCKET_ERROR)
+		{
+			std::cout << "SendFixedData Error!" << std::endl;
+			return -1;
+		}
+		retval = CS_RecvData(client_sock, clientPID);
+		if (retval == SOCKET_ERROR)
+		{
+			std::cout << "RecvData Error!" << std::endl;
+			return -1;
+		}
+		//SetEvent(clientFlag[clientPID]);
+		//WaitForSingleObject(processFlag, INFINITE);
+		//ResetEvent(clientFlag[clientPID]);
+		//SC_SendVariableData(client_sock, clientPID);
 	}
-	
-	//PositionData clientNextPos;
-	//retval = recv(client_sock, (char*)&clientNextPos, sizeof(PositionData), MSG_WAITALL);
-
 	return 0;
 }

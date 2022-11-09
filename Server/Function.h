@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "Global.h"
 
 void InitBall();
@@ -10,5 +11,8 @@ void CalculateCollision();
 
 struct BallData* OrbPosition(struct BallData* Orb);
 
-bool CheckPlayerReady(const clientData* client);
+bool CheckPlayerReady();
 bool CheckGameOver();
+
+int SC_SendFixedData(SOCKET client_sock);
+int CS_RecvData(SOCKET client_sock, int clientPID);

@@ -2,6 +2,10 @@
 
 HANDLE clientFlag[PLAYERNUM];
 HANDLE processFlag;
+PacketType packetType = LOBBY;
+clientData client[PLAYERNUM];
+BallData Ball;
+
 
 int main(int argc, char* argv[])
 {
@@ -10,7 +14,7 @@ int main(int argc, char* argv[])
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return 1;
 
-	processFlag = CreateEvent(NULL, FALSE, FALSE, NULL);
+	processFlag = CreateEvent(NULL, FALSE, TRUE, NULL);
 	for(int i = 0; i < PLAYERNUM; i++)
 		clientFlag[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
 	
@@ -34,8 +38,6 @@ int main(int argc, char* argv[])
 	int addrlen;
 	int clientNum = 0;
 	HANDLE hThread[PLAYERNUM];
-	HANDLE hProcessThread;
-	hProcessThread = CreateThread(NULL, 0, ProcessThread, NULL, 0, NULL);
 
 	while (clientNum < PLAYERNUM) {
 		addrlen = sizeof(clientaddr);
@@ -47,7 +49,11 @@ int main(int argc, char* argv[])
 
 		clientNum++;
 	}
-	
+
+	HANDLE hProcessThread;
+	hProcessThread = CreateThread(NULL, 0, ProcessThread, NULL, 0, NULL);
+	ResetEvent(processFlag);
+
 	closesocket(listen_sock);
 	WaitForMultipleObjects(PLAYERNUM, hThread, TRUE, INFINITE);
 	for (int i = 0; i < PLAYERNUM; i++)

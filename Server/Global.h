@@ -47,5 +47,30 @@ struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터
 	char m_clientColor;				// RGB
 };
 
-static PacketType packetType = LOBBY;
-static clientData client[PLAYERNUM];
+struct CS_LobbyPacket
+{
+	bool m_clientReady = false;
+};
+
+struct CS_MainPacket
+{
+	PositionData m_clientPos;
+};
+
+struct SC_LobbyPacket
+{
+	char m_clientColor[3];
+};
+
+struct SC_MainPacket
+{
+	PositionData m_ballPos;
+	PositionData m_clientPos[3];	// 본인 이외의 플레이어 좌표
+	unsigned short m_clientScore;
+};
+
+struct SC_EndPacket
+{
+	unsigned short m_clientScore[3];
+};
+
