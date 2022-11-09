@@ -78,3 +78,22 @@ void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 	}
 
 }
+
+void WGameFramework::Mouse(UINT iMessage, WPARAM wParam, LPARAM lParam)
+{
+	switch (iMessage)
+	{
+	case WM_LBUTTONDOWN:
+		auto x = LOWORD(lParam);
+		auto y = HIWORD(lParam);
+
+		cout << "x: " << x << ", y: " << y << endl;
+		break;
+
+	case WM_LBUTTONUP:
+		break;
+
+	default:
+		return;
+	}
+}

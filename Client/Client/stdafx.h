@@ -28,9 +28,10 @@ using namespace std;
 
 // 여기서 프로그램에 필요한 추가 헤더를 참조합니다.
 
-#define CYM_IP "59.15.41.159"
+#define CYM_IP "221.151.2.59"
 #define KYG_IP NULL
 #define CJJ_IP NULL
+#define LOOPBACK "127.0.0.1"
 
-#define NOW_IP CYM_IP					//	IP주소 설정란
+#define NOW_IP LOOPBACK					//	IP주소 설정란
 	

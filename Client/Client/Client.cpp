@@ -179,6 +179,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+		case WM_LBUTTONDOWN:
+		case WM_LBUTTONUP:
+		{
+			gGameFramework.Mouse(message, wParam, lParam);
+		}
+
 
 		case WM_DESTROY:
 		{	
