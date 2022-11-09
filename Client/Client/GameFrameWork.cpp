@@ -36,7 +36,14 @@ void WGameFramework::Update(const float frameTime)
 {
 	//	패킷타입(고정길이 패킷)을 받고 이를 프레임워크 클래스 멤버변수에 저장.
 	m_Net.recv_fixed();
-	m_SceneType = m_Net.getType();
+	if (m_SceneType != m_Net.getType())
+	{
+		m_SceneType = m_Net.getType();
+		printf("%d", m_SceneType);
+	}
+	
+	
+
 
 	//	받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
 	int a = 0;
@@ -45,7 +52,6 @@ void WGameFramework::Update(const float frameTime)
 	 
 	
 	//	서버로 부터 승인된 post position을 recv()한다.
-
 
 }
 

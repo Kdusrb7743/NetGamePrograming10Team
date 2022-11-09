@@ -1,8 +1,5 @@
 #include "Thread.h"
 
-static HANDLE clientFlag[3];
-static HANDLE processFlag;
-
 int main(int argc, char* argv[])
 {
 	int retval;
@@ -10,9 +7,9 @@ int main(int argc, char* argv[])
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return 1;
 
-	processFlag = CreateEvent(NULL, TRUE, FALSE, NULL);
-	for(int i = 0; i < 3; i++)
-		clientFlag[i] = CreateEvent(NULL, TRUE, FALSE, NULL);
+	processFlag = CreateEvent(NULL, FALSE, FALSE, NULL);
+	for(int i = 0; i < PLAYERNUM; i++)
+		clientFlag[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
 	
 	SOCKET listen_sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (listen_sock == INVALID_SOCKET) return 1;
@@ -33,9 +30,11 @@ int main(int argc, char* argv[])
 	struct sockaddr_in clientaddr;
 	int addrlen;
 	int clientNum = 0;
-	HANDLE hThread[3];
+	HANDLE hThread[PLAYERNUM];
+	HANDLE hProcessThread;
+	hProcessThread = CreateThread(NULL, 0, ProcessThread, NULL, 0, NULL);
 
-	while (clientNum < 3) {
+	while (clientNum < PLAYERNUM) {
 		addrlen = sizeof(clientaddr);
 		client_sock = accept(listen_sock, (struct sockaddr*)&clientaddr, &addrlen);
 		if (client_sock == INVALID_SOCKET) break;
@@ -47,8 +46,8 @@ int main(int argc, char* argv[])
 	}
 	
 	closesocket(listen_sock);
-	WaitForMultipleObjects(3, hThread, true, INFINITE);
-	for (int i = 0; i < 3; i++)
+	WaitForMultipleObjects(PLAYERNUM, hThread, TRUE, INFINITE);
+	for (int i = 0; i < PLAYERNUM; i++)
 		CloseHandle(clientFlag[i]);
 	WSACleanup();
 	return 0;

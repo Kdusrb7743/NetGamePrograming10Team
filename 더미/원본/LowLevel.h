@@ -26,7 +26,7 @@ struct PositionData
 struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터
 {
 	PositionData m_clientPos;		// 중점의 좌표
-	PositionData m_clientNextPos;	// 클라이언트에게 수신받은 다음 좌표값을 임시로 저장하는 변수
+	PositionData m_clientNextPos;	// 클라이언트에게 수신받은 다음 각도값을 임시로 저장하는 변수
 	float m_clientAngle;			// 패널 중심에 해당하는 각도값
 	bool m_clientReady;
 	unsigned short m_clientScore;

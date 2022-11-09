@@ -34,4 +34,3 @@ using namespace std;
 #define LOOPBACK "127.0.0.1"
 
 #define NOW_IP LOOPBACK					//	IP주소 설정란
-	
