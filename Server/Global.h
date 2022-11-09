@@ -47,7 +47,5 @@ struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터
 	char m_clientColor;				// RGB
 };
 
-static HANDLE clientFlag[PLAYERNUM];	// Static 변수로 Flag 생성시 제 역할을 못함
-static HANDLE processFlag;
 static PacketType packetType = LOBBY;
 static clientData client[PLAYERNUM];

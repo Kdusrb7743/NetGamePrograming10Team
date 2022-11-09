@@ -1,12 +1,13 @@
 #include "Thread.h"
 
+extern HANDLE clientFlag[PLAYERNUM];
+extern HANDLE processFlag;
+
 DWORD WINAPI ProcessThread(LPVOID arg)
 {
 	int retval;
 	while (true)
 	{
-		WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
-		printf("±×³É ¶Õ¸²\n");
 		switch (packetType)
 		{
 			case NONE:
@@ -17,13 +18,15 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 				if (CheckPlayerReady(client))
 				{
 					packetType = MAIN;
-					//SetEvent(processFlag);
+					InitBall();
+					SetEvent(processFlag);
 				}
 				break;
 			}
 			case MAIN:
 			{
 				printf("Enter the Main Scene\n");
+				WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
 				UpdateBallData();
 				CalculateCollision();
 				if (CheckGameOver() == true)

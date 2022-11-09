@@ -1,5 +1,8 @@
 #include "Thread.h"
 
+HANDLE clientFlag[PLAYERNUM];
+HANDLE processFlag;
+
 int main(int argc, char* argv[])
 {
 	int retval;
@@ -48,7 +51,7 @@ int main(int argc, char* argv[])
 	closesocket(listen_sock);
 	WaitForMultipleObjects(PLAYERNUM, hThread, TRUE, INFINITE);
 	for (int i = 0; i < PLAYERNUM; i++)
-		CloseHandle(clientFlag[i]);
+		CloseHandle(hThread[i]);
 	WSACleanup();
 	return 0;
 }
