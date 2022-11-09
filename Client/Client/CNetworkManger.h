@@ -10,6 +10,8 @@ public:
 
 	void recv_fixed();
 	void recv_variable();
+
+	void Send(bool);
 	void Send(PositionData);
 
 

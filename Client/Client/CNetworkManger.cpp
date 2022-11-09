@@ -44,14 +44,21 @@ void CNetworkManger::recv_fixed()
 		closesocket(m_sock);
 	}
 
-	if(pType == Packet_Type::NONE)
+	if(pType != Packet_Type::NONE)
 		m_pType = pType;
 
-	setType(pType);
+	//setType(pType);
 }
 
 void CNetworkManger::recv_variable()
 {
+}
+
+void CNetworkManger::Send(bool bReady)
+{
+	int retval = send(m_sock, (char*)&bReady, sizeof(bReady), 0);
+	if (retval == SOCKET_ERROR)
+		err_quit(L"send()");
 }
 
 void CNetworkManger::Send(PositionData pos)

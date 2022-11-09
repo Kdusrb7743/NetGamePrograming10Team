@@ -4,6 +4,7 @@
 
 WGameFramework::WGameFramework()
 {
+	m_bReady = false;
 	Clear();
 }
 
@@ -39,19 +40,32 @@ void WGameFramework::Update(const float frameTime)
 	if (m_SceneType != m_Net.getType())
 	{
 		m_SceneType = m_Net.getType();
-		printf("%d", m_SceneType);
+		cout << "현재 Scene 타입: " << m_SceneType << endl;
 	}
 	
 	
 
 
 	//	받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
-	int a = 0;
+	switch (m_SceneType)
+	{
+	case Packet_Type::LOBBY:
+		m_Net.Send(m_bReady);
+		break;
+
+	case Packet_Type::MAIN:
+		//	클라이언트의 post position을 send()한다. 
+		//	서버로 부터 승인된 post position을 recv()한다.
 	
-	//	클라이언트의 post position을 send()한다.
-	 
+		break;
+
+	case Packet_Type::END:
+		break;
+
+	case Packet_Type::NONE:
+		break;
+	}
 	
-	//	서버로 부터 승인된 post position을 recv()한다.
 
 }
 
@@ -87,13 +101,15 @@ void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 void WGameFramework::Mouse(UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
+	DWORD x, y;
+
 	switch (iMessage)
 	{
 	case WM_LBUTTONDOWN:
-		auto x = LOWORD(lParam);
-		auto y = HIWORD(lParam);
-
+		x = LOWORD(lParam);
+		y = HIWORD(lParam);
 		cout << "x: " << x << ", y: " << y << endl;
+		m_bReady = true;								//	Ready 변경점
 		break;
 
 	case WM_LBUTTONUP:

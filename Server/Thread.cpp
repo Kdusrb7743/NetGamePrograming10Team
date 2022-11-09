@@ -59,7 +59,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 	while (1)
 	{
 		retval = send(client_sock, (char*)&packetType, sizeof(PacketType), 0);
-		retval = WaitForSingleObject(processFlag, INFINITE);
+		//retval = WaitForSingleObject(processFlag, INFINITE);
 	}
 	
 	//PositionData clientNextPos;
