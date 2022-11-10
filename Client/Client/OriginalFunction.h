@@ -15,10 +15,10 @@ enum PacketType
 	END
 };
 
-extern HDC hdc, memdc;
-extern HBITMAP hBitmap;
-extern HWND hWnd;
-extern PAINTSTRUCT ps;
+static HDC hdc, memdc;
+static HBITMAP hBitmap;
+static HWND hWnd;
+static PAINTSTRUCT ps;
 
 //--------------------------------------------------------------------------------------------------------------//
 // 전역변수
@@ -87,8 +87,8 @@ struct Power_Reflector
 //Power_Effect	EffectHead;
 //Power_Orb		OrbHead;
 //Power_Reflector ReflectorHead;
-extern struct Power_Orb* OrbHead;
-extern struct Power_Reflector* ReflectorHead;
+static struct Power_Orb* OrbHead;
+static struct Power_Reflector* ReflectorHead;
 struct Power_Effect* EffectHead = (Power_Effect*)malloc(sizeof(struct Power_Effect));
 
 // 서버에서 충돌이 일어나면 그 인자값을 가져가서 충돌이 일어났다고 클라에게 보내야 하나 보내지 않으면 점수만 보내줌
@@ -152,19 +152,19 @@ void EffectPrint(struct Power_Effect* Effect) // 이펙트 출력
 
 void DisplayLoad() // 이미지들을 출력하고 png 파일들에게 색상 일치를 적용하는 함수
 {
-	ReactorImg.Load(TEXT("Reactor.png"));
-	Reactor_EffectImg.Load(TEXT("Reactor_Effect.png"));
-	OrbImg.Load(TEXT("Orb.png"));
+	ReactorImg.Load(TEXT("Img\\Reactor.png"));
+	Reactor_EffectImg.Load(TEXT("Img\\Reactor_Effect.png"));
+	OrbImg.Load(TEXT("Img\\Orb.png"));
 
-	ReflectorImg.Load(TEXT("Reflector.png"));
-	Reflector_EffectImg.Load(TEXT("Reflector_Effect.png"));
+	ReflectorImg.Load(TEXT("Img\\Reflector.png"));
+	Reflector_EffectImg.Load(TEXT("Img\\Reflector_Effect.png"));
 
-	Reflector_Mask_Img.Load(TEXT("Reflector_Mask.bmp"));
-	Reflector_Effect_Mask_Img.Load(TEXT("Reflector_Effect_Mask.bmp"));
-	Reflector_Color_Mask_Img.Load(TEXT("Reflector_Color_Mask.bmp"));
-	Reflector_Light_Mask_Img.Load(TEXT("Reflector_Light_Mask.bmp"));
+	Reflector_Mask_Img.Load(TEXT("Img\\Reflector_Mask.bmp"));
+	Reflector_Effect_Mask_Img.Load(TEXT("Img\\Reflector_Effect_Mask.bmp"));
+	Reflector_Color_Mask_Img.Load(TEXT("Img\\Reflector_Color_Mask.bmp"));
+	Reflector_Light_Mask_Img.Load(TEXT("Img\\Reflector_Light_Mask.bmp"));
 
-	DoorImg.Load(TEXT("Door.png"));
+	DoorImg.Load(TEXT("Img\\Door.png"));
 
 
 	for (int i = 0; i < Reactor_EffectImg.GetWidth(); i++)

@@ -138,6 +138,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	POINTS Mouse = MAKEPOINTS(lParam);
+
 	switch (message)
 	{
 		case WM_CREATE:
@@ -170,7 +172,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			InvalidateRgn(hWnd, NULL, false);
 		}
 		break;
-		
 
 		case WM_KEYDOWN:
 		case WM_KEYUP:
@@ -180,7 +181,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 		case WM_LBUTTONDOWN:
-		case WM_LBUTTONUP:
+		//case WM_LBUTTONUP:
+		//{
+		//	gGameFramework.Mouse(message, wParam, lParam);
+		//}
+		//break;
+		case WM_MOUSEMOVE:
 		{
 			gGameFramework.Mouse(message, wParam, lParam);
 		}
