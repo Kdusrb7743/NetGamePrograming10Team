@@ -25,6 +25,9 @@
     <Filter Include="NetworkManger">
       <UniqueIdentifier>{adc8c9e9-0e21-4468-99bb-e277be845e74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{85c782c5-f290-4b7c-a863-f12a6be9e84c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -51,6 +54,9 @@
     <ClInclude Include="OriginalFunction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -64,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="CNetworkManger.cpp">
       <Filter>NetworkManger</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

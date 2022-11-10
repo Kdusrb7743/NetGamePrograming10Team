@@ -23,7 +23,7 @@
 
 #include "Define.h"
 #include "GameFramework.h"
-
+#include "Renderer.h"
 #include "CNetworkManger.h"
 
 using namespace std;
@@ -40,6 +40,33 @@ using namespace std;
 
 
 // 전역변수
+
+static Randerer gRender;
+
+struct Power_Orb
+{
+	int effect, effect_count;
+	float x, y, size;
+	float afterx[25], aftery[25];
+	//struct Power_Orb* next;
+};
+
+struct Power_Reflector
+{
+	float angle, position, size, speed;
+	int age, effect;
+	//struct Power_Reflector* next;
+};
+
+Power_Orb Orb = {
+
+};
+
+Power_Reflector Reflectors[3] = {
+
+};
+
+
 
 //플에이어 색상 정보
 static int Player1RGB[3] = { 255, 255, 0 };			// 색 정보
