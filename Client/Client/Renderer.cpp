@@ -211,3 +211,10 @@ bool Randerer::UIButtonSelected(int x, int y, int sizex, int sizey, POINTS Mouse
 //	}
 //	else return;
 //}
+
+void Randerer::DoorAnimation(HDC hdc, int Time)
+{	
+	DoorImg.Draw(hdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y, 
+		Controllroom_window_x, Controllroom_window_y, Controllroom_size_x * (Time % 5), 
+		Controllroom_size_y * (int)(Time / 5), Controllroom_size_x, Controllroom_size_y); // 3000 * (PreTime % 5), 2000 * (int)(PreTime / 5)
+}

@@ -47,22 +47,42 @@ void WGameFramework::Render(HDC hdc)
 	//SelectObject(memdc, hBitmap);
 	//SetStretchBltMode(memdc, COLORONCOLOR);
 	//SetBkMode(memdc, TRANSPARENT);
-
+	static int Time = 0;
 
 	if (m_SceneType == LOBBY)				// 현재 로비 씬이면
 	{
+		if (m_SceneChange == true)
+		{
+			m_SceneChange = false;
+		}
 		//닫힌 상태의 문
 		gRender.DoorIdle(hdc);
 		gRender.UIMenu(hdc, m_Startbutton, m_Modulebutton, m_Optionbutton, m_Quitbutton);
 	}
 	else if (m_SceneType == END)			// 엔드 씬이면
 	{
+		if (m_SceneChange == true)
+		{
+			gRender.DoorAnimation(hdc, Time--);
+			if (Time == 0)
+			{
+				m_SceneChange = false;
+			}
+		}
 		//닫힌 상태의 문
 		gRender.DoorIdle(hdc);
 		//UIEndMessage();
 	}
 	else	//(m_SceneType == MAIN)				// MAIN 씬이면
 	{
+		if (m_SceneChange == true)
+		{
+			gRender.DoorAnimation(hdc, Time++);
+			if (Time == 25)
+			{
+				m_SceneChange = false;
+			}
+		}
 		//// 게임장과 레일 그리기
 		//ReactorImg.Draw(hdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y, Controllroom_window_x, Controllroom_window_y, 0, 0, Controllroom_size_x, Controllroom_size_y);
 		//Reactor_RailImg.Draw(hdc, Pibot_x - 782 * window_half, Pibot_y - 782 * window_half, 782 * window_size, 782 * window_size, 0, 0, 782, 782);
@@ -103,6 +123,7 @@ void WGameFramework::Update(const float frameTime)
 	m_Net.recv_fixed();
 	if (m_SceneType != m_Net.getType())
 	{
+		m_SceneChange = true;
 		m_SceneType = m_Net.getType();
 		cout << "현재 Scene 타입: " << m_SceneType << endl;
 	}

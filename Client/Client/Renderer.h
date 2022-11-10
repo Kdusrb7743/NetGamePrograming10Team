@@ -16,4 +16,6 @@ public:
 	virtual bool UIButtonSelected(int x, int y, int sizex, int sizey, POINTS Mouse);	// 버튼이 선택 됐는지
 	virtual void UIButton(HDC hdc, int x, int y, int R, int G, int B, int SR, int SG, int SB, bool Seleted, const TCHAR String[30]);
 	//void DisplayReflector(struct Power_Reflector* Reflector)
+	void DoorAnimation(HDC hdc, int Time);
+
 };
