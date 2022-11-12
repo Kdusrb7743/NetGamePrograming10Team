@@ -36,17 +36,7 @@ void WGameFramework::Create(HWND hWnd)
 
 void WGameFramework::Render(HDC hdc)
 {
-	/*static int x = 10;
-	x++;
-	Rectangle(hdc, x + 10, 10, x + 100, 100);*/
 
-	//hdc = BeginPaint(hWnd, &ps);
-	//memdc = CreateCompatibleDC(hdc);
-	//hBitmap = CreateCompatibleBitmap(hdc, (int)window_size_x, (int)window_size_y);
-
-	//SelectObject(memdc, hBitmap);
-	//SetStretchBltMode(memdc, COLORONCOLOR);
-	//SetBkMode(memdc, TRANSPARENT);
 	static int Time = 0;
 
 	if (m_SceneType == LOBBY)				// 현재 로비 씬이면
@@ -75,6 +65,7 @@ void WGameFramework::Render(HDC hdc)
 	}
 	else	//(m_SceneType == MAIN)				// MAIN 씬이면
 	{
+		// 게임장과 레일 그리기
 		if (m_SceneChange == true)
 		{
 			gRender.DoorAnimation(hdc, Time++);
@@ -83,37 +74,27 @@ void WGameFramework::Render(HDC hdc)
 				m_SceneChange = false;
 			}
 		}
-		//// 게임장과 레일 그리기
-		//ReactorImg.Draw(hdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y, Controllroom_window_x, Controllroom_window_y, 0, 0, Controllroom_size_x, Controllroom_size_y);
-		//Reactor_RailImg.Draw(hdc, Pibot_x - 782 * window_half, Pibot_y - 782 * window_half, 782 * window_size, 782 * window_size, 0, 0, 782, 782);
 
-		//// 반사판그리기
-		//DisplayReflector(ReflectorHead);
+		// 게임장과 레일 그리기
+		gRender.ReactorDraw(hdc);
 
-		////if (ReactorEffect < 12) Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, Reactor_size * (ReactorEffect % 6), Reactor_size * (int)(ReactorEffect / 6), Reactor_size, Reactor_size);
-		////else Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, 5000, 1000, Reactor_size, Reactor_size);
+		// 반사판그리기
+		gRender.DisplayReflector(hdc);
 
-		//DisplayOrb(OrbHead);						// 공 그리기
+		// 공 그리기
+		gRender.DisplayOrb(hdc);					
+
+		//이펙트 부분
+		//if (ReactorEffect < 12) Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, Reactor_size * (ReactorEffect % 6), Reactor_size * (int)(ReactorEffect / 6), Reactor_size, Reactor_size);
+		//else Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, 5000, 1000, Reactor_size, Reactor_size);
 
 		//// 디버그 출력, UI-점수, 이펙트 출력
 		//if (debug)	UIDebugInfo();
+		gRender.UIScore(hdc);				//인자로 현재 자신이 몇번 플레이어인지에 따라 점수 출력부가 다름.
 
-		//UIScore();
 		//EffectPrint(EffectHead);
 
-		//// 문 애니메이션 씬			-- 여기서 열리는 애니메이션이 객체가 그려져 있는 앞에 덧씌워 진행된다.
-		//if (1) {					//로비씬에 막 왔을 경우
-		//	DoorAnimation();
-		//}
 	}
-	//BitBlt(hdc, 0, 0, (int)window_size_x, (int)window_size_y, memdc, 0, 0, SRCCOPY);
-	//DeleteObject(hBitmap);
-	//DeleteDC(memdc);
-
-	//-----------------------------------------------------------------------------------------------------------------------------//
-
-	//EndPaint(hWnd, &ps);
-
 
 }
 
@@ -168,6 +149,20 @@ void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 			{
 				SendMessage(m_hWnd, WM_DESTROY, 0, 0);
 				return;
+			}
+			else if (wParam == VK_RIGHT)
+			{
+				//GetAsyncKeyState(VK_RIGHT);
+				// 임시로 패널 움직이기
+				Reflectors[0].angle -= 0.01;
+				cout << "오른쪽으로 이동\n";
+			}
+			else if (wParam == VK_LEFT)
+			{
+				//GetAsyncKeyState(VK_RIGHT);
+				// 임시로 패널 움직이기
+				Reflectors[0].angle += 0.01;
+				cout << "왼쪽으로 이동\n";
 			}
 		}
 		break;

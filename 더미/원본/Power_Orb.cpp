@@ -167,6 +167,7 @@ bool OrbMajorCheck(struct Power_Orb* Orb)						// 이 함수 쓰는 부분 없음(미완성)
 }
 void OrbCreate(struct Power_Orb* Orb, int Type, bool Major, float x, float y, float Angle)	//서버 - 메인 씬에서 불러줌. 공 생성시 객체 초기화
 {
+	//OrbCreate(OrbHead, OrbType, true, 0, 0, 0.25);
 	if (Orb->next == OrbHead)
 	{
 		Orb->next = new Power_Orb;

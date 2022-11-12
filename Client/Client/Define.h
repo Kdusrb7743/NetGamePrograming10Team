@@ -6,7 +6,7 @@
 //#define FRAME_WIDTH		1280
 //#define FRAME_HEIGHT		720
 
-#define window_size			0.6f
+#define window_size			0.6f		//0.96
 #define FRAME_WIDTH			2000.f * window_size
 #define FRAME_HEIGHT		1125.f * window_size
 

@@ -2,7 +2,53 @@
 #include "Renderer.h"
 
 
-void Randerer::DisplayLoad()
+//-------------------------------------------------------------------------------------------------------------------
+// 전역변수 선언
+struct Power_Orb Orb = { 0.f, 0.f, 0.f, 0.f };
+
+Power_Reflector Reflectors[3] = {
+	{0.25f, 375.f, 375.f, 1.f},
+	{0.583f, 375.f, 375.f, 1.f},
+	{0.915f, 375.f, 375.f, 1.f}
+};
+
+float PScore[3] = {0.f, 0.f, 0.f};				// 3명의 플레이어 스코어
+
+int Player1RGB[3] = { 255, 255, 0 };			// 색 정보
+int Player2RGB[3] = { 255, 255, 0 };
+int Player3RGB[3] = { 255, 255, 0 };
+
+//윈도우 사이즈 변수
+// float window_size = 0.96;					// 메인 사이즈
+
+double window_half = window_size * 0.5;
+double window_size_x = 2000 * window_size, window_size_y = 1125 * window_size, Pibot_x = window_size_x * 0.5, Pibot_y = window_size_y * 0.5;
+
+double Reactor_size = 1000, Rail_size = 375, Orb_size = 50;
+double Controllroom_size_x = 3000, Reflector_size_x = 375;
+double Controllroom_size_y = 2000, Reflector_size_y = 115;
+
+int Reactor_window = int(Reactor_size * window_size), Rail_window = int(Rail_size * window_size), Orb_window = int(Orb_size * window_size);
+int Controllroom_window_x = int(Controllroom_size_x * window_size), Reflector_window_x = int(Reflector_size_x * window_size);
+int Controllroom_window_y = int(Controllroom_size_y * window_size), Reflector_window_y = int(Reflector_size_y * window_size);
+
+int Reactor_half = int(Reactor_size * window_half), Rail_half = int(Rail_size * window_half), Orb_half = int(Orb_size * window_half);
+int Controllroom_half_x = int(Controllroom_size_x * window_half), Reflector_half_x = int(Reflector_size_x * window_half);
+int Controllroom_half_y = int(Controllroom_size_y * window_half), Reflector_half_y = int(Reflector_size_y * window_half);
+
+//이미지 변수
+CImage ReactorImg, Reactor_EffectImg, ReflectorImg, Reflector_EffectImg, OrbImg, PressureImg, CherenkovImg;
+CImage Reactor_RailImg, Reflector_ColorImg, Reflector_LightImg, Reflector_ColorChargeImg, Reflector_LightChargeImg, Reflector_ColorOffImg, Reflector_LightOffImg;
+CImage Reflector_Mask_Img, Reflector_Effect_Mask_Img, Reflector_Color_Mask_Img, Reflector_Light_Mask_Img;
+CImage Button_PressureImg, Button_DialImg, Button_ValveImg, Button_OrbImg, Cherenkov_LeverImg, TempertureImg, DoorImg;
+CImage Pressure_Mask_Img, Cherenkov_Mask_Img, Button_Valve_Mask_Img, Button_Dial_Mask_Img, Temperture_Mask_Img;
+CImage Reflector_Module1_Img, Reflector_Module2_Img, Reflector_Module3_Img, Reflector_Module4_Img, Reflector_Module5_Img;
+CImage Reflector_Module1_Mask_Img, Reflector_Module2_Mask_Img, Reflector_Module3_Mask_Img, Reflector_Module4_Mask_Img, Reflector_Module5_Mask_Img;
+
+//----------------------------------------------------------------------------------------------------------------
+
+
+void Renderer::DisplayLoad()
 {
 	ReactorImg.Load(TEXT("Img\\Reactor.png"));
 	Reactor_EffectImg.Load(TEXT("Img\\Reactor_Effect.png"));
@@ -41,7 +87,7 @@ void Randerer::DisplayLoad()
 	}
 }
 
-void Randerer::DisplayColorApply()
+void Renderer::DisplayColorApply()
 {
 	Reactor_RailImg.Load(TEXT("Img\\Reactor_Rail.png"));
 	Reflector_ColorImg.Load(TEXT("Img\\Reflector_Color.png"));
@@ -123,12 +169,12 @@ void Randerer::DisplayColorApply()
 	}
 }
 
-void Randerer::DoorIdle(HDC hdc)
+void Renderer::DoorIdle(HDC hdc)
 {
 	DoorImg.Draw(hdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y, Controllroom_window_x, Controllroom_window_y, 0, 0, Controllroom_size_x, Controllroom_size_y);
 }
 
-void Randerer::UIMenu(HDC hdc, bool Start, bool Module, bool Option, bool Quit)
+void Renderer::UIMenu(HDC hdc, bool Start, bool Module, bool Option, bool Quit)
 {
 	HFONT hFont, oldFont;
 	hFont = CreateFont((int)(300 * window_size), 0, 0, 0, FW_ULTRABOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEVICE_PRECIS, CLIP_CHARACTER_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, L"PowerIngElectric");
@@ -149,7 +195,7 @@ void Randerer::UIMenu(HDC hdc, bool Start, bool Module, bool Option, bool Quit)
 	DeleteObject(hFont);
 }
 
-void Randerer::UIButton(HDC hdc, int x, int y, int R, int G, int B, int SR, int SG, int SB, bool Seleted, const TCHAR String[30])
+void Renderer::UIButton(HDC hdc, int x, int y, int R, int G, int B, int SR, int SG, int SB, bool Seleted, const TCHAR String[30])
 {
 	TCHAR lpOut[100];
 	if (Seleted)
@@ -165,56 +211,110 @@ void Randerer::UIButton(HDC hdc, int x, int y, int R, int G, int B, int SR, int 
 	TextOut(hdc, int(Pibot_x + x * window_size), int(Pibot_y + y * window_size), lpOut, lstrlen(lpOut));
 }
 
-bool Randerer::UIButtonSelected(int x, int y, int sizex, int sizey, POINTS Mouse)
+void Renderer::ReactorDraw(HDC hdc)
+{
+	ReactorImg.Draw(hdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y, Controllroom_window_x, Controllroom_window_y, 0, 0, Controllroom_size_x, Controllroom_size_y);
+	Reactor_RailImg.Draw(hdc, Pibot_x - 782 * window_half, Pibot_y - 782 * window_half, 782 * window_size, 782 * window_size, 0, 0, 782, 782);
+}
+
+void Renderer::OrbDraw(HDC hdc)
+{
+
+}
+
+bool Renderer::UIButtonSelected(int x, int y, int sizex, int sizey, POINTS Mouse)
 {
 	return (Pibot_x + x * window_size < Mouse.x&& Mouse.x < Pibot_x + (x + sizex) * window_size && Pibot_y + y * window_size < Mouse.y&& Mouse.y < Pibot_y + (y + sizey) * window_size);
 }
 
 
-//void DisplayReflector(struct Power_Reflector* Reflector) // 리플렉터(반사판)들을 출력하는 함수
-//{
-//	if (Reflector->next != ReflectorHead)			// 리플렉터가 초기화 되지 않은 경우
-//	{
-//		POINT Reflector_Point[3] = {
-//		ReflectorPaint1(Reflector->next, 0),
-//		ReflectorPaint2(Reflector->next, 0),
-//		ReflectorPaint3(Reflector->next, 0)
-//		};
-//		ReflectorImg.PlgBlt(memdc, Reflector_Point, 0, 0, 375, 115, Reflector_Mask_Img, 0, 0);
-//
-//		if (Reflector->next->age < -100)
-//		{
-//			Reflector_ColorImg.PlgBlt(memdc, Reflector_Point, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
-//			Reflector_LightImg.PlgBlt(memdc, Reflector_Point, 0, 0, 375, 115, Reflector_Light_Mask_Img, 0, 0);
-//		}
-//		else if (Reflector->next->age > 0)
-//		{
-//			Reflector_ColorOffImg.PlgBlt(memdc, Reflector_Point, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
-//			Reflector_LightOffImg.PlgBlt(memdc, Reflector_Point, 0, 0, 375, 115, Reflector_Light_Mask_Img, 0, 0);
-//		}
-//		else
-//		{
-//			Reflector_ColorChargeImg.PlgBlt(memdc, Reflector_Point, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
-//			Reflector_LightChargeImg.PlgBlt(memdc, Reflector_Point, 0, 0, 375, 115, Reflector_Light_Mask_Img, 0, 0);
-//		}
-//
-//		if (Reflector->next->effect > 0)
-//		{
-//			POINT Reflector_Effect_Point[3] = {
-//			ReflectorPaint1(Reflector->next, 67.5),
-//			ReflectorPaint2(Reflector->next, 67.5),
-//			ReflectorPaint3(Reflector->next, 67.5)
-//			};
-//			Reflector_EffectImg.PlgBlt(memdc, Reflector_Effect_Point, 375 * (Reflector->next->effect % 100), (300 * (int)(Reflector->next->effect / 100.0)), 375, 300, Reflector_Effect_Mask_Img, 375 * (Reflector->next->effect % 100), 0);
-//		}
-//		DisplayReflector(Reflector->next);
-//	}
-//	else return;
-//}
-
-void Randerer::DoorAnimation(HDC hdc, int Time)
+void Renderer::DoorAnimation(HDC hdc, int Time)
 {	
 	DoorImg.Draw(hdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y, 
 		Controllroom_window_x, Controllroom_window_y, Controllroom_size_x * (Time % 5), 
 		Controllroom_size_y * (int)(Time / 5), Controllroom_size_x, Controllroom_size_y); // 3000 * (PreTime % 5), 2000 * (int)(PreTime / 5)
+}
+
+void Renderer::UIScore(HDC hdc) // 현재 자신의 점수 표기 함수
+{
+	TCHAR lpOut[100];
+	HFONT hFont, oldFont;
+	hFont = CreateFont((int)(100 * window_size), 0, 0, 0, FW_ULTRABOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEVICE_PRECIS, CLIP_CHARACTER_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, L"PowerIngElectric");
+	oldFont = (HFONT)SelectObject(hdc, hFont);
+	SetTextColor(hdc, RGB(0, 255, 0));
+	if (PScore[0] < 1000) swprintf_s(lpOut, 100, L"\\%.0f ", PScore[0]);
+	else if (PScore[0] < 1000000) swprintf_s(lpOut, 100, L"\\%.3gK", PScore[0] / 1000);
+	else if (PScore[0] < 1000000000) swprintf_s(lpOut, 100, L"\\%.3gM", PScore[0] / 1000000);
+	else if (PScore[0] < 1000000000000) swprintf_s(lpOut, 100, L"\\%.3gB", PScore[0] / 1000000000);
+	else swprintf_s(lpOut, 100, L"\\MAX\\");
+	TextOut(hdc, 1600 * window_size, 525 * window_size, lpOut, lstrlen(lpOut));
+	TextOut(hdc, 1600 * window_size, 450 * window_size, L"Power", 5);
+
+	SelectObject(hdc, oldFont);
+	DeleteObject(hFont);
+}
+
+void Renderer::DisplayReflector(HDC hdc) // 리플렉터(반사판)들을 출력하는 함수
+{
+	// 1플레이어 패널
+	POINT Reflector_Point0[3] = {
+	ReflectorPaint1(Reflectors[0], 0),
+	ReflectorPaint2(Reflectors[0], 0),
+	ReflectorPaint3(Reflectors[0], 0)
+	};
+	ReflectorImg.PlgBlt(hdc, Reflector_Point0, 0, 0, 375, 115, Reflector_Mask_Img, 0, 0);
+	Reflector_ColorChargeImg.PlgBlt(hdc, Reflector_Point0, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
+	Reflector_LightChargeImg.PlgBlt(hdc, Reflector_Point0, 0, 0, 375, 115, Reflector_Light_Mask_Img, 0, 0);
+
+	// 2플레이어 패널
+	POINT Reflector_Point1[3] = {
+	ReflectorPaint1(Reflectors[1], 0),
+	ReflectorPaint2(Reflectors[1], 0),
+	ReflectorPaint3(Reflectors[1], 0)
+	};
+	ReflectorImg.PlgBlt(hdc, Reflector_Point1, 0, 0, 375, 115, Reflector_Mask_Img, 0, 0);
+	Reflector_ColorChargeImg.PlgBlt(hdc, Reflector_Point1, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
+	Reflector_LightChargeImg.PlgBlt(hdc, Reflector_Point1, 0, 0, 375, 115, Reflector_Light_Mask_Img, 0, 0);
+
+	// 3플레이어 패널
+	POINT Reflector_Point2[3] = {
+	ReflectorPaint1(Reflectors[2], 0),
+	ReflectorPaint2(Reflectors[2], 0),
+	ReflectorPaint3(Reflectors[2], 0)
+	};
+	ReflectorImg.PlgBlt(hdc, Reflector_Point2, 0, 0, 375, 115, Reflector_Mask_Img, 0, 0);
+	Reflector_ColorChargeImg.PlgBlt(hdc, Reflector_Point2, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
+	Reflector_LightChargeImg.PlgBlt(hdc, Reflector_Point2, 0, 0, 375, 115, Reflector_Light_Mask_Img, 0, 0);
+
+	// 이펙트 후순위 변경
+}
+
+void Renderer::DisplayOrb(HDC hdc) // 오브들을 출력하는 함수
+{
+	// 이펙트 후순위 변경
+
+	OrbImg.Draw(hdc, int(Pibot_x + (Orb.x - Orb.size) * window_size), int(Pibot_y + (Orb.y - Orb.size) * window_size), int(Orb.size * 2 * window_size), int(Orb.size * 2 * window_size), Orb_size * (0 + 10 * 1), Orb_size * 2, Orb_size, Orb_size);
+
+}
+
+float Renderer::PointRotationX(float x, float y, float angle)					// 이미지 회전 출력을 위한 X좌표 계산
+{
+	return x * cos(M_TU * angle) - y * sin(M_TU * angle);
+}
+float Renderer::PointRotationY(float x, float y, float angle)					// 이미지 회전 출력을 위한 y좌표 계산
+{
+	return x * sin(M_TU * angle) + y * cos(M_TU * angle);
+}
+
+POINT Renderer::ReflectorPaint1(struct Power_Reflector Reflector, double Vertical) // 리플렉터 회전 전용 함수 - 1번 좌표
+{
+	return{ (long)(Pibot_x + PointRotationX(window_size * sqrt(Reflector.position * Reflector.position - Reflector.size * Reflector.size * 0.25) - Reflector_half_y + (25 - Vertical) * window_size, Reflector_half_x, Reflector.angle)),(long)(Pibot_y + PointRotationY(window_size * sqrt(Reflector.position * Reflector.position - Reflector.size * Reflector.size * 0.25) - Reflector_half_y + (25 - Vertical) * window_size, Reflector_half_x, Reflector.angle))};
+}
+POINT Renderer::ReflectorPaint2(struct Power_Reflector Reflector, double Vertical) // 리플렉터 회전 전용 함수 - 2번 좌표
+{
+	return{ (long)(Pibot_x + PointRotationX(window_size * sqrt(Reflector.position * Reflector.position - Reflector.size * Reflector.size * 0.25) - Reflector_half_y + (25 - Vertical) * window_size, -Reflector_half_x, Reflector.angle)),(long)(Pibot_y + PointRotationY(window_size * sqrt(Reflector.position * Reflector.position - Reflector.size * Reflector.size * 0.25) - Reflector_half_y + (25 - Vertical) * window_size, -Reflector_half_x, Reflector.angle)) };
+}
+POINT Renderer::ReflectorPaint3(struct Power_Reflector Reflector, double Vertical) // 리플렉터 회전 전용 함수 - 3번 좌표
+{
+	return{ (long)(Pibot_x + PointRotationX(window_size * sqrt(Reflector.position * Reflector.position - Reflector.size * Reflector.size * 0.25) + Reflector_half_y + (25 + Vertical) * window_size, Reflector_half_x, Reflector.angle)),(long)(Pibot_y + PointRotationY(window_size * sqrt(Reflector.position * Reflector.position - Reflector.size * Reflector.size * 0.25) + Reflector_half_y + (25 + Vertical) * window_size, Reflector_half_x, Reflector.angle)) };
 }
