@@ -12,7 +12,6 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 {
 	int retval;
 	clock_t start = clock();
-	InitBall();
 	while (true)
 	{
 		//WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
