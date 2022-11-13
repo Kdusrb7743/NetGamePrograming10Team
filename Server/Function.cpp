@@ -14,7 +14,7 @@ void InitBall()		// 공 속도 및 각도(벡터) 초기화, 남은 공 개수 감소
 	Ball.m_BallPos.x = 0;
 	Ball.m_BallPos.y = 0;
 	Ball.m_BallAngle = dist(rnd);			// 매번 랜덤값
-	Ball.m_BallSpeed = 1;				// 기본 스피드
+	Ball.m_BallSpeed = 0;				// 기본 스피드
 	Ball.m_BallCount = 3;				// 기본 공 개수
 	Ball.m_BallSpeedx = 0;				// 매 공이 움직이기 전 각도에 따른 x이동량
 	Ball.m_BallSpeedy = 0;
@@ -30,23 +30,37 @@ bool EndCheck() {			// 게임이 끝났는지를 체크
 	else return false;
 }
 
-void UpdateBallData()
+void UpdateBallData(double time)
 {
-
+	SpeedCaculate(time);
+	OrbSpeed();
+	SetBallPosition();
+	printf("BallPos (X: %f, Y: %f)\n", Ball.m_BallPos.x, Ball.m_BallPos.y);
 }
 
 void CalculateCollision()
 {
-
+	CheckBarCollision();
+	//CheckBallCollision();
 }
 
-struct BallData* OrbPosition(struct BallData* Orb)
+void SetBallPosition()
 {
+	Ball.m_BallPos.x += Ball.m_BallSpeedx;
+	Ball.m_BallPos.y += Ball.m_BallSpeedy;
+	Ball.m_BallAngle = atan2f(Ball.m_BallPos.x - 1.f, Ball.m_BallPos.y);
+	printf("BallAngle : %f\n", Ball.m_BallAngle);
+}
 
-	Orb->m_BallPos.x += Orb->m_BallSpeedx;
-	Orb->m_BallPos.y += Orb->m_BallSpeedy;
+void OrbSpeed()
+{
+	Ball.m_BallSpeedx = Ball.m_BallSpeed * cos(2 * PI * Ball.m_BallAngle) * 5;
+	Ball.m_BallSpeedy = Ball.m_BallSpeed * sin(2 * PI * Ball.m_BallAngle) * 5;
+}
 
-	return Orb;
+void SpeedCaculate(double time)
+{
+	Ball.m_BallSpeed = time;
 }
 
 bool CheckPlayerReady()
@@ -72,6 +86,49 @@ bool CheckGameOver()
 		return true;
 	}
 	return false;
+}
+
+void CheckBarCollision()
+{
+
+}
+
+//void CheckBallCollision()
+//{
+//	if (DistanceOvercmp(Ball.m_BallPos.x, Ball.m_BallPos.y, 500))
+//	{
+//		if (!DistanceOvercmp(Ball.m_BallPos.x, Ball.m_BallPos.y, 525))
+//		{
+//
+//		}
+//		if (((Orb->next->major == false && Orb->next->type == 0) || Orb->next->effect == 1) 
+//			&& Distancecmp(Orb->next->x + 0, Orb->next->y + 0, 525))
+//		{
+//			ReflectOrb(Orb->next, AnglePosition(Orb->next->x, Orb->next->y));
+//			if (Orb->next->effect == 1) Orb->next->effect = 0;
+//		}
+//		else
+//		{
+//			if (Orb->next->major)
+//			{
+//				ReactorEffect = 6;
+//				if (Orbcount > 0) ReactorEffect = 6;
+//				else Orbcount = -1;
+//			}
+//			OrbRemove(Orb->next, Orb);
+//		}
+//	}
+//	CollisionDetect(Orb->next);
+//}
+
+bool DistanceOvercmp(float x, float y, float dis)
+{
+	return ((x * x) + (y * y) > dis * dis);
+}
+
+float AnglePosition(float x, float y)
+{
+	return atan2(-y, -x) / (PI * 2) + 0.5;
 }
 
 int SC_SendFixedData(SOCKET client_sock)

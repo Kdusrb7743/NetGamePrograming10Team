@@ -74,28 +74,28 @@ void WGameFramework::Render(HDC hdc)
 				m_SceneChange = false;
 			}
 		}
+		else
+		{
+			// 게임장과 레일 그리기
+			gRender.ReactorDraw(hdc);
 
-		// 게임장과 레일 그리기
-		gRender.ReactorDraw(hdc);
+			// 반사판그리기
+			gRender.DisplayReflector(hdc);
 
-		// 반사판그리기
-		gRender.DisplayReflector(hdc);
+			// 공 그리기
+			gRender.DisplayOrb(hdc);
 
-		// 공 그리기
-		gRender.DisplayOrb(hdc);					
+			//이펙트 부분
+			//if (ReactorEffect < 12) Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, Reactor_size * (ReactorEffect % 6), Reactor_size * (int)(ReactorEffect / 6), Reactor_size, Reactor_size);
+			//else Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, 5000, 1000, Reactor_size, Reactor_size);
 
-		//이펙트 부분
-		//if (ReactorEffect < 12) Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, Reactor_size * (ReactorEffect % 6), Reactor_size * (int)(ReactorEffect / 6), Reactor_size, Reactor_size);
-		//else Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, 5000, 1000, Reactor_size, Reactor_size);
+			//// 디버그 출력, UI-점수, 이펙트 출력
+			//if (debug)	UIDebugInfo();
+			gRender.UIScore(hdc);				//인자로 현재 자신이 몇번 플레이어인지에 따라 점수 출력부가 다름.
 
-		//// 디버그 출력, UI-점수, 이펙트 출력
-		//if (debug)	UIDebugInfo();
-		gRender.UIScore(hdc);				//인자로 현재 자신이 몇번 플레이어인지에 따라 점수 출력부가 다름.
-
-		//EffectPrint(EffectHead);
-
+			//EffectPrint(EffectHead);
+		}
 	}
-
 }
 
 void WGameFramework::Update(const float frameTime)

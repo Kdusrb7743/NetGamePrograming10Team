@@ -11,6 +11,8 @@ extern BallData Ball;
 DWORD WINAPI ProcessThread(LPVOID arg)
 {
 	int retval;
+	clock_t start = clock();
+	InitBall();
 	while (true)
 	{
 		//WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
@@ -30,7 +32,9 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 			}
 			case PacketType::MAIN:
 			{
-				UpdateBallData();
+				clock_t end = clock();
+				double time = double(end - start) / CLOCKS_PER_SEC;
+				UpdateBallData(time);
 				CalculateCollision();
 				if (CheckGameOver() == true)
 				{
@@ -48,6 +52,7 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 				break;
 			}
 		}
+		clock_t start = clock();
 		//SetEvent(processFlag);
 		//ResetEvent(processFlag);
 	}
