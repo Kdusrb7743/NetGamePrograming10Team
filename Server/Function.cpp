@@ -98,7 +98,7 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 		}
 		case PacketType::MAIN:
 		{
-			retval = 10;
+			retval = 10;				// 이부분 나중에 작업할 때 없앤다.
 			// retval = recv(client_sock, (char*)&client[clientPID].m_clientNextPos, sizeof(CS_MainPacket), MSG_WAITALL);
 			break;
 		}
