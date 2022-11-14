@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="코딩 컨벤션">
-      <UniqueIdentifier>{fcbe488c-3b35-4fea-a182-54ef12d198ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Defnie">
       <UniqueIdentifier>{6a187ea5-2b13-448a-97c2-92278b6b5c54}</UniqueIdentifier>
     </Filter>

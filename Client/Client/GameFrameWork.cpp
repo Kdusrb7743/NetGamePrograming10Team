@@ -117,6 +117,7 @@ void WGameFramework::Update(const float frameTime)
 	{
 	case Packet_Type::LOBBY:
 		m_Net.Send(m_bReady);
+		//m_Net.Recv(char a);
 		break;
 
 	case Packet_Type::MAIN:
