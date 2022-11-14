@@ -229,10 +229,10 @@ bool Renderer::UIButtonSelected(int x, int y, int sizex, int sizey, POINTS Mouse
 
 
 void Renderer::DoorAnimation(HDC hdc, int Time)
-{	
-	DoorImg.Draw(hdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y, 
-		Controllroom_window_x, Controllroom_window_y, Controllroom_size_x * (Time % 5), 
-		Controllroom_size_y * (int)(Time / 5), Controllroom_size_x, Controllroom_size_y); // 3000 * (PreTime % 5), 2000 * (int)(PreTime / 5)
+{
+	DoorImg.Draw(hdc, Pibot_x - Controllroom_half_x, Pibot_y - Controllroom_half_y,
+		Controllroom_window_x, Controllroom_window_y, Controllroom_size_x * (Time % 5),
+		Controllroom_size_y * (int)(Time / 5), Controllroom_size_x, Controllroom_size_y);
 }
 
 void Renderer::UIScore(HDC hdc) // 현재 자신의 점수 표기 함수
@@ -318,3 +318,4 @@ POINT Renderer::ReflectorPaint3(struct Power_Reflector Reflector, double Vertica
 {
 	return{ (long)(Pibot_x + PointRotationX(window_size * sqrt(Reflector.position * Reflector.position - Reflector.size * Reflector.size * 0.25) + Reflector_half_y + (25 + Vertical) * window_size, Reflector_half_x, Reflector.angle)),(long)(Pibot_y + PointRotationY(window_size * sqrt(Reflector.position * Reflector.position - Reflector.size * Reflector.size * 0.25) + Reflector_half_y + (25 + Vertical) * window_size, Reflector_half_x, Reflector.angle)) };
 }
+

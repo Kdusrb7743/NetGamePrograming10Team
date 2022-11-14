@@ -74,8 +74,9 @@ void WGameFramework::Render(HDC hdc)
 				m_SceneChange = false;
 			}
 		}
-		else {		// 게임장과 레일 그리기
-			gRender.ReactorDraw(hdc);
+
+		// 게임장과 레일 그리기
+		gRender.ReactorDraw(hdc);
 
 			// 반사판그리기
 			gRender.DisplayReflector(hdc);
@@ -92,9 +93,8 @@ void WGameFramework::Render(HDC hdc)
 			gRender.UIScore(hdc);				//인자로 현재 자신이 몇번 플레이어인지에 따라 점수 출력부가 다름.
 
 			//EffectPrint(EffectHead);
-		}
+		
 	}
-
 }
 
 void WGameFramework::Update(const float frameTime)
@@ -116,6 +116,7 @@ void WGameFramework::Update(const float frameTime)
 	{
 	case Packet_Type::LOBBY:
 		m_Net.Send(m_bReady);
+		//m_Net.Recv(char a);
 		break;
 
 	case Packet_Type::MAIN:
