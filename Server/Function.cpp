@@ -54,7 +54,8 @@ void SetBallPosition()
 	{
 		//printf("BallPos (X: %f, Y: %f)\n", Ball.m_BallPos.x, Ball.m_BallPos.y);
 		//printf("BallAngle : %f\n", Ball.m_BallAngle);
-		Ball.m_BallCount--;
+
+		//Ball.m_BallCount--;
 		InitBall();
 	}
 }
@@ -173,8 +174,9 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 		}
 		case PacketType::MAIN:
 		{
-			retval = 10;				// 이부분 나중에 작업할 때 없앤다.
+			//retval = 10;				// 이부분 나중에 작업할 때 없앤다.
 			// retval = recv(client_sock, (char*)&client[clientPID].m_clientNextPos, sizeof(CS_MainPacket), MSG_WAITALL);
+			retval = recv(client_sock, (char*)&client[0].m_clientAngle, sizeof(float), MSG_WAITALL);
 			break;
 		}
 		case PacketType::END:
@@ -183,6 +185,13 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 			break;
 		}
 	}
+	return retval;
+}
+
+int SC_SendVariableData(SOCKET client_sock, int clientPID)
+{
+	int retval;
+	retval = send(client_sock, (char*)&client[clientPID].m_clientAngle, sizeof(float), 0);		// 각도값 보내기
 	return retval;
 }
 

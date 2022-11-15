@@ -52,6 +52,13 @@ void CNetworkManger::recv_fixed()
 
 void CNetworkManger::recv_variable()
 {
+	//float a = 0;
+	int retval = recv(m_sock, (char*)&Reflectors[0].angle, sizeof(float), MSG_WAITALL);			// 각도값 받는다.
+	if (retval == SOCKET_ERROR)
+	{
+		err_quit(L"패킷 타입 recv()");
+		closesocket(m_sock);
+	}
 }
 
 void CNetworkManger::Send(bool bReady)
@@ -64,6 +71,13 @@ void CNetworkManger::Send(bool bReady)
 void CNetworkManger::Send(PositionData pos)
 {
 	int retval = send(m_sock, (char*)&pos, sizeof(pos), 0);
+	if (retval == SOCKET_ERROR)
+		err_quit(L"send()");
+}
+
+void CNetworkManger::Send(float angle)
+{
+	int retval = send(m_sock, (char*)&angle, sizeof(angle), 0);
 	if (retval == SOCKET_ERROR)
 		err_quit(L"send()");
 }

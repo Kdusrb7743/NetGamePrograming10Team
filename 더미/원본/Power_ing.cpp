@@ -237,6 +237,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					Time++;
 					//CherenkovCheck();						// 체렌코프 뺌
 					CollisionDetect(OrbHead);
+					//OrbPosition(OrbHead->next);
 					if (ReactorEffect > 5)
 					{
 						if (ReactorEffect < 15)

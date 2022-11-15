@@ -142,8 +142,8 @@ void CollisionDetect(struct Power_Orb* Orb)								// 서버 - 메인 공 충돌 했는지
 				if (Orb->next->effect == 1) Orb->next->effect = 0;
 			}
 			else
-			{
-				if (Orb->next->major)
+			{										
+				if (Orb->next->major)						// 경기장 밖으로 나갔을 때
 				{
 					ReactorEffect = 6;
 					if (Orbcount > 0) ReactorEffect = 6;

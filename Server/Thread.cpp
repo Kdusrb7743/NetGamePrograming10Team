@@ -72,7 +72,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 	SOCKET client_sock = (SOCKET)arg;
 	while (1)
 	{
-		retval = SC_SendFixedData(client_sock);
+		retval = SC_SendFixedData(client_sock);						// 고정 길이 패킷(씬타입) 전송
 		if (retval == SOCKET_ERROR)
 		{
 			std::cout << "SendFixedData Error!" << std::endl;
@@ -88,6 +88,12 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		//WaitForSingleObject(processFlag, INFINITE);
 		//ResetEvent(clientFlag[clientPID]);
 		//SC_SendVariableData(client_sock, clientPID);
+		retval = SC_SendVariableData(client_sock, clientPID);
+		if (retval == SOCKET_ERROR)
+		{
+			std::cout << "SendVariableData Error!" << std::endl;
+			return -1;
+		}
 	}
 	return 0;
 }

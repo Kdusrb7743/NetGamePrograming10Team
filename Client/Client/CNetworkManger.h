@@ -13,6 +13,7 @@ public:
 
 	void Send(bool);
 	void Send(PositionData);
+	void Send(float);
 
 
 public:			//	getter
