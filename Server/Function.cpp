@@ -41,7 +41,7 @@ void UpdateBallData(double time)
 void CalculateCollision()
 {
 	CheckBarCollision();
-	//CheckBallCollision();
+	CheckBallCollision();
 }
 
 void SetBallPosition()
@@ -99,33 +99,15 @@ void CheckBarCollision()
 
 }
 
-//void CheckBallCollision()
-//{
-//	if (DistanceOvercmp(Ball.m_BallPos.x, Ball.m_BallPos.y, 500))
-//	{
-//		if (!DistanceOvercmp(Ball.m_BallPos.x, Ball.m_BallPos.y, 525))
-//		{
-//
-//		}
-//		if (((Orb->next->major == false && Orb->next->type == 0) || Orb->next->effect == 1) 
-//			&& Distancecmp(Orb->next->x + 0, Orb->next->y + 0, 525))
-//		{
-//			ReflectOrb(Orb->next, AnglePosition(Orb->next->x, Orb->next->y));
-//			if (Orb->next->effect == 1) Orb->next->effect = 0;
-//		}
-//		else
-//		{
-//			if (Orb->next->major)
-//			{
-//				ReactorEffect = 6;
-//				if (Orbcount > 0) ReactorEffect = 6;
-//				else Orbcount = -1;
-//			}
-//			OrbRemove(Orb->next, Orb);
-//		}
-//	}
-//	CollisionDetect(Orb->next);
-//}
+void CheckBallCollision()
+{
+	
+}
+
+void CollisionDetect(struct Power_Orb* Orb)								// 서버 - 메인 공 충돌 했는지
+{
+	
+}
 
 bool DistanceOvercmp(float x, float y, float dis)
 {
@@ -149,27 +131,27 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 	int retval;
 	switch (packetType)
 	{
-		case PacketType::NONE:
-		{
-			printf("Packet Type Error!\n");
-			return -1;
-		}
-		case PacketType::LOBBY:
-		{
-			retval = recv(client_sock, (char*)&(client[clientPID].m_clientReady), sizeof(CS_LobbyPacket), MSG_WAITALL);
-			break;
-		}
-		case PacketType::MAIN:
-		{
-			retval = 10;
-			// retval = recv(client_sock, (char*)&client[clientPID].m_clientNextPos, sizeof(CS_MainPacket), MSG_WAITALL);
-			break;
-		}
-		case PacketType::END:
-		{
-			retval = 10;
-			break;
-		}
+	case PacketType::NONE:
+	{
+		printf("Packet Type Error!\n");
+		return -1;
+	}
+	case PacketType::LOBBY:
+	{
+		retval = recv(client_sock, (char*)&(client[clientPID].m_clientReady), sizeof(CS_LobbyPacket), MSG_WAITALL);
+		break;
+	}
+	case PacketType::MAIN:
+	{
+		retval = 10;
+		// retval = recv(client_sock, (char*)&client[clientPID].m_clientNextPos, sizeof(CS_MainPacket), MSG_WAITALL);
+		break;
+	}
+	case PacketType::END:
+	{
+		retval = 10;
+		break;
+	}
 	}
 	return retval;
 }

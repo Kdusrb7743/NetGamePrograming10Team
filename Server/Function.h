@@ -18,6 +18,7 @@ bool CheckGameOver();
 
 void CheckBarCollision();
 //void CheckBallCollision();
+void CollisionDetect(struct Power_Orb* Orb);
 bool DistanceOvercmp(float x, float y, float dis);
 float AnglePosition(float x, float y);
 
