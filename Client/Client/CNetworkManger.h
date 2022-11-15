@@ -1,6 +1,5 @@
 #pragma once
 #pragma comment(lib, "ws2_32")
-
 #include <WinSock2.h>
 
 class CNetworkManger
@@ -8,21 +7,10 @@ class CNetworkManger
 public:
 	void init();
 
-	void recv_fixed();
-	void recv_variable();
-
-	void Send(bool);
-	void Send(PositionData);
-	void Send(float);
-
-
-public:			//	getter
-	Packet_Type getType() { return m_pType; }
-
-public:			//	setter
-	void setType(Packet_Type pType) { m_pType = pType; }
-
 private:
+	WGameFramework*			m_fw;
+	HANDLE					m_thread;
+
 	char*					m_chIP;
 	UINT					m_iBufferSize;
 
@@ -36,11 +24,24 @@ private:
 
 
 public:
+	WGameFramework* getFW() {return m_fw;}
+	int SC_Recv_Fixed();
+	int CS_Send_input(Packet_Type);
+	int SC_Recv_Variable();
+
+
+public:
 	CNetworkManger();
+	CNetworkManger(WGameFramework*);
 	~CNetworkManger();
 
 	void err_quit(WCHAR*);
 
 };
 
+DWORD WINAPI ServerThread(LPVOID arg);
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
 wchar_t* convertCharArrayToLPCWSTR(const char* charArray);
+

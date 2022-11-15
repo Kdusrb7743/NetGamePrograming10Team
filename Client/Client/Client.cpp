@@ -10,7 +10,7 @@ WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
 static WGameFramework gGameFramework;
-
+static CNetworkManger gNetworkManger(&gGameFramework);
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -145,6 +145,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_CREATE:
 			{
+				gGameFramework.setNet(&gNetworkManger);
 				gGameFramework.Create(hWnd);
 				SetTimer(hWnd, MAIN_TIMER, MAIN_TIEMR_FRAME, NULL);
 			}

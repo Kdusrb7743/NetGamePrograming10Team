@@ -31,9 +31,11 @@ void CNetworkManger::init()
 	int retval = connect(m_sock, (SOCKADDR*)&m_sockAddr, sizeof(m_sockAddr));
 	if (retval == SOCKET_ERROR)
 		err_quit(L"Connect");
+
+	m_thread = CreateThread(NULL, 0, ServerThread, (LPVOID)this, 0, NULL);
 }
 
-void CNetworkManger::recv_fixed()
+int CNetworkManger::SC_Recv_Fixed()
 {
 	Packet_Type pType{};
 
@@ -44,45 +46,59 @@ void CNetworkManger::recv_fixed()
 		closesocket(m_sock);
 	}
 
-	if(pType != Packet_Type::NONE)
+	if (pType != Packet_Type::NONE && pType != m_pType)			//	패킷타입이 쓰레기값이 아니고, 현재 씬타입과 다르다면 바꾼다. 여기서만 동기화해주면 좋을 듯 하다.
 		m_pType = pType;
 
-	//setType(pType);
+	return retval;
 }
 
-void CNetworkManger::recv_variable()
+int CNetworkManger::CS_Send_input(Packet_Type _pType)
 {
-	//float a = 0;
+	int retval{};
+	bool bState{};
+
+	switch (_pType)
+	{
+	case Packet_Type::LOBBY:
+		bState = m_fw->getReady();
+		retval = send(m_sock, (char*)&bState, sizeof(bool), 0);
+		if (retval == SOCKET_ERROR)
+			err_quit(L"send()");
+		break;
+
+	case Packet_Type::MAIN:
+		retval = send(m_sock, (char*)&Reflectors[0].angle, sizeof(float), 0);
+		if (retval == SOCKET_ERROR)
+			err_quit(L"send()");
+		break;
+
+	case Packet_Type::END:
+		break;
+
+	case Packet_Type::NONE:
+		cout << "패킷 타입 NONE, CS_Send_input()" << endl;
+		break;
+	}
+	
+	return retval;
+}
+
+int CNetworkManger::SC_Recv_Variable()
+{
 	int retval = recv(m_sock, (char*)&Reflectors[0].angle, sizeof(float), MSG_WAITALL);			// 각도값 받는다.
 	if (retval == SOCKET_ERROR)
 	{
 		err_quit(L"패킷 타입 recv()");
 		closesocket(m_sock);
 	}
-}
-
-void CNetworkManger::Send(bool bReady)
-{
-	int retval = send(m_sock, (char*)&bReady, sizeof(bReady), 0);
-	if (retval == SOCKET_ERROR)
-		err_quit(L"send()");
-}
-
-void CNetworkManger::Send(PositionData pos)
-{
-	int retval = send(m_sock, (char*)&pos, sizeof(pos), 0);
-	if (retval == SOCKET_ERROR)
-		err_quit(L"send()");
-}
-
-void CNetworkManger::Send(float angle)
-{
-	int retval = send(m_sock, (char*)&angle, sizeof(angle), 0);
-	if (retval == SOCKET_ERROR)
-		err_quit(L"send()");
+	return retval;
 }
 
 CNetworkManger::CNetworkManger()
+{
+}
+
+CNetworkManger::CNetworkManger(WGameFramework* FW)
 {
 	m_chIP = NOW_IP;
 	ZeroMemory(&m_sockAddr, sizeof(m_sockAddr));
@@ -90,6 +106,9 @@ CNetworkManger::CNetworkManger()
 	m_sockAddr.sin_port = htons(9000);
 	m_sockAddr.sin_addr.S_un.S_addr = inet_addr(m_chIP);
 	m_iBufferSize = 4'096;
+	m_fw = FW;
+
+	init();
 
 }
 
@@ -99,6 +118,8 @@ CNetworkManger::~CNetworkManger()
 	WSACleanup();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 wchar_t* convertCharArrayToLPCWSTR(const char* charArray)
 {
 	wchar_t* wString = new wchar_t[4096];
@@ -106,3 +127,33 @@ wchar_t* convertCharArrayToLPCWSTR(const char* charArray)
 	return wString;
 }
 
+DWORD WINAPI ServerThread(LPVOID arg)
+{
+	int retval{};
+	CNetworkManger* net = (CNetworkManger*)arg;
+
+	while (true)
+	{
+		retval = net->SC_Recv_Fixed();						//	패킷타입 변했을시에만 저장, 동기화 최소화
+		if (retval == SOCKET_ERROR)
+		{
+			cout << "recv_fixed()" << endl;
+			return -1;
+		}
+
+		retval = net->CS_Send_input(net->getFW()->getType());	//	read작업이라 동기화 필요 없음
+		if (retval == SOCKET_ERROR)
+		{
+			cout << "Send_input() Error" << endl;
+			return -1;
+		}
+
+		retval = net->SC_Recv_Variable();					//	write작업이라 동기화 필요
+		if (retval == SOCKET_ERROR)
+		{
+			cout << "recv_Variable()" << endl;
+			return -1;
+		}
+	}
+	return 0;
+}
