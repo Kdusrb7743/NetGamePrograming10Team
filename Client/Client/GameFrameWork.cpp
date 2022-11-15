@@ -53,7 +53,7 @@ void WGameFramework::Render(HDC hdc)
 	{
 		if (m_SceneChange == true)
 		{
-			gRender.DoorAnimation(hdc, Time++);
+			gRender.DoorAnimation(hdc, Time--);
 			if (Time == 0)
 			{
 				m_SceneChange = false;
@@ -75,8 +75,10 @@ void WGameFramework::Render(HDC hdc)
 			}
 		}
 
-		// 게임장과 레일 그리기
-		gRender.ReactorDraw(hdc);
+		else
+		{
+			// 게임장과 레일 그리기
+			gRender.ReactorDraw(hdc);
 
 			// 반사판그리기
 			gRender.DisplayReflector(hdc);
@@ -93,7 +95,7 @@ void WGameFramework::Render(HDC hdc)
 			gRender.UIScore(hdc);				//인자로 현재 자신이 몇번 플레이어인지에 따라 점수 출력부가 다름.
 
 			//EffectPrint(EffectHead);
-		
+		}
 	}
 }
 

@@ -23,6 +23,28 @@ void InitBall()		// 공 속도 및 각도(벡터) 초기화, 남은 공 개수 감소
 
 }
 
+void InitClient(int clientPID)
+{
+	switch (clientPID)
+	{
+		case 0:
+		{
+			client[clientPID].m_clientAngle = 0.25f;
+			break;
+		}
+		case 1:
+		{
+			client[clientPID].m_clientAngle = 0.583f;
+			break;
+		}
+		case 2:
+		{
+			client[clientPID].m_clientAngle = 0.915f;
+			break;
+		}
+	}
+}
+
 bool BarCollision() {		// 반사판(플레이어)간 충돌을 감지
 	return false;
 }
@@ -153,6 +175,7 @@ float AnglePosition(float x, float y)
 int SC_SendFixedData(SOCKET client_sock)
 {
 	int retval;
+	cout << packetType << endl;
 	retval = send(client_sock, (char*)&packetType, sizeof(PacketType), 0);
 	return retval;
 }
@@ -176,7 +199,7 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 		{
 			//retval = 10;				// 이부분 나중에 작업할 때 없앤다.
 			// retval = recv(client_sock, (char*)&client[clientPID].m_clientNextPos, sizeof(CS_MainPacket), MSG_WAITALL);
-			retval = recv(client_sock, (char*)&client[0].m_clientAngle, sizeof(float), MSG_WAITALL);
+			retval = recv(client_sock, (char*)&client[clientPID].m_clientAngle, sizeof(float), MSG_WAITALL);
 			break;
 		}
 		case PacketType::END:
@@ -191,7 +214,29 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 int SC_SendVariableData(SOCKET client_sock, int clientPID)
 {
 	int retval;
-	retval = send(client_sock, (char*)&client[clientPID].m_clientAngle, sizeof(float), 0);		// 각도값 보내기
+	switch (packetType)
+	{
+		case PacketType::NONE:
+		{
+			printf("Packet Type Error!\n");
+			return -1;
+		}
+		case PacketType::LOBBY:
+		{
+			retval = 10;
+			break;
+		}
+		case PacketType::MAIN:
+		{
+			retval = send(client_sock, (char*)&client[clientPID].m_clientAngle, sizeof(float), 0);		// 각도값 보내기
+			break;
+		}
+		case PacketType::END:
+		{
+			retval = 10;
+			break;
+		}
+	}
 	return retval;
 }
 

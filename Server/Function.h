@@ -3,6 +3,7 @@
 #include "Global.h"
 
 void InitBall();
+void InitClient(int clientPID);
 bool BarCollision();
 bool EndCheck();
 
