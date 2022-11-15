@@ -11,7 +11,7 @@ extern BallData Ball;
 DWORD WINAPI ProcessThread(LPVOID arg)
 {
 	int retval;
-	clock_t start = clock();
+	clock_t start;
 	while (true)
 	{
 		//WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
@@ -26,6 +26,7 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 				{
 					packetType = MAIN;
 					InitBall();
+					start = clock();
 				}
 				break;
 			}
@@ -33,7 +34,12 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 			{
 				clock_t end = clock();
 				double time = double(end - start) / CLOCKS_PER_SEC;
+				// printf("time : %lf\n", time);
 				UpdateBallData(time);
+				if (Ball.m_BallSpeed < FLT_MIN)
+				{
+					start = clock();
+				}
 				CalculateCollision();
 				if (CheckGameOver() == true)
 				{
@@ -62,11 +68,12 @@ DWORD WINAPI ClientThread(LPVOID arg)
 {
 	static int clientNum = 0;
 	int clientPID = clientNum++;
+	InitClient(clientPID);
 	int retval;
 	SOCKET client_sock = (SOCKET)arg;
 	while (1)
 	{
-		retval = SC_SendFixedData(client_sock);
+		retval = SC_SendFixedData(client_sock);						// 고정 길이 패킷(씬타입) 전송
 		if (retval == SOCKET_ERROR)
 		{
 			std::cout << "SendFixedData Error!" << std::endl;
@@ -82,6 +89,12 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		//WaitForSingleObject(processFlag, INFINITE);
 		//ResetEvent(clientFlag[clientPID]);
 		//SC_SendVariableData(client_sock, clientPID);
+		retval = SC_SendVariableData(client_sock, clientPID);
+		if (retval == SOCKET_ERROR)
+		{
+			std::cout << "SendVariableData Error!" << std::endl;
+			return -1;
+		}
 	}
 	return 0;
 }

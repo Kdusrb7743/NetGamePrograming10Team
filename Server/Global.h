@@ -11,7 +11,7 @@ using namespace std;
 
 #define SERVERPORT	9000
 #define BUFSIZE		16384
-#define PLAYERNUM	3
+#define PLAYERNUM	1
 #define PI			3.14159265358979323846
 
 enum PacketType

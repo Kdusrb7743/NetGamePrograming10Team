@@ -3,6 +3,7 @@
 #include "Global.h"
 
 void InitBall();
+void InitClient(int clientPID);
 bool BarCollision();
 bool EndCheck();
 
@@ -24,3 +25,4 @@ float AnglePosition(float x, float y);
 
 int SC_SendFixedData(SOCKET client_sock);
 int CS_RecvData(SOCKET client_sock, int clientPID);
+int SC_SendVariableData(SOCKET client_sock, int clientPID);

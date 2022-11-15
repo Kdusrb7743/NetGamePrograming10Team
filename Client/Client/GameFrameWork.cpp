@@ -74,6 +74,7 @@ void WGameFramework::Render(HDC hdc)
 				m_SceneChange = false;
 			}
 		}
+
 		else
 		{
 			// 게임장과 레일 그리기
@@ -101,7 +102,7 @@ void WGameFramework::Render(HDC hdc)
 void WGameFramework::Update(const float frameTime)
 {
 	//	패킷타입(고정길이 패킷)을 받고 이를 프레임워크 클래스 멤버변수에 저장.
-	m_Net.recv_fixed();
+	m_Net.recv_fixed();											// 2.고정 길이 패킷(씬타입) 전송
 	if (m_SceneType != m_Net.getType())
 	{
 		m_SceneChange = true;
@@ -121,8 +122,14 @@ void WGameFramework::Update(const float frameTime)
 		break;
 
 	case Packet_Type::MAIN:
-		//	클라이언트의 post position을 send()한다. 
+
+		//	클라이언트의 post position을 send()한다.	// 3. 각도값 전송
+
+		m_Net.Send(Reflectors[0].angle);				// 일단 나의 각도 값만 보낸다.
+
 		//	서버로 부터 승인된 post position을 recv()한다.
+
+		m_Net.recv_variable();
 	
 		break;
 
