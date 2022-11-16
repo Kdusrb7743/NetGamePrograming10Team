@@ -63,3 +63,24 @@ struct PositionData
 {
 	float x = 0.f, y = 0.f;
 };
+
+//  패킷 추가부
+struct SC_LobbyPacket
+{
+	Packet_Type ptype = LOBBY;
+	char m_clientPID;
+};
+
+struct SC_MainPacket
+{
+	Packet_Type ptype = MAIN;
+	PositionData m_ballPos;
+	float m_clientPos[3];	// 본인 이외의 플레이어 좌표
+	unsigned short m_clientScore;
+};
+
+struct SC_EndPacket
+{
+	Packet_Type ptype = END;
+	unsigned short m_clientScore[3];
+};

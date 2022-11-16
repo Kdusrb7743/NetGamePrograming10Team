@@ -60,18 +60,21 @@ struct CS_MainPacket
 
 struct SC_LobbyPacket
 {
-	char m_clientColor[3];
+	PacketType ptype = LOBBY;
+	char m_clientPID;
 };
 
 struct SC_MainPacket
 {
+	PacketType ptype = MAIN;
 	PositionData m_ballPos;
-	PositionData m_clientPos[3];	// 본인 이외의 플레이어 좌표
+	float m_clientPos[3];					// 본인 이외의 플레이어 각도
 	unsigned short m_clientScore;
 };
 
 struct SC_EndPacket
 {
+	PacketType ptype = END;
 	unsigned short m_clientScore[3];
 };
 

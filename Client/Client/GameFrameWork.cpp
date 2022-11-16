@@ -102,45 +102,35 @@ void WGameFramework::Render(HDC hdc)
 void WGameFramework::Update(const float frameTime)
 {
 	//	패킷타입(고정길이 패킷)을 받고 이를 프레임워크 클래스 멤버변수에 저장.
-	m_Net.recv_fixed();											// 2.고정 길이 패킷(씬타입) 전송
-	if (m_SceneType != m_Net.getType())
-	{
-		m_SceneChange = true;
-		m_SceneType = m_Net.getType();
-		cout << "현재 Scene 타입: " << m_SceneType << endl;
-	}
-	
-	
 
+	m_Net.recv_data(&m_SceneType, &m_SceneChange, &m_bReady);				// 2.고정 길이 패킷(씬타입) 전송
 
-	//	받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
-	switch (m_SceneType)
-	{
-	case Packet_Type::LOBBY:
-		m_Net.Send(m_bReady);
-		//m_Net.Recv(char a);
-		break;
+	////	받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
+	//switch (m_SceneType)
+	//{
+	//case Packet_Type::LOBBY:
+	//	m_Net.Send(m_bReady);
+	//	//m_Net.Recv(char a);
+	//	break;
 
-	case Packet_Type::MAIN:
+	//case Packet_Type::MAIN:
 
-		//	클라이언트의 post position을 send()한다.	// 3. 각도값 전송
+	//	//	클라이언트의 post position을 send()한다.	// 3. 각도값 전송
 
-		m_Net.Send(Reflectors[0].angle);				// 일단 나의 각도 값만 보낸다.
+	//	m_Net.Send(Reflectors[0].angle);				// 일단 나의 각도 값만 보낸다.
 
-		//	서버로 부터 승인된 post position을 recv()한다.
+	//	//	서버로 부터 승인된 post position을 recv()한다.
 
-		m_Net.recv_variable();
-	
-		break;
+	//	//m_Net.recv_variable();
 
-	case Packet_Type::END:
-		break;
+	//	break;
 
-	case Packet_Type::NONE:
-		break;
-	}
-	
+	//case Packet_Type::END:
+	//	break;
 
+	//case Packet_Type::NONE:
+	//	break;
+	//}
 }
 
 void WGameFramework::PostUpdate(const float frameTime)

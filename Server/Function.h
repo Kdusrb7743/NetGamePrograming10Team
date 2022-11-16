@@ -22,6 +22,5 @@ void CheckBarCollision();
 bool DistanceOvercmp(float x, float y, float dis);
 float AnglePosition(float x, float y);
 
-int SC_SendFixedData(SOCKET client_sock);
 int CS_RecvData(SOCKET client_sock, int clientPID);
 int SC_SendVariableData(SOCKET client_sock, int clientPID);

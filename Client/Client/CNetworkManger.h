@@ -8,8 +8,8 @@ class CNetworkManger
 public:
 	void init();
 
-	void recv_fixed();
-	void recv_variable();
+	void recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, bool* m_bReady);
+	//void recv_variable();
 
 	void Send(bool);
 	void Send(PositionData);
