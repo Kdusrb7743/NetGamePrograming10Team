@@ -65,22 +65,25 @@ struct PositionData
 };
 
 //  패킷 추가부
+#pragma pack(1)
 struct SC_LobbyPacket
 {
-	Packet_Type ptype = LOBBY;
 	char m_clientPID;
 };
+#pragma pack()
 
+#pragma pack(1)
 struct SC_MainPacket
 {
-	Packet_Type ptype = MAIN;
 	PositionData m_ballPos;
-	float m_clientPos[3];	// 본인 이외의 플레이어 좌표
-	unsigned short m_clientScore;
+	float m_clientPos[3]{0.25f, 0.583f, 0.915f };	// 본인 이외의 플레이어 좌표
+	unsigned short m_clientScore{ 0 };
 };
+#pragma pack()
 
+#pragma pack(1)
 struct SC_EndPacket
 {
-	Packet_Type ptype = END;
 	unsigned short m_clientScore[3];
 };
+#pragma pack()

@@ -11,7 +11,7 @@ using namespace std;
 
 #define SERVERPORT	9000
 #define BUFSIZE		16384
-#define PLAYERNUM	1
+#define PLAYERNUM	3
 #define PI			3.14159265358979323846
 
 enum PacketType
@@ -48,22 +48,29 @@ struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터
 	char m_clientColor;				// RGB
 };
 
+#pragma pack(1)
 struct CS_LobbyPacket
 {
 	bool m_clientReady = false;
 };
+#pragma pack()
 
+#pragma pack(1)
 struct CS_MainPacket
 {
 	PositionData m_clientPos;
 };
+#pragma pack()
 
+#pragma pack(1)
 struct SC_LobbyPacket
 {
 	PacketType ptype = LOBBY;
 	char m_clientPID;
 };
+#pragma pack()
 
+#pragma pack(1)
 struct SC_MainPacket
 {
 	PacketType ptype = MAIN;
@@ -71,10 +78,12 @@ struct SC_MainPacket
 	float m_clientPos[3];					// 본인 이외의 플레이어 각도
 	unsigned short m_clientScore;
 };
+#pragma pack()
 
+#pragma pack(1)
 struct SC_EndPacket
 {
 	PacketType ptype = END;
 	unsigned short m_clientScore[3];
 };
-
+#pragma pack()

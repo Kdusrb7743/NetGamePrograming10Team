@@ -13,35 +13,16 @@ void InitBall()		// 공 속도 및 각도(벡터) 초기화, 남은 공 개수 감소
 	Ball.m_BallAngle = dist(rnd);			// 매번 랜덤값
 	Ball.m_BallPos.x = cos((2 * PI) * Ball.m_BallAngle);
 	Ball.m_BallPos.y = sin((2 * PI) * Ball.m_BallAngle);
-	//printf("Init BallAngle : %f\n", Ball.m_BallAngle);
-	//printf("Init BallPos (X: %f, Y: %f)\n", Ball.m_BallPos.x, Ball.m_BallPos.y);
 	Ball.m_BallSpeed = 0;				// 기본 스피드
-	// Ball.m_BallCount = 3;				// 기본 공 개수
 	Ball.m_BallSpeedx = 0;				// 매 공이 움직이기 전 각도에 따른 x이동량
 	Ball.m_BallSpeedy = 0;
-
 }
 
-void InitClient(int clientPID)
+void InitClient()
 {
-	switch (clientPID)
-	{
-		case 0:
-		{
-			client[clientPID].m_clientAngle = 0.25f;
-			break;
-		}
-		case 1:
-		{
-			client[clientPID].m_clientAngle = 0.583f;
-			break;
-		}
-		case 2:
-		{
-			client[clientPID].m_clientAngle = 0.915f;
-			break;
-		}
-	}
+	client[0].m_clientAngle = 0.25f;
+	client[1].m_clientAngle = 0.583f;
+	client[2].m_clientAngle = 0.915f;
 }
 
 bool BarCollision() {		// 반사판(플레이어)간 충돌을 감지
@@ -83,10 +64,10 @@ void SetBallPosition()
 
 void OrbSpeed()
 {
-	Ball.m_BallSpeedx = Ball.m_BallSpeed * cos(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
-	Ball.m_BallSpeedy = Ball.m_BallSpeed * sin(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
+	//Ball.m_BallSpeedx = Ball.m_BallSpeed * cos(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
+	//Ball.m_BallSpeedy = Ball.m_BallSpeed * sin(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
 
-	Ball.m_BallAngle = 1.f - ((atan2(-Ball.m_BallPos.y, -Ball.m_BallPos.x) / (2 * PI)) + 0.5);
+	//Ball.m_BallAngle = 1.f - ((atan2(-Ball.m_BallPos.y, -Ball.m_BallPos.x) / (2 * PI)) + 0.5);
 	//printf("BallAngle : %f\n", Ball.m_BallAngle);
 }
 
@@ -186,7 +167,7 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID)
 	{
 		SC_LobbyPacket LobbyPacket;
 		LobbyPacket.m_clientPID = (char)clientPID;
-		retval = send(client_sock, (char*)&LobbyPacket, sizeof(LobbyPacket), 0);
+		retval = send(client_sock, (char*)&LobbyPacket, sizeof(SC_LobbyPacket), 0);
 		break;
 	}
 	case PacketType::MAIN:
@@ -198,7 +179,7 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID)
 		MainPacket.m_clientPos[2] = client[2].m_clientAngle;
 		MainPacket.m_clientScore = client[clientPID].m_clientScore;							//자기 스코어
 
-		retval = send(client_sock, (char*)&MainPacket, sizeof(MainPacket), 0);		// 각도값 보내기
+		retval = send(client_sock, (char*)&MainPacket, sizeof(SC_MainPacket), 0);		// 각도값 보내기
 		break;
 	}
 	case PacketType::END:
@@ -237,6 +218,9 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 			//retval = 10;				// 이부분 나중에 작업할 때 없앤다.
 			// retval = recv(client_sock, (char*)&client[clientPID].m_clientNextPos, sizeof(CS_MainPacket), MSG_WAITALL);
 			retval = recv(client_sock, (char*)&client[clientPID].m_clientAngle, sizeof(float), MSG_WAITALL);
+			cout << clientPID << "번 클라이언트 각도 : " << client[0].m_clientAngle << endl;
+			cout << clientPID << "번 클라이언트 각도 : " << client[1].m_clientAngle << endl;
+			cout << clientPID << "번 클라이언트 각도 : " << client[2].m_clientAngle << endl;
 			break;
 		}
 		case PacketType::END:

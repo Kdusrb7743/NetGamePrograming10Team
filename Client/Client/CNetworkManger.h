@@ -8,7 +8,7 @@ class CNetworkManger
 public:
 	void init();
 
-	void recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, bool* m_bReady);
+	void recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, int* clientPID);
 	//void recv_variable();
 
 	void Send(bool);

@@ -2,8 +2,8 @@
 
 HANDLE clientFlag[PLAYERNUM];
 HANDLE processFlag;
-PacketType packetType = LOBBY;
 clientData client[PLAYERNUM];
+PacketType packetType = LOBBY;
 BallData Ball;
 
 
@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
 		clientNum++;
 	}
 
+	InitClient();
 	HANDLE hProcessThread;
 	hProcessThread = CreateThread(NULL, 0, ProcessThread, NULL, 0, NULL);
 	ResetEvent(processFlag);

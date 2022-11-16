@@ -69,7 +69,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 {
 	static int clientNum = 0;
 	int clientPID = clientNum++;
-	InitClient(clientPID);
 	int retval;
 	SOCKET client_sock = (SOCKET)arg;
 	while (1)

@@ -33,69 +33,54 @@ void CNetworkManger::init()
 		err_quit(L"Connect");
 }
 
-void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, bool* m_bReady)
+void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, int* clientPID)
 {
 	Packet_Type pType{};
 	SC_MainPacket MainPacket{};
-	char clientPID;
-	int trash = 0;
+	PositionData tempPos{ 0.f, 0.f };
 
-	cout << "100\n";
-
-	if (*m_SceneType != m_pType)		// 애니메이션
-	{
-		*m_SceneChange = true;
-		*m_SceneType = getType();
-		cout << "현재 Scene 타입: " << *m_SceneType << endl;
-	}
-	cout << "200\n";
-
-	int retval = recv(m_sock, (char*)&pType, sizeof(pType), MSG_WAITALL);
+	int retval = recv(m_sock, (char*)&pType, sizeof(Packet_Type), MSG_WAITALL);
 	if (retval == SOCKET_ERROR)
 	{
 		err_quit(L"패킷 타입 recv()");
 		closesocket(m_sock);
 	}
-
-	cout << "300\n";
-
-	if(pType != Packet_Type::NONE)
+	if (pType != Packet_Type::NONE)
 		m_pType = pType;
-	cout << pType << endl;
 
+	if (*m_SceneType != m_pType)		// 애니메이션
+	{
+		*m_SceneChange = true;
+		*m_SceneType = m_pType;
+		cout << "현재 Scene 타입: " << *m_SceneType << endl;
+	}
 	//받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
 	switch (pType)
 	{
 	case Packet_Type::LOBBY:
-		cout << "400\n";
 									// 서버로부터 PID를 받음
-		retval = recv(m_sock, (char*)&clientPID, sizeof(clientPID), MSG_WAITALL);
+		retval = recv(m_sock, (char*)clientPID, sizeof(SC_LobbyPacket), MSG_WAITALL);
+		cout << *clientPID << endl;
 		if (retval == SOCKET_ERROR)
 		{
 			err_quit(L"패킷 타입 recv()");
 			closesocket(m_sock);
 		}
 
-		cout << "로비 패킷 잘 받음.\n";
+		// cout << "로비 패킷 잘 받음.\n";
 
-		Send(*m_bReady);
+		// Send(*m_bReady);
 		break;
 
 	case Packet_Type::MAIN:
-
-		//	클라이언트의 post position을 send()한다.
-		//	서버로 부터 승인된 post position을 recv()한다.
-
-		cout << "500\n";
-
-		retval = recv(m_sock, (char*)&MainPacket, sizeof(SC_MainPacket) - sizeof(Packet_Type), MSG_WAITALL);
+		retval = recv(m_sock, (char*)&MainPacket, sizeof(SC_MainPacket), MSG_WAITALL);
+		tempPos = MainPacket.m_ballPos;
 		Reflectors[0].angle = MainPacket.m_clientPos[0];
 		Reflectors[1].angle = MainPacket.m_clientPos[1];
 		Reflectors[2].angle = MainPacket.m_clientPos[2];
-		//PScore[0] = MainPacket.m_clientScore;
+		PScore[0] = MainPacket.m_clientScore;
 
-
-		Send(Reflectors[0].angle);						// 일단 나의 각도 값만 보낸다. MyclientNum
+		// Send(Reflectors[clientPID].angle);						// 일단 나의 각도 값만 보낸다. MyclientNum
 
 		break;
 
@@ -107,12 +92,10 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, bo
 		//retval = recv(m_sock, (char*)&trash, sizeof(trash), MSG_WAITALL);
 		break;
 	}
-
 }
 
 void CNetworkManger::Send(bool bReady)
 {
-	cout << "400\n";
 	int retval = send(m_sock, (char*)&bReady, sizeof(bReady), 0);
 	if (retval == SOCKET_ERROR)
 		err_quit(L"send()");
