@@ -140,6 +140,8 @@ void WGameFramework::PostUpdate(const float frameTime)
 
 void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
+	m_Net.recv_data(&m_SceneType, &m_SceneChange, &clientPID);
+
 	switch (iMessage)
 	{
 		case WM_KEYDOWN:
@@ -165,15 +167,34 @@ void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		break;
-		
 
-		case WM_KEYUP:
-		{
+	}
 
-		}
+	switch (m_SceneType)
+	{
+	case Packet_Type::LOBBY:
+		//m_Net.Send(m_bReady);
+		//m_Net.Recv(char a);
 		break;
 
+	case Packet_Type::MAIN:
 
+		//	클라이언트의 post position을 send()한다.	// 3. 각도값 전송
+
+		m_Net.Send(Reflectors[clientPID].angle);				// 일단 나의 각도 값만 보낸다.
+
+		//	서버로 부터 승인된 post position을 recv()한다.
+
+		//m_Net.recv_variable();
+
+		break;
+
+	case Packet_Type::END:
+		break;
+
+	case Packet_Type::NONE:
+		m_Net.Send(false);
+		break;
 	}
 
 }
