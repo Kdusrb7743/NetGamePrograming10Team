@@ -175,7 +175,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_KEYDOWN:
 		{
-			if (gGameFramework.m_SceneType == MAIN)					//씬 타입이 Main이 아니면 키보드를 받지 못한다.
+			if (gGameFramework.getType() == MAIN)					//씬 타입이 Main이 아니면 키보드를 받지 못한다.
 				gGameFramework.KeyBoard(message, wParam, lParam);
 		}
 		break;
