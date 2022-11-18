@@ -4,6 +4,7 @@ extern HANDLE clientFlag[PLAYERNUM];
 extern HANDLE processFlag;
 
 extern PacketType packetType;
+
 extern clientData client[PLAYERNUM];
 extern BallData Ball;
 
@@ -68,15 +69,14 @@ DWORD WINAPI ClientThread(LPVOID arg)
 {
 	static int clientNum = 0;
 	int clientPID = clientNum++;
-	InitClient(clientPID);
 	int retval;
 	SOCKET client_sock = (SOCKET)arg;
 	while (1)
 	{
-		retval = SC_SendFixedData(client_sock);						// 고정 길이 패킷(씬타입) 전송
+		retval = SC_SendVariableData(client_sock, clientPID);
 		if (retval == SOCKET_ERROR)
 		{
-			std::cout << "SendFixedData Error!" << std::endl;
+			std::cout << "SendVariableData Error!" << std::endl;
 			return -1;
 		}
 		retval = CS_RecvData(client_sock, clientPID);
@@ -89,12 +89,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		//WaitForSingleObject(processFlag, INFINITE);
 		//ResetEvent(clientFlag[clientPID]);
 		//SC_SendVariableData(client_sock, clientPID);
-		retval = SC_SendVariableData(client_sock, clientPID);
-		if (retval == SOCKET_ERROR)
-		{
-			std::cout << "SendVariableData Error!" << std::endl;
-			return -1;
-		}
 	}
 	return 0;
 }

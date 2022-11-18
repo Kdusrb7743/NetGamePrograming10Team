@@ -11,7 +11,6 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 
 static WGameFramework gGameFramework;
 
-
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -175,9 +174,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 		case WM_KEYDOWN:
+		{
+			if (gGameFramework.getType() == MAIN)					//씬 타입이 Main이 아니면 키보드를 받지 못한다.
+				gGameFramework.KeyBoard(message, wParam, lParam);
+		}
+		break;
+
 		case WM_KEYUP:
 		{
-			gGameFramework.KeyBoard(message, wParam, lParam);
+			//gGameFramework.KeyBoard(message, wParam, lParam);
 		}
 		break;
 

@@ -33,31 +33,64 @@ void CNetworkManger::init()
 		err_quit(L"Connect");
 }
 
-void CNetworkManger::recv_fixed()
+void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, int* clientPID)
 {
 	Packet_Type pType{};
+	SC_MainPacket MainPacket{};
+	PositionData tempPos{ 0.f, 0.f };
 
-	int retval = recv(m_sock, (char*)&pType, sizeof(pType), MSG_WAITALL);
+	int retval = recv(m_sock, (char*)&pType, sizeof(Packet_Type), MSG_WAITALL);
 	if (retval == SOCKET_ERROR)
 	{
 		err_quit(L"패킷 타입 recv()");
 		closesocket(m_sock);
 	}
-
-	if(pType != Packet_Type::NONE)
+	if (pType != Packet_Type::NONE)
 		m_pType = pType;
 
-	//setType(pType);
-}
-
-void CNetworkManger::recv_variable()
-{
-	//float a = 0;
-	int retval = recv(m_sock, (char*)&Reflectors[0].angle, sizeof(float), MSG_WAITALL);			// 각도값 받는다.
-	if (retval == SOCKET_ERROR)
+	if (*m_SceneType != m_pType)		// 애니메이션
 	{
-		err_quit(L"패킷 타입 recv()");
-		closesocket(m_sock);
+		*m_SceneChange = true;
+		*m_SceneType = m_pType;
+		cout << "현재 Scene 타입: " << *m_SceneType << endl;
+	}
+	//받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
+	switch (pType)
+	{
+	case Packet_Type::LOBBY:
+									// 서버로부터 PID를 받음
+		retval = recv(m_sock, (char*)clientPID, sizeof(SC_LobbyPacket), MSG_WAITALL);
+		cout << *clientPID << endl;
+		if (retval == SOCKET_ERROR)
+		{
+			err_quit(L"패킷 타입 recv()");
+			closesocket(m_sock);
+		}
+
+		// cout << "로비 패킷 잘 받음.\n";
+
+		// Send(*m_bReady);
+		break;
+
+	case Packet_Type::MAIN:
+		retval = recv(m_sock, (char*)&MainPacket, sizeof(SC_MainPacket), MSG_WAITALL);
+		tempPos = MainPacket.m_ballPos;
+		Reflectors[0].angle = MainPacket.m_clientPos[0];
+		Reflectors[1].angle = MainPacket.m_clientPos[1];
+		Reflectors[2].angle = MainPacket.m_clientPos[2];
+		PScore[0] = MainPacket.m_clientScore;
+
+		// Send(Reflectors[clientPID].angle);						// 일단 나의 각도 값만 보낸다. MyclientNum
+
+		break;
+
+	case Packet_Type::END:
+		break;
+
+	case Packet_Type::NONE:
+		cout << "None 타버림.\n";
+		//retval = recv(m_sock, (char*)&trash, sizeof(trash), MSG_WAITALL);
+		break;
 	}
 }
 

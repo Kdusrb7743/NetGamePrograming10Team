@@ -63,3 +63,27 @@ struct PositionData
 {
 	float x = 0.f, y = 0.f;
 };
+
+//  패킷 추가부
+#pragma pack(1)
+struct SC_LobbyPacket
+{
+	char m_clientPID;
+};
+#pragma pack()
+
+#pragma pack(1)
+struct SC_MainPacket
+{
+	PositionData m_ballPos;
+	float m_clientPos[3]{0.25f, 0.583f, 0.915f };	// 본인 이외의 플레이어 좌표
+	unsigned short m_clientScore{ 0 };
+};
+#pragma pack()
+
+#pragma pack(1)
+struct SC_EndPacket
+{
+	unsigned short m_clientScore[3];
+};
+#pragma pack()

@@ -102,19 +102,11 @@ void WGameFramework::Render(HDC hdc)
 void WGameFramework::Update(const float frameTime)
 {
 	//	패킷타입(고정길이 패킷)을 받고 이를 프레임워크 클래스 멤버변수에 저장.
-	m_Net.recv_fixed();											// 2.고정 길이 패킷(씬타입) 전송
-	if (m_SceneType != m_Net.getType())
-	{
-		m_SceneChange = true;
-		m_SceneType = m_Net.getType();
-		cout << "현재 Scene 타입: " << m_SceneType << endl;
-	}
-	
-	
 
-
-	//	받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
-	switch (m_SceneType)
+	m_Net.recv_data(&m_SceneType, &m_SceneChange, &clientPID);				// 2.고정 길이 패킷(씬타입) 전송
+	////	받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
+	cout << clientPID << endl;
+	switch(m_SceneType)
 	{
 	case Packet_Type::LOBBY:
 		m_Net.Send(m_bReady);
@@ -125,22 +117,21 @@ void WGameFramework::Update(const float frameTime)
 
 		//	클라이언트의 post position을 send()한다.	// 3. 각도값 전송
 
-		m_Net.Send(Reflectors[0].angle);				// 일단 나의 각도 값만 보낸다.
+		m_Net.Send(Reflectors[clientPID].angle);				// 일단 나의 각도 값만 보낸다.
 
 		//	서버로 부터 승인된 post position을 recv()한다.
 
-		m_Net.recv_variable();
-	
+		//m_Net.recv_variable();
+
 		break;
 
 	case Packet_Type::END:
 		break;
 
 	case Packet_Type::NONE:
+		m_Net.Send(false);
 		break;
 	}
-	
-
 }
 
 void WGameFramework::PostUpdate(const float frameTime)
@@ -149,6 +140,8 @@ void WGameFramework::PostUpdate(const float frameTime)
 
 void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
+	m_Net.recv_data(&m_SceneType, &m_SceneChange, &clientPID);
+
 	switch (iMessage)
 	{
 		case WM_KEYDOWN:
@@ -162,27 +155,46 @@ void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 			{
 				//GetAsyncKeyState(VK_RIGHT);
 				// 임시로 패널 움직이기
-				Reflectors[0].angle -= 0.01;
+				Reflectors[clientPID].angle -= 0.01;
 				cout << "오른쪽으로 이동\n";
 			}
 			else if (wParam == VK_LEFT)
 			{
 				//GetAsyncKeyState(VK_RIGHT);
 				// 임시로 패널 움직이기
-				Reflectors[0].angle += 0.01;
+				Reflectors[clientPID].angle += 0.01;
 				cout << "왼쪽으로 이동\n";
 			}
 		}
 		break;
-		
 
-		case WM_KEYUP:
-		{
+	}
 
-		}
+	switch (m_SceneType)
+	{
+	case Packet_Type::LOBBY:
+		//m_Net.Send(m_bReady);
+		//m_Net.Recv(char a);
 		break;
 
+	case Packet_Type::MAIN:
 
+		//	클라이언트의 post position을 send()한다.	// 3. 각도값 전송
+
+		m_Net.Send(Reflectors[clientPID].angle);				// 일단 나의 각도 값만 보낸다.
+
+		//	서버로 부터 승인된 post position을 recv()한다.
+
+		//m_Net.recv_variable();
+
+		break;
+
+	case Packet_Type::END:
+		break;
+
+	case Packet_Type::NONE:
+		m_Net.Send(false);
+		break;
 	}
 
 }
