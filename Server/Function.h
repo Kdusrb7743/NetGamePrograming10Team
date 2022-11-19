@@ -28,3 +28,5 @@ int CS_RecvData(SOCKET client_sock, int clientPID);
 int SC_SendVariableData(SOCKET client_sock, int clientPID);
 bool Intersect(clientData, BallData);
 bool AngleDetect(float x, float y, float Angle);
+
+float AngleOverflow(float Angle);
