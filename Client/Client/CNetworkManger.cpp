@@ -37,7 +37,6 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 {
 	Packet_Type pType{};
 	SC_MainPacket MainPacket{};
-	PositionData tempPos{ 0.f, 0.f };
 
 	int retval = recv(m_sock, (char*)&pType, sizeof(Packet_Type), MSG_WAITALL);
 	if (retval == SOCKET_ERROR)
@@ -74,12 +73,9 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 
 	case Packet_Type::MAIN:
 		retval = recv(m_sock, (char*)&MainPacket, sizeof(SC_MainPacket), MSG_WAITALL);
-		tempPos = MainPacket.m_ballPos;
-		//Orb.x = MainPacket.m_ballPos.x;
-		//Orb.y = MainPacket.m_ballPos.y;
-		Orb.x = tempPos.x;
-		Orb.y = tempPos.y;
-	
+		Orb.x = MainPacket.m_ballPos.x;
+		Orb.y = MainPacket.m_ballPos.y;
+
 		Reflectors[0].angle = MainPacket.m_clientPos[0];
 		Reflectors[1].angle = MainPacket.m_clientPos[1];
 		Reflectors[2].angle = MainPacket.m_clientPos[2];

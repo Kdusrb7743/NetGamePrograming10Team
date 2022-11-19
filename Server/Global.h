@@ -5,6 +5,8 @@
 #include <ws2tcpip.h>
 #include <stdio.h> 
 
+#include "DirectXCollision.h"
+
 #pragma comment(lib, "ws2_32")
 
 using namespace std;

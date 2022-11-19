@@ -58,7 +58,6 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 				break;
 			}
 		}
-		clock_t start = clock();
 		//SetEvent(processFlag);
 		//ResetEvent(processFlag);
 
