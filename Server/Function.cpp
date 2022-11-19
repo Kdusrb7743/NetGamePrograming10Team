@@ -64,22 +64,22 @@ void SetBallPosition()
 
 void OrbSpeed()
 {
-	//Ball.m_BallSpeedx = Ball.m_BallSpeed * cos(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
-	//Ball.m_BallSpeedy = Ball.m_BallSpeed * sin(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
+	Ball.m_BallSpeedx = Ball.m_BallSpeed * cos(2 * PI * (Ball.m_BallAngle)) * 5;
+	Ball.m_BallSpeedy = Ball.m_BallSpeed * sin(2 * PI * (Ball.m_BallAngle)) * 5;
 
-	//Ball.m_BallAngle = 1.f - ((atan2(-Ball.m_BallPos.y, -Ball.m_BallPos.x) / (2 * PI)) + 0.5);
-	//printf("BallAngle : %f\n", Ball.m_BallAngle);
+	Ball.m_BallAngle = (atan2(-Ball.m_BallPos.y, -Ball.m_BallPos.x) / (2 * PI)) + 0.5;
+	printf("BallAngle : %f\n", Ball.m_BallAngle);
 }
 
 void SpeedCaculate(double time)
 {
 	if (time < FLT_MIN)
 	{
-		Ball.m_BallSpeed = 0.0001f;
+		Ball.m_BallSpeed = 0.01f;
 	}
 	else
 	{
-		Ball.m_BallSpeed = time * 0.001f;
+		Ball.m_BallSpeed = time * 0.01f;
 	}
 	// printf("Ball Speed = %f\n", Ball.m_BallSpeed);
 }
@@ -218,9 +218,6 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 			//retval = 10;				// 이부분 나중에 작업할 때 없앤다.
 			// retval = recv(client_sock, (char*)&client[clientPID].m_clientNextPos, sizeof(CS_MainPacket), MSG_WAITALL);
 			retval = recv(client_sock, (char*)&client[clientPID].m_clientAngle, sizeof(float), MSG_WAITALL);
-			cout << clientPID << "번 클라이언트 각도 : " << client[0].m_clientAngle << endl;
-			cout << clientPID << "번 클라이언트 각도 : " << client[1].m_clientAngle << endl;
-			cout << clientPID << "번 클라이언트 각도 : " << client[2].m_clientAngle << endl;
 			break;
 		}
 		case PacketType::END:
