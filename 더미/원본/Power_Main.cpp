@@ -4,7 +4,7 @@
 
 //---------------------------------------------------------------------------
 // 전역변수
-float window_size = 0.96;
+float window_size = 0.3;
 bool WASD = false, RestartPressure = false, ChargedMod = false, debug = true, keyboard = true;	// true
 int Reflector1Left = 0x25;				//0x25 - 왼쪽 방향
 int Reflector1Right = 0X27;

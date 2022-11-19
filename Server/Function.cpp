@@ -11,11 +11,15 @@ extern BallData Ball;
 void InitBall()		// 공 속도 및 각도(벡터) 초기화, 남은 공 개수 감소
 {
 	Ball.m_BallAngle = dist(rnd);			// 매번 랜덤값
-	Ball.m_BallPos.x = cos((2 * PI) * Ball.m_BallAngle);
-	Ball.m_BallPos.y = sin((2 * PI) * Ball.m_BallAngle);
-	Ball.m_BallSpeed = 0;				// 기본 스피드
-	Ball.m_BallSpeedx = 0;				// 매 공이 움직이기 전 각도에 따른 x이동량
-	Ball.m_BallSpeedy = 0;
+	//Ball.m_BallPos.x = cos((2 * PI) * Ball.m_BallAngle);
+	//Ball.m_BallPos.y = sin((2 * PI) * Ball.m_BallAngle);
+	Ball.m_BallPos.x = 0;
+	Ball.m_BallPos.y = 0;
+	Ball.m_BallSpeed = 1.f;				// 기본 스피드
+	//Ball.m_BallSpeedx = cos((2 * PI) * Ball.m_BallAngle);				// 매 공이 움직이기 전 각도에 따른 x이동량
+	//Ball.m_BallSpeedy = sin((2 * PI) * Ball.m_BallAngle);
+	Ball.m_BallSpeedx = Ball.m_BallSpeed * cos((2 * PI) * Ball.m_BallAngle) * 5;
+	Ball.m_BallSpeedy = Ball.m_BallSpeed * sin((2 * PI) * Ball.m_BallAngle) * 5;
 }
 
 void InitClient()
@@ -36,17 +40,109 @@ bool EndCheck() {			// 게임이 끝났는지를 체크
 
 void UpdateBallData(double time)
 {
-	SpeedCaculate(time);
-	OrbSpeed();
+	//SpeedCaculate(time);
+	//OrbSpeed();
 	SetBallPosition();
 	//printf("BallPos (X: %f, Y: %f)\n", Ball.m_BallPos.x, Ball.m_BallPos.y);
 }
 
 void CalculateCollision()
 {
-	CheckBarCollision();
+	//CheckBarCollision();
 	//CheckBallCollision();
+	// 
+
+	if (DistanceOvercmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375 - 110) &&
+		AngleDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, client[0].m_clientAngle) &&
+		Distancecmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375) &&
+		DistanceDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, AnglePosition(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0) - client[0].m_clientAngle, 375, 375))
+	{
+		//ReflectReflector(Orb, Reflector);
+		ReflectOrb(client[0].m_clientAngle);						// 공의 각도 변경
+		//OrbPosition(Orb);										// 공의 위치 변경
+		Ball.m_BallPos.x += Ball.m_BallSpeedx;
+		Ball.m_BallPos.y += Ball.m_BallSpeedy;
+		cout << "튕겼다는 증거" << endl;
+	}
+
+	else if (DistanceOvercmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375 - 110) &&
+		AngleDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, client[1].m_clientAngle) &&
+		Distancecmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375) &&
+		DistanceDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, AnglePosition(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0) - client[1].m_clientAngle, 375, 375))
+	{
+		//ReflectReflector(Orb, Reflector);
+		ReflectOrb(client[1].m_clientAngle);						// 공의 각도 변경
+		//OrbPosition(Orb);										// 공의 위치 변경
+		Ball.m_BallPos.x += Ball.m_BallSpeedx;
+		Ball.m_BallPos.y += Ball.m_BallSpeedy;
+		cout << "튕겼다는 증거" << endl;
+	}
+
+	else if (DistanceOvercmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375 - 110) &&
+		AngleDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, client[2].m_clientAngle) &&
+		Distancecmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375) &&
+		DistanceDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, AnglePosition(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0) - client[2].m_clientAngle, 375, 375))
+	{
+		//ReflectReflector(Orb, Reflector);
+		ReflectOrb(client[2].m_clientAngle);						// 공의 각도 변경
+		//OrbPosition(Orb);										// 공의 위치 변경
+		Ball.m_BallPos.x += Ball.m_BallSpeedx;
+		Ball.m_BallPos.y += Ball.m_BallSpeedy;
+		cout << "튕겼다는 증거" << endl;
+	}
+
 }
+
+bool AngleDetect(float x, float y, float Angle)						// 충돌시 - 패널각도 감지 계산용
+{
+	Angle = AngleOverflow(AnglePosition(x, y) - Angle);
+	return (Angle < 0.13) || (0.87 < Angle);
+}
+
+float AngleOverflow(float Angle)									// 각도 360초과시 다시 0으로 돌린다.
+{
+	if (Angle >= 1)
+		Angle--;
+	else if (Angle < 0)
+		Angle++;
+	return Angle;
+}
+
+bool Distancecmp(float x, float y, float dis)						// 거리가 레일 안쪽이면 트루
+{
+	return ((x * x) + (y * y) < dis * dis);
+}
+
+bool DistanceDetect(float x, float y, float Angle, float Distance, float Size)	// 충돌시 - 거리감지 계산용
+{
+	return (x * x + y * y > (Distance * Distance - Size * Size * 0.25) / (cos(Angle * 2 * PI) * cos(Angle * 2 * PI)));
+}
+
+void ReflectOrb(float Angle)				// 서버 - 반사된 공의 각도 변경
+{
+	if (ObtuseDetect(AngleOverflow(Ball.m_BallAngle - Angle)))
+	{
+		if (AngleOverflow(Ball.m_BallAngle - Angle) < 0.5) Ball.m_BallAngle = AngleOverflow(Ball.m_BallAngle + 0.25);
+		else Ball.m_BallAngle = AngleOverflow(Ball.m_BallAngle - 0.25);
+	}
+	else Ball.m_BallAngle = Reflect(Ball.m_BallAngle, Angle);
+	OrbSpeed();
+
+}
+
+bool ObtuseDetect(float Angle)										// 둔각으로 충돌시
+{
+	AngleOverflow(Angle);
+	return ((0.125 < Angle && Angle <= 0.25) || (0.75 <= Angle && Angle < 0.875));
+}
+
+float Reflect(float Angle, float Reflector)							// 반사된 각도를 반환(튕길 때 공 각도에 적용)
+{
+	Angle = 0.5 - Angle + Reflector * 2;
+	return Angle;
+}
+
+
 
 void SetBallPosition()
 {
@@ -64,11 +160,15 @@ void SetBallPosition()
 
 void OrbSpeed()
 {
-	Ball.m_BallSpeedx = Ball.m_BallSpeed * cos(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
-	Ball.m_BallSpeedy = Ball.m_BallSpeed * sin(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
+	Ball.m_BallSpeed = 1.f;
+	Ball.m_BallSpeedx = Ball.m_BallSpeed * cos((2 * PI) * Ball.m_BallAngle) * 5;
+	Ball.m_BallSpeedy = Ball.m_BallSpeed * sin((2 * PI) * Ball.m_BallAngle) * 5;
 
-	Ball.m_BallAngle = 1.f - ((atan2(-Ball.m_BallPos.y, -Ball.m_BallPos.x) / (2 * PI)) + 0.5);
-	printf("BallAngle : %f\n", Ball.m_BallAngle);
+	//Ball.m_BallSpeedx = Ball.m_BallSpeed * cos(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
+	//Ball.m_BallSpeedy = Ball.m_BallSpeed * sin(2 * PI * (1.f - Ball.m_BallAngle)) * 5;
+
+	//Ball.m_BallAngle = 1.f - ((atan2(-Ball.m_BallPos.y, -Ball.m_BallPos.x) / (2 * PI)) + 0.5);
+	//printf("BallAngle : %f\n", Ball.m_BallAngle);
 }
 
 void SpeedCaculate(double time)

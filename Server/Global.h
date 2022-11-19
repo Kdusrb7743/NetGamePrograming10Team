@@ -30,7 +30,7 @@ struct PositionData
 struct BallData							// 서버에서 작업할 때, 필요한 Ball 데이터
 {
 	PositionData m_BallPos = {0.f, 0.f};				// BallPosition					//----------서버에서 클라 줄 때는 위치값만 줌
-	float m_BallSpeed = 0.f;					// 1Frame당 공이 움직일 거리
+	float m_BallSpeed = 1.f;					// 1Frame당 공이 움직일 거리
 	float m_BallAngle;					// 공의 진행 각도
 	short m_BallCount = 3;					// 공의 개수
 	float m_BallSpeedx, m_BallSpeedy;	// 공의 각도에 따른 x, y 다음 위치 이동량

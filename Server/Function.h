@@ -10,6 +10,17 @@ bool EndCheck();
 void UpdateBallData(double time);
 void CalculateCollision();
 
+// 추가부분
+bool AngleDetect(float x, float y, float Angle);
+float AngleOverflow(float Angle);
+bool Distancecmp(float x, float y, float dis);
+bool DistanceDetect(float x, float y, float Angle, float Distance, float Size);
+void ReflectOrb(float Angle);
+bool ObtuseDetect(float Angle);
+float Reflect(float Angle, float Reflector);
+
+
+
 void SetBallPosition();
 void OrbSpeed();
 void SpeedCaculate(double time);

@@ -320,7 +320,7 @@ void ReflectReflector(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	
 }
 struct Power_Orb* ReflectReflectorOrb(struct Power_Orb* Orb, struct Power_Reflector* Reflector)	// 서버 - 공과 패널의 충돌 검사 후 공위치 조정
 {
-	if (Reflector->module_charged[3])
+	if (Reflector->module_charged[3])		// Power는 실질적으로 점수 계산용
 	{
 		if (Reflector->module[3] == 1) Orb->power += 0.1;
 		else if (Reflector->module[3] == 2) Orb->power -= 0.1;
