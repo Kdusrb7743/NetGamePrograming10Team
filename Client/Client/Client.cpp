@@ -168,15 +168,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_TIMER:
 		{
-			gGameFramework.Update();
+			//gGameFramework.Update();
+			gGameFramework.Update(GetAsyncKeyState(VK_LEFT), GetAsyncKeyState(VK_RIGHT));
+
+			//ReflectorPosition(ReflectorP1, GetAsyncKeyState(Reflector1Left), GetAsyncKeyState(Reflector1Right), GetAsyncKeyState(Reflector1Up), GetAsyncKeyState(Reflector1Down));
+			//if ((GetAsyncKeyState(VK_LEFT) & 0x8000 || GetAsyncKeyState(VK_RIGHT) & 0x8000) && gGameFramework.getType() == MAIN) {
+			//	//gGameFramework.KeyUpdate();
+			//	//gGameFramework.KeyUpdate(message, wParam, lParam, GetAsyncKeyState(VK_LEFT), GetAsyncKeyState(VK_RIGHT));
+			//}
+			
+
 			InvalidateRgn(hWnd, NULL, false);
 		}
 		break;
 
 		case WM_KEYDOWN:
 		{
-			if (gGameFramework.getType() == MAIN)					//씬 타입이 Main이 아니면 키보드를 받지 못한다.
+			if (gGameFramework.getType() == MAIN)//씬 타입이 Main이 아니면 키보드를 받지 못한다.
+			{
 				gGameFramework.KeyBoard(message, wParam, lParam);
+			}					
+				
 		}
 		break;
 
@@ -187,11 +199,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 		case WM_LBUTTONDOWN:
-		//case WM_LBUTTONUP:
-		//{
-		//	gGameFramework.Mouse(message, wParam, lParam);
-		//}
-		//break;
+
+			//break;*/
 		case WM_MOUSEMOVE:
 		{
 			gGameFramework.Mouse(message, wParam, lParam);

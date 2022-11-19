@@ -134,7 +134,7 @@ void CollisionDetect(struct Power_Orb* Orb)								// 서버 - 메인 공 충돌 했는지
 	if (Orb->next != OrbHead)
 	{
 		OrbPosition(Orb->next);
-		if (DistanceOvercmp(Orb->next->x + 0, Orb->next->y + 0, 500))
+		if (DistanceOvercmp(Orb->next->x + 0, Orb->next->y + 0, 500))		// 공이 패널 밖으로 나갔을 때
 		{
 			if (((Orb->next->major == false && Orb->next->type == 0) || Orb->next->effect == 1) && Distancecmp(Orb->next->x + 0, Orb->next->y + 0, 525))
 			{
