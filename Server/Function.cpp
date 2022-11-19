@@ -111,11 +111,40 @@ bool CheckGameOver()
 
 void CheckBarCollision()
 {
-
+	
 }
 
 void CheckBallCollision()
 {
+	
+	for (int i = 0; i < 3; ++i)
+	{
+		if (Intersect(client[i], Ball))		//	패널과 공이 충돌 한다면
+		{
+			//	Ball.m_BallAngle =		//	충돌 후 앵글 값 설정
+			client[i].m_clientScore += 10;
+			return;
+		}
+		else if (DistanceOvercmp(Ball.m_BallPos.x, Ball.m_BallPos.y, 525))	//	공이 화면 밖으로 나간다면
+			--Ball.m_BallCount;
+	}
+}
+
+void Collision_Ball()
+{
+	DirectX::BoundingOrientedBox ball;
+	ball.Center.x = Ball.m_BallPos.x, ball.Center.y = Ball.m_BallPos.y;
+	ball.Extents.x = 15, ball.Extents.y = 15;
+
+	for (int i = 0; i < 3; ++i)
+	{
+		DirectX::BoundingOrientedBox player;
+		player.Center.x = client[i].m_clientNextPos.x, player.Center.y = client[i].m_clientNextPos.y;
+		player.Extents.x;
+		if (ball.Intersects(player))
+			//
+			return;
+	}
 	
 }
 
@@ -212,4 +241,31 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 		}
 	}
 	return retval;
+}
+
+bool Intersect(clientData _c, BallData _b)
+{
+	//	각 패널들의 앵글 최대 최소값 필요
+	if ( AngleDetect(_b.m_BallPos.x, _b.m_BallPos.y, _b.m_BallAngle) && _b.m_BallPos.x < 500)
+		//	수정 필요 (패널 앵글 최소 보다 크고 최대보다 작으면서 공의 위치가 패널과 맞닿을 때 )
+		return true;
+	else
+		return false;
+
+	
+}
+
+bool AngleDetect(float x, float y, float Angle)						// 충돌시 - 패널각도 감지 계산용
+{
+	Angle = AngleOverflow(AnglePosition(x, y) - Angle);
+	return (Angle < 0.13) || (0.87 < Angle);
+}
+
+float AngleOverflow(float Angle)									// 각도 360초과시 다시 0으로 돌린다.
+{
+	if (Angle >= 1)
+		Angle--;
+	else if (Angle < 0)
+		Angle++;
+	return Angle;
 }
