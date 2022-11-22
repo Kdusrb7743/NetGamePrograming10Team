@@ -15,8 +15,9 @@ Power_Reflector Reflectors[3] = {
 float PScore[3] = {0.f, 0.f, 0.f};				// 3명의 플레이어 스코어
 
 int Player1RGB[3] = { 255, 255, 0 };			// 색 정보
-int Player2RGB[3] = { 255, 255, 0 };
-int Player3RGB[3] = { 255, 255, 0 };
+int Player2RGB[3] = { 255, 0, 0 };
+int Player3RGB[3] = { 0, 255, 0 };
+int RailRGB[3] = { 255, 255, 255 };
 
 //윈도우 사이즈 변수
 // float window_size = 0.96;					// 메인 사이즈
@@ -44,7 +45,7 @@ CImage Button_PressureImg, Button_DialImg, Button_ValveImg, Button_OrbImg, Chere
 CImage Pressure_Mask_Img, Cherenkov_Mask_Img, Button_Valve_Mask_Img, Button_Dial_Mask_Img, Temperture_Mask_Img;
 CImage Reflector_Module1_Img, Reflector_Module2_Img, Reflector_Module3_Img, Reflector_Module4_Img, Reflector_Module5_Img;
 CImage Reflector_Module1_Mask_Img, Reflector_Module2_Mask_Img, Reflector_Module3_Mask_Img, Reflector_Module4_Mask_Img, Reflector_Module5_Mask_Img;
-
+CImage Reflector_ColorChargeImg2, Reflector_ColorChargeImg3;
 //----------------------------------------------------------------------------------------------------------------
 
 
@@ -93,6 +94,8 @@ void Renderer::DisplayColorApply()
 	Reflector_ColorImg.Load(TEXT("Img\\Reflector_Color.png"));
 	Reflector_LightImg.Load(TEXT("Img\\Reflector_Color.png"));
 	Reflector_ColorChargeImg.Load(TEXT("Img\\Reflector_Color.png"));
+	Reflector_ColorChargeImg2.Load(TEXT("Img\\Reflector_Color.png"));
+	Reflector_ColorChargeImg3.Load(TEXT("Img\\Reflector_Color.png"));
 	Reflector_LightChargeImg.Load(TEXT("Img\\Reflector_Color.png"));
 	Reflector_ColorOffImg.Load(TEXT("Img\\Reflector_Color.png"));
 	Reflector_LightOffImg.Load(TEXT("Img\\Reflector_Color.png"));
@@ -102,9 +105,9 @@ void Renderer::DisplayColorApply()
 		for (int j = 0; j < Reactor_RailImg.GetHeight(); j++)
 		{
 			BYTE* ptr = (BYTE*)Reactor_RailImg.GetPixelAddress(i, j);
-			ptr[0] = ((ptr[0] - 255 + Player1RGB[2]) * ptr[3] + 127) / 255;
-			ptr[1] = ((ptr[1] - 255 + Player1RGB[1]) * ptr[3] + 127) / 255;
-			ptr[2] = ((ptr[2] - 255 + Player1RGB[0]) * ptr[3] + 127) / 255;
+			ptr[0] = ((ptr[0] - 255 + RailRGB[2]) * ptr[3] + 127) / 255;
+			ptr[1] = ((ptr[1] - 255 + RailRGB[1]) * ptr[3] + 127) / 255;
+			ptr[2] = ((ptr[2] - 255 + RailRGB[0]) * ptr[3] + 127) / 255;
 		}
 	}
 	for (int i = 0; i < Reflector_LightImg.GetWidth(); i++)
@@ -145,6 +148,26 @@ void Renderer::DisplayColorApply()
 			ptr[0] = ((ptr[0] - 255 + Player1RGB[2]) * ptr[3] + 127) / 255;
 			ptr[1] = ((ptr[1] - 255 + Player1RGB[1]) * ptr[3] + 127) / 255;
 			ptr[2] = ((ptr[2] - 255 + Player1RGB[0]) * ptr[3] + 127) / 255;
+		}
+	}
+	for (int i = 0; i < Reflector_ColorChargeImg2.GetWidth(); i++)
+	{
+		for (int j = 0; j < Reflector_ColorChargeImg2.GetHeight(); j++)
+		{
+			BYTE* ptr = (BYTE*)Reflector_ColorChargeImg2.GetPixelAddress(i, j);
+			ptr[0] = ((ptr[0] - 255 + Player2RGB[2]) * ptr[3] + 127) / 255;
+			ptr[1] = ((ptr[1] - 255 + Player2RGB[1]) * ptr[3] + 127) / 255;
+			ptr[2] = ((ptr[2] - 255 + Player2RGB[0]) * ptr[3] + 127) / 255;
+		}
+	}
+	for (int i = 0; i < Reflector_ColorChargeImg3.GetWidth(); i++)
+	{
+		for (int j = 0; j < Reflector_ColorChargeImg3.GetHeight(); j++)
+		{
+			BYTE* ptr = (BYTE*)Reflector_ColorChargeImg3.GetPixelAddress(i, j);
+			ptr[0] = ((ptr[0] - 255 + Player3RGB[2]) * ptr[3] + 127) / 255;
+			ptr[1] = ((ptr[1] - 255 + Player3RGB[1]) * ptr[3] + 127) / 255;
+			ptr[2] = ((ptr[2] - 255 + Player3RGB[0]) * ptr[3] + 127) / 255;
 		}
 	}
 	for (int i = 0; i < Reflector_LightOffImg.GetWidth(); i++)
@@ -273,7 +296,7 @@ void Renderer::DisplayReflector(HDC hdc) // 리플렉터(반사판)들을 출력하는 함수
 	ReflectorPaint3(Reflectors[1], 0)
 	};
 	ReflectorImg.PlgBlt(hdc, Reflector_Point1, 0, 0, 375, 115, Reflector_Mask_Img, 0, 0);
-	Reflector_ColorChargeImg.PlgBlt(hdc, Reflector_Point1, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
+	Reflector_ColorChargeImg2.PlgBlt(hdc, Reflector_Point1, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
 	Reflector_LightChargeImg.PlgBlt(hdc, Reflector_Point1, 0, 0, 375, 115, Reflector_Light_Mask_Img, 0, 0);
 
 	// 3플레이어 패널
@@ -283,7 +306,7 @@ void Renderer::DisplayReflector(HDC hdc) // 리플렉터(반사판)들을 출력하는 함수
 	ReflectorPaint3(Reflectors[2], 0)
 	};
 	ReflectorImg.PlgBlt(hdc, Reflector_Point2, 0, 0, 375, 115, Reflector_Mask_Img, 0, 0);
-	Reflector_ColorChargeImg.PlgBlt(hdc, Reflector_Point2, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
+	Reflector_ColorChargeImg3.PlgBlt(hdc, Reflector_Point2, 0, 0, 375, 115, Reflector_Color_Mask_Img, 0, 0);
 	Reflector_LightChargeImg.PlgBlt(hdc, Reflector_Point2, 0, 0, 375, 115, Reflector_Light_Mask_Img, 0, 0);
 
 	// 이펙트 후순위 변경

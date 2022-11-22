@@ -107,14 +107,14 @@ void WGameFramework::Update(short Left, short Right, const float frameTime)
 	////	받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
 	//cout << clientPID << endl;
 	
-	if (Left & 0x8000) {
-		Reflectors[clientPID].angle += 0.01;
-		cout << "왼쪽 이동" << endl;
-	}
-	if (Right & 0x8000) {
-		Reflectors[clientPID].angle -= 0.01;
-		cout << "오른쪽 이동" << endl;
-	}
+	//if (Left & 0x8000) {
+	//	Reflectors[clientPID].angle += 0.01;
+	//	cout << "왼쪽 이동" << endl;
+	//}
+	//if (Right & 0x8000) {
+	//	Reflectors[clientPID].angle -= 0.01;
+	//	cout << "오른쪽 이동" << endl;
+	//}
 
 	switch(m_SceneType)
 	{

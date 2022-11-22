@@ -37,7 +37,7 @@ struct BallData							// 서버에서 작업할 때, 필요한 Ball 데이터
 	short m_BallCount = 3;					// 공의 개수
 	float m_BallSpeedx, m_BallSpeedy;	// 공의 각도에 따른 x, y 다음 위치 이동량
 
-	float size = 30;					// 공의 실제 크기 = 고정30
+	float size = 30.f;					// 공의 실제 크기 = 고정30
 };
 
 struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터

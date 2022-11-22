@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return 1;
 
-	processFlag = CreateEvent(NULL, FALSE, TRUE, NULL);
+	processFlag = CreateEvent(NULL, TRUE, FALSE, NULL);
 	for(int i = 0; i < PLAYERNUM; i++)
 		clientFlag[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
 	
@@ -53,7 +53,6 @@ int main(int argc, char* argv[])
 	InitClient();
 	HANDLE hProcessThread;
 	hProcessThread = CreateThread(NULL, 0, ProcessThread, NULL, 0, NULL);
-	ResetEvent(processFlag);
 
 	closesocket(listen_sock);
 	WaitForMultipleObjects(PLAYERNUM, hThread, TRUE, INFINITE);

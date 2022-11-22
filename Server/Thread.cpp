@@ -15,7 +15,7 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 	clock_t start;
 	while (true)
 	{
-		//WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
+		WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
 		switch (packetType)
 		{
 			case PacketType::NONE:
@@ -58,10 +58,10 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 				break;
 			}
 		}
-		//SetEvent(processFlag);
-		//ResetEvent(processFlag);
+		SetEvent(processFlag);
+		ResetEvent(processFlag);
 
-		Sleep(17);
+		// Sleep(17);
 	}
 	return 0;
 }
@@ -86,9 +86,11 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			std::cout << "RecvData Error!" << std::endl;
 			return -1;
 		}
-		//SetEvent(clientFlag[clientPID]);
-		//WaitForSingleObject(processFlag, INFINITE);
-		//ResetEvent(clientFlag[clientPID]);
+
+		SetEvent(clientFlag[clientPID]);
+		WaitForSingleObject(processFlag, INFINITE);
+		ResetEvent(clientFlag[clientPID]);
+
 		//SC_SendVariableData(client_sock, clientPID);
 	}
 	return 0;

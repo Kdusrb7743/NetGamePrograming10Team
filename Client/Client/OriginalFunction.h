@@ -337,7 +337,7 @@ void DisplayReflector(struct Power_Reflector* Reflector) // 리플렉터(반사판)들을
 		ReflectorPaint2(Reflector->next, 0),
 		ReflectorPaint3(Reflector->next, 0)
 		};
-		ReflectorImg.PlgBlt(memdc, Reflector_Point, 0, 0, 375, 115, Reflector_Mask_Img, 0, 0);
+		ReflectorImg.PlgBlt(memdc, Reflector_Point, 0, 115, 375, 115, Reflector_Mask_Img, 0, 0);
 
 		if (Reflector->next->age < -100)
 		{
@@ -362,7 +362,8 @@ void DisplayReflector(struct Power_Reflector* Reflector) // 리플렉터(반사판)들을
 			ReflectorPaint2(Reflector->next, 67.5),
 			ReflectorPaint3(Reflector->next, 67.5)
 			};
-			Reflector_EffectImg.PlgBlt(memdc, Reflector_Effect_Point, 375 * (Reflector->next->effect % 100), (300 * (int)(Reflector->next->effect / 100.0)), 375, 300, Reflector_Effect_Mask_Img, 375 * (Reflector->next->effect % 100), 0);
+			Reflector_EffectImg.PlgBlt(memdc, Reflector_Effect_Point, 375 * 3, (300 * (int)(Reflector->next->effect / 100.0)), 375, 300, Reflector_Effect_Mask_Img, 375 * (Reflector->next->effect % 100), 0);
+			// Reflector_EffectImg.PlgBlt(memdc, Reflector_Effect_Point, 375 * (Reflector->next->effect % 100), (300 * (int)(Reflector->next->effect / 100.0)), 375, 300, Reflector_Effect_Mask_Img, 375 * (Reflector->next->effect % 100), 0);
 		}
 		DisplayReflector(Reflector->next);
 	}
