@@ -38,6 +38,10 @@ int main(int argc, char* argv[])
 	int clientNum = 0;
 	HANDLE hThread[PLAYERNUM];
 
+	HANDLE hProcessThread;
+	hProcessThread = CreateThread(NULL, 0, ProcessThread, NULL, 0, NULL);
+	SetThreadPriority(hProcessThread, MIN_PRIORITY);
+
 	while (clientNum < PLAYERNUM) {
 		addrlen = sizeof(clientaddr);
 		client_sock = accept(listen_sock, (struct sockaddr*)&clientaddr, &addrlen);
@@ -50,9 +54,6 @@ int main(int argc, char* argv[])
 	}
 
 	InitClient();
-	HANDLE hProcessThread;
-	hProcessThread = CreateThread(NULL, 0, ProcessThread, NULL, 0, NULL);
-
 	closesocket(listen_sock);
 	WaitForMultipleObjects(PLAYERNUM, hThread, TRUE, INFINITE);
 	for (int i = 0; i < PLAYERNUM; i++)

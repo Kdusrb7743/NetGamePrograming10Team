@@ -9,15 +9,18 @@ extern clientData client[PLAYERNUM];
 extern BallData Ball;
 clock_t start;
 
-
 DWORD WINAPI ProcessThread(LPVOID arg)
 {
 	int retval;
 	while (true)
 	{
-		WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
-		switch (packetType)
+		retval = WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, 1000);
+		printf("%d\n", retval);
+		if (retval == 0)
 		{
+
+			switch (packetType)
+			{
 			case PacketType::NONE:
 				printf("packetType Error\n");
 				break;
@@ -53,11 +56,10 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 				printf("packetType Error\n");
 				break;
 			}
+			}
 		}
 		SetEvent(processFlag);
 		ResetEvent(processFlag);
-
-		// Sleep(17);
 	}
 	return 0;
 }
@@ -82,7 +84,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			std::cout << "RecvData Error!" << std::endl;
 			return -1;
 		}
-
 		SetEvent(clientFlag[clientPID]);
 		WaitForSingleObject(processFlag, INFINITE);
 		ResetEvent(clientFlag[clientPID]);
