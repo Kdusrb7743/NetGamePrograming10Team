@@ -7,6 +7,7 @@ uniform_real_distribution<float> dist(0.f, 1.f);  // 범위 [0.0, 1.0)
 extern PacketType packetType;
 extern clientData client[PLAYERNUM];
 extern BallData Ball;
+extern clock_t start;
 
 void InitBall()		// 공 속도 및 각도(벡터) 초기화, 남은 공 개수 감소
 {
@@ -20,6 +21,7 @@ void InitBall()		// 공 속도 및 각도(벡터) 초기화, 남은 공 개수 감소
 	//Ball.m_BallSpeedy = sin((2 * PI) * Ball.m_BallAngle);
 	Ball.m_BallSpeedx = Ball.m_BallSpeed * cos((2 * PI) * Ball.m_BallAngle) * 5;
 	Ball.m_BallSpeedy = Ball.m_BallSpeed * sin((2 * PI) * Ball.m_BallAngle) * 5;
+	start = clock();
 }
 
 void InitClient()
@@ -40,7 +42,7 @@ bool EndCheck() {			// 게임이 끝났는지를 체크
 
 void UpdateBallData(double time)
 {
-	//SpeedCaculate(time);
+	SpeedCaculate(time);
 	//OrbSpeed();
 	SetBallPosition();
 	//printf("BallPos (X: %f, Y: %f)\n", Ball.m_BallPos.x, Ball.m_BallPos.y);
@@ -173,14 +175,7 @@ void OrbSpeed()
 
 void SpeedCaculate(double time)
 {
-	if (time < FLT_MIN)
-	{
-		Ball.m_BallSpeed = 0.01f;
-	}
-	else
-	{
-		Ball.m_BallSpeed = time * 0.01f;
-	}
+	Ball.m_BallSpeed = 1.f + 0.05f * (int)time;
 	// printf("Ball Speed = %f\n", Ball.m_BallSpeed);
 }
 

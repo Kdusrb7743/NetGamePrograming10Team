@@ -7,12 +7,12 @@ extern PacketType packetType;
 
 extern clientData client[PLAYERNUM];
 extern BallData Ball;
+clock_t start;
 
 
 DWORD WINAPI ProcessThread(LPVOID arg)
 {
 	int retval;
-	clock_t start;
 	while (true)
 	{
 		WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, INFINITE);
@@ -37,10 +37,6 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 				double time = double(end - start) / CLOCKS_PER_SEC;
 				// printf("time : %lf\n", time);
 				UpdateBallData(time);
-				if (Ball.m_BallSpeed < FLT_MIN)
-				{
-					start = clock();
-				}
 				CalculateCollision();
 				if (CheckGameOver() == true)
 				{
@@ -90,7 +86,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		SetEvent(clientFlag[clientPID]);
 		WaitForSingleObject(processFlag, INFINITE);
 		ResetEvent(clientFlag[clientPID]);
-
 		//SC_SendVariableData(client_sock, clientPID);
 	}
 	return 0;

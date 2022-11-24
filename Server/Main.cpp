@@ -6,7 +6,6 @@ clientData client[PLAYERNUM];
 PacketType packetType = LOBBY;
 BallData Ball;
 
-
 int main(int argc, char* argv[])
 {
 	int retval;

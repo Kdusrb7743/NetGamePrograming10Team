@@ -107,14 +107,14 @@ void WGameFramework::Update(short Left, short Right, const float frameTime)
 	////	받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
 	//cout << clientPID << endl;
 	
-	//if (Left & 0x8000) {
-	//	Reflectors[clientPID].angle += 0.01;
-	//	cout << "왼쪽 이동" << endl;
-	//}
-	//if (Right & 0x8000) {
-	//	Reflectors[clientPID].angle -= 0.01;
-	//	cout << "오른쪽 이동" << endl;
-	//}
+	if (Left & 0x8000) {
+		Reflectors[clientPID].angle += 0.01;
+		cout << "왼쪽 이동" << endl;
+	}
+	if (Right & 0x8000) {
+		Reflectors[clientPID].angle -= 0.01;
+		cout << "오른쪽 이동" << endl;
+	}
 
 	switch(m_SceneType)
 	{
@@ -204,20 +204,20 @@ void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 				SendMessage(m_hWnd, WM_DESTROY, 0, 0);
 				return;
 			}
-			else if (wParam == VK_RIGHT)
-			{
+			//else if (wParam == VK_RIGHT)
+			//{
 				//GetAsyncKeyState(VK_RIGHT);
 				// 임시로 패널 움직이기
-				Reflectors[clientPID].angle -= 0.01;
-				cout << "오른쪽으로 이동\n";
-			}
-			else if (wParam == VK_LEFT)
-			{
+				// Reflectors[clientPID].angle -= 0.01;
+				// cout << "오른쪽으로 이동\n";
+			//}
+			//else if (wParam == VK_LEFT)
+			//{
 				//GetAsyncKeyState(VK_RIGHT);
 				// 임시로 패널 움직이기
-				Reflectors[clientPID].angle += 0.01;
-				cout << "왼쪽으로 이동\n";
-			}
+				// Reflectors[clientPID].angle += 0.01;
+				// cout << "왼쪽으로 이동\n";
+			//}
 		}
 		break;
 
