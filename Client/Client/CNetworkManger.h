@@ -12,7 +12,6 @@ public:
 	//void recv_variable();
 
 	void Send(bool);
-	void Send(PositionData);
 	void Send(float);
 
 

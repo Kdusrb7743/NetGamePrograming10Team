@@ -53,6 +53,7 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 		*m_SceneType = m_pType;
 		cout << "현재 Scene 타입: " << *m_SceneType << endl;
 	}
+
 	//받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
 	switch (pType)
 	{
@@ -64,9 +65,8 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 		{
 			err_quit(L"패킷 타입 recv()");
 			closesocket(m_sock);
+			PostQuitMessage(0);
 		}
-
-		// cout << "로비 패킷 잘 받음.\n";
 
 		// Send(*m_bReady);
 		break;
@@ -98,13 +98,6 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 void CNetworkManger::Send(bool bReady)
 {
 	int retval = send(m_sock, (char*)&bReady, sizeof(bReady), 0);
-	if (retval == SOCKET_ERROR)
-		err_quit(L"send()");
-}
-
-void CNetworkManger::Send(PositionData pos)
-{
-	int retval = send(m_sock, (char*)&pos, sizeof(pos), 0);
 	if (retval == SOCKET_ERROR)
 		err_quit(L"send()");
 }
