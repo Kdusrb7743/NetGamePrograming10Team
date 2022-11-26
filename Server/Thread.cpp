@@ -14,48 +14,47 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 	int retval;
 	while (true)
 	{
-		retval = WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, 1000);
-		printf("%d\n", retval);
+		retval = WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, 50);
+		if (retval == 258)	printf("%d\n", retval);
 		if (retval == 0)
 		{
-
 			switch (packetType)
 			{
-			case PacketType::NONE:
-				printf("packetType Error\n");
-				break;
-			case PacketType::LOBBY:
-			{
-				if (CheckPlayerReady())
+				case PacketType::NONE:
+					printf("packetType Error\n");
+					break;
+				case PacketType::LOBBY:
 				{
-					packetType = MAIN;
-					InitBall();
-					start = clock();
+					if (CheckPlayerReady())
+					{
+						packetType = MAIN;
+						InitBall();
+						start = clock();
+					}
+					break;
 				}
-				break;
-			}
-			case PacketType::MAIN:
-			{
-				clock_t end = clock();
-				double time = double(end - start) / CLOCKS_PER_SEC;
-				// printf("time : %lf\n", time);
-				UpdateBallData(time);
-				CalculateCollision();
-				if (CheckGameOver() == true)
+				case PacketType::MAIN:
 				{
-					packetType = END;
+					clock_t end = clock();
+					double time = double(end - start) / CLOCKS_PER_SEC;
+					// printf("time : %lf\n", time);
+					UpdateBallData(time);
+					CalculateCollision();
+					if (CheckGameOver() == true)
+					{
+						packetType = END;
+					}
+					break;
 				}
-				break;
-			}
-			case PacketType::END:
-			{
-				break;
-			}
-			default:
-			{
-				printf("packetType Error\n");
-				break;
-			}
+				case PacketType::END:
+				{
+					break;
+				}
+				default:
+				{
+					printf("packetType Error\n");
+					break;
+				}
 			}
 		}
 		SetEvent(processFlag);

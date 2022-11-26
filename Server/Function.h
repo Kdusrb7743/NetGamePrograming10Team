@@ -4,7 +4,7 @@
 
 void InitBall();
 void InitClient();
-bool BarCollision();
+void BarCollision();
 bool EndCheck();
 
 void UpdateBallData(double time);

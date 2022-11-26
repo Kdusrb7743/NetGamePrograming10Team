@@ -31,9 +31,27 @@ void InitClient()
 	client[2].m_clientAngle = 0.915f;
 }
 
-bool BarCollision() {		// 반사판(플레이어)간 충돌을 감지
-	return false;
+
+void BarCollision()
+{
+	for (int i = 0; i < PLAYERNUM; i++)
+	{
+		for (int j = i + 1; j < PLAYERNUM; j++)
+		{
+			if (fabs(client[i].m_clientNextAngle - client[j].m_clientNextAngle) < 0.16)
+			{
+				client[i].m_clientNextAngle = client[i].m_clientAngle;
+				client[j].m_clientNextAngle = client[j].m_clientAngle;
+			}
+		}
+	}
+
+	for (int i = 0; i < PLAYERNUM; i++)
+	{
+		client[i].m_clientAngle = client[i].m_clientNextAngle;
+	}
 }
+
 
 bool EndCheck() {			// 게임이 끝났는지를 체크
 	if (Ball.m_BallCount == 0) return true;
@@ -50,7 +68,8 @@ void UpdateBallData(double time)
 
 void CalculateCollision()
 {
-	//CheckBarCollision();
+	BarCollision();
+	//Check
 	//CheckBallCollision();
 	// 
 
@@ -299,8 +318,6 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID)
 	return retval;
 }
 
-
-
 int CS_RecvData(SOCKET client_sock, int clientPID)
 {
 	int retval;
@@ -323,7 +340,7 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 		{
 			//retval = 10;				// 이부분 나중에 작업할 때 없앤다.
 			// retval = recv(client_sock, (char*)&client[clientPID].m_clientNextPos, sizeof(CS_MainPacket), MSG_WAITALL);
-			retval = recv(client_sock, (char*)&client[clientPID].m_clientAngle, sizeof(float), MSG_WAITALL);
+			retval = recv(client_sock, (char*)&client[clientPID].m_clientNextAngle, sizeof(float), MSG_WAITALL);
 			//cout << clientPID << "번 클라이언트 각도 : " << client[0].m_clientAngle << endl;
 			//cout << clientPID << "번 클라이언트 각도 : " << client[1].m_clientAngle << endl;
 			//cout << clientPID << "번 클라이언트 각도 : " << client[2].m_clientAngle << endl;

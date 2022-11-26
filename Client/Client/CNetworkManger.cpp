@@ -2,6 +2,8 @@
 #include "CNetworkManger.h"
 #include <atlbase.h>
 
+extern int tempclientID;
+
 void CNetworkManger::err_quit(WCHAR* msg)
 {
 	LPVOID lpMsgBuf;
@@ -60,6 +62,7 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 									// 서버로부터 PID를 받음
 		retval = recv(m_sock, (char*)clientPID, sizeof(SC_LobbyPacket), MSG_WAITALL);
 		cout << *clientPID << endl;
+		tempclientID = *clientPID;
 		if (retval == SOCKET_ERROR)
 		{
 			err_quit(L"패킷 타입 recv()");

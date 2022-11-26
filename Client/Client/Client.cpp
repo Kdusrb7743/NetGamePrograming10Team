@@ -10,6 +10,7 @@ WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
 static WGameFramework gGameFramework;
+int tempclientID = 0;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -169,8 +170,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_TIMER:
 		{
 			//gGameFramework.Update();
-			gGameFramework.Update(GetAsyncKeyState(VK_LEFT), GetAsyncKeyState(VK_RIGHT));
-
+			if(tempclientID == 0)
+				gGameFramework.Update(GetAsyncKeyState(VK_LEFT), GetAsyncKeyState(VK_RIGHT));
+			else if (tempclientID == 1)
+				gGameFramework.Update(GetAsyncKeyState(VK_A), GetAsyncKeyState(VK_D));
+			else if (tempclientID == 2)
+				gGameFramework.Update(GetAsyncKeyState(VK_J), GetAsyncKeyState(VK_K));
 			//ReflectorPosition(ReflectorP1, GetAsyncKeyState(Reflector1Left), GetAsyncKeyState(Reflector1Right), GetAsyncKeyState(Reflector1Up), GetAsyncKeyState(Reflector1Down));
 			//if ((GetAsyncKeyState(VK_LEFT) & 0x8000 || GetAsyncKeyState(VK_RIGHT) & 0x8000) && gGameFramework.getType() == MAIN) {
 			//	//gGameFramework.KeyUpdate();
@@ -184,11 +189,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_KEYDOWN:
 		{
-			if (gGameFramework.getType() == MAIN)//씬 타입이 Main이 아니면 키보드를 받지 못한다.
-			{
-				gGameFramework.KeyBoard(message, wParam, lParam);
-			}					
-				
+			//if (gGameFramework.getType() == MAIN)//씬 타입이 Main이 아니면 키보드를 받지 못한다.
+			//{
+			//	gGameFramework.KeyBoard(message, wParam, lParam);
+			//}
 		}
 		break;
 

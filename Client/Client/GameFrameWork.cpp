@@ -204,20 +204,20 @@ void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 				SendMessage(m_hWnd, WM_DESTROY, 0, 0);
 				return;
 			}
-			//else if (wParam == VK_RIGHT)
-			//{
-				//GetAsyncKeyState(VK_RIGHT);
+			else if (wParam == VK_RIGHT)
+			{
+				GetAsyncKeyState(VK_RIGHT);
 				// 임시로 패널 움직이기
 				// Reflectors[clientPID].angle -= 0.01;
-				// cout << "오른쪽으로 이동\n";
-			//}
-			//else if (wParam == VK_LEFT)
-			//{
-				//GetAsyncKeyState(VK_RIGHT);
+				cout << "오른쪽으로 이동\n";
+			}
+			else if (wParam == VK_LEFT)
+			{
+				GetAsyncKeyState(VK_RIGHT);
 				// 임시로 패널 움직이기
 				// Reflectors[clientPID].angle += 0.01;
-				// cout << "왼쪽으로 이동\n";
-			//}
+				cout << "왼쪽으로 이동\n";
+			}
 		}
 		break;
 
