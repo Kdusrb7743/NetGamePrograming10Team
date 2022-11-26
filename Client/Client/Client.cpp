@@ -197,14 +197,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 		case WM_KEYUP:
-		{
-			//gGameFramework.KeyBoard(message, wParam, lParam);
-		}
-		break;
 
 		case WM_LBUTTONDOWN:
 
-			//break;*/
 		case WM_MOUSEMOVE:
 		{
 			gGameFramework.Mouse(message, wParam, lParam);
