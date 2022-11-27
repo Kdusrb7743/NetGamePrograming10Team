@@ -193,7 +193,7 @@ void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
 			{
 				SendMessage(m_hWnd, WM_DESTROY, 0, 0);
 				return;
-			}:
+			}
 			else if (wParam == VK_RIGHT)
 			{
 				GetAsyncKeyState(VK_RIGHT);

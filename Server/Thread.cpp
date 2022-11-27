@@ -15,7 +15,6 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 	while (true)
 	{
 		retval = WaitForMultipleObjects(PLAYERNUM, clientFlag, TRUE, 50);
-		if (retval == 258)	printf("%d\n", retval);
 		if (retval == 0)
 		{
 			switch (packetType)
@@ -40,6 +39,7 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 					// printf("time : %lf\n", time);
 					UpdateBallData(time);
 					CalculateCollision();
+					printf("BallSpeed : %f\n", Ball.m_BallSpeed);
 					if (CheckGameOver() == true)
 					{
 						packetType = END;

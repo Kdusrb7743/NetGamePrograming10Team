@@ -43,6 +43,7 @@ void BarCollision()
 				client[i].m_clientNextAngle = client[i].m_clientAngle;
 				client[j].m_clientNextAngle = client[j].m_clientAngle;
 			}
+			// 0.9 와 0.1부분 예외처리 필요
 		}
 	}
 
@@ -174,14 +175,13 @@ void SetBallPosition()
 		//printf("BallPos (X: %f, Y: %f)\n", Ball.m_BallPos.x, Ball.m_BallPos.y);
 		//printf("BallAngle : %f\n", Ball.m_BallAngle);
 
-		//Ball.m_BallCount--;
+		// Ball.m_BallCount--;
 		InitBall();
 	}
 }
 
 void OrbSpeed()
 {
-	Ball.m_BallSpeed = 1.f;
 	Ball.m_BallSpeedx = Ball.m_BallSpeed * cos((2 * PI) * Ball.m_BallAngle) * 5;
 	Ball.m_BallSpeedy = Ball.m_BallSpeed * sin((2 * PI) * Ball.m_BallAngle) * 5;
 
@@ -194,7 +194,7 @@ void OrbSpeed()
 
 void SpeedCaculate(double time)
 {
-	Ball.m_BallSpeed = 1.f + 0.05f * (int)time;
+	Ball.m_BallSpeed = 1.f + 0.2f * (int)time;
 	// printf("Ball Speed = %f\n", Ball.m_BallSpeed);
 }
 
@@ -341,6 +341,8 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 			//retval = 10;				// 이부분 나중에 작업할 때 없앤다.
 			// retval = recv(client_sock, (char*)&client[clientPID].m_clientNextPos, sizeof(CS_MainPacket), MSG_WAITALL);
 			retval = recv(client_sock, (char*)&client[clientPID].m_clientNextAngle, sizeof(float), MSG_WAITALL);
+			client[clientPID].m_clientNextAngle = AngleOverflow(client[clientPID].m_clientNextAngle);
+			
 			//cout << clientPID << "번 클라이언트 각도 : " << client[0].m_clientAngle << endl;
 			//cout << clientPID << "번 클라이언트 각도 : " << client[1].m_clientAngle << endl;
 			//cout << clientPID << "번 클라이언트 각도 : " << client[2].m_clientAngle << endl;
