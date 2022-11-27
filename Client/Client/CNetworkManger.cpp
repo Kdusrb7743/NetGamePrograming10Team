@@ -45,6 +45,7 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 	{
 		err_quit(L"패킷 타입 recv()");
 		closesocket(m_sock);
+		PostQuitMessage(1);
 	}
 	if (pType != Packet_Type::NONE)
 		m_pType = pType;

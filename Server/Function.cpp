@@ -73,17 +73,26 @@ void CalculateCollision()
 	//Check
 	//CheckBallCollision();
 	// 
+	cout << "x: " << Ball.m_BallPos.x << ", y: " << Ball.m_BallPos.y << endl;
 
-	if (DistanceOvercmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375 - 110) &&
+	if (DistanceOvercmp(Ball.m_BallPos.x, Ball.m_BallPos.y, 510))	//	공이 화면 밖으로 나간다면
+	{
+		InitBall();
+		--Ball.m_BallCount;
+		std::cout << "Ball count: " << Ball.m_BallCount << endl;
+	}
+
+	else if (DistanceOvercmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375 - 110) &&
 		AngleDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, client[0].m_clientAngle) &&
 		Distancecmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375) &&
 		DistanceDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, AnglePosition(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0) - client[0].m_clientAngle, 375, 375))
 	{
 		//ReflectReflector(Orb, Reflector);
 		ReflectOrb(client[0].m_clientAngle);						// 공의 각도 변경
-		//OrbPosition(Orb);										// 공의 위치 변경
+		//OrbPosition(Orb);											// 공의 위치 변경
 		Ball.m_BallPos.x += Ball.m_BallSpeedx;
 		Ball.m_BallPos.y += Ball.m_BallSpeedy;
+		client[0].m_clientScore += 10;
 		cout << "튕겼다는 증거" << endl;
 	}
 
@@ -94,9 +103,10 @@ void CalculateCollision()
 	{
 		//ReflectReflector(Orb, Reflector);
 		ReflectOrb(client[1].m_clientAngle);						// 공의 각도 변경
-		//OrbPosition(Orb);										// 공의 위치 변경
+		//OrbPosition(Orb);											// 공의 위치 변경
 		Ball.m_BallPos.x += Ball.m_BallSpeedx;
 		Ball.m_BallPos.y += Ball.m_BallSpeedy;
+		client[1].m_clientScore += 10;
 		cout << "튕겼다는 증거" << endl;
 	}
 
@@ -107,9 +117,10 @@ void CalculateCollision()
 	{
 		//ReflectReflector(Orb, Reflector);
 		ReflectOrb(client[2].m_clientAngle);						// 공의 각도 변경
-		//OrbPosition(Orb);										// 공의 위치 변경
+		//OrbPosition(Orb);											// 공의 위치 변경
 		Ball.m_BallPos.x += Ball.m_BallSpeedx;
 		Ball.m_BallPos.y += Ball.m_BallSpeedy;
+		client[2].m_clientScore += 10;
 		cout << "튕겼다는 증거" << endl;
 	}
 
@@ -230,7 +241,6 @@ void CheckBarCollision()
 
 void CheckBallCollision()
 {
-	
 	for (int i = 0; i < 3; ++i)
 	{
 		if (Intersect(client[i], Ball))		//	패널과 공이 충돌 한다면
@@ -240,7 +250,9 @@ void CheckBallCollision()
 			return;
 		}
 		else if (DistanceOvercmp(Ball.m_BallPos.x, Ball.m_BallPos.y, 525))	//	공이 화면 밖으로 나간다면
+		{
 			--Ball.m_BallCount;
+		}
 	}
 }
 
@@ -304,13 +316,13 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID)
 		MainPacket.m_clientPos[2] = client[2].m_clientAngle;
 		MainPacket.m_clientScore = client[clientPID].m_clientScore;							//자기 스코어
 
-		retval = send(client_sock, (char*)&MainPacket, sizeof(SC_MainPacket), 0);		// 각도값 보내기
+		retval = send(client_sock, (char*)&MainPacket, sizeof(SC_MainPacket), 0);			// 각도값 보내기
 		break;
 	}
 	case PacketType::END:
 	{
 		SC_EndPacket EndPacket;
-		//EndPacket.m_clientScore[0] = 0;
+		cout << "end Scene" << endl;
 		retval = 10;
 		break;
 	}
@@ -365,6 +377,4 @@ bool Intersect(clientData _c, BallData _b)
 		return true;
 	else
 		return false;
-
-	
 }

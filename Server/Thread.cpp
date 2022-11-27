@@ -39,8 +39,8 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 					// printf("time : %lf\n", time);
 					UpdateBallData(time);
 					CalculateCollision();
-					printf("BallSpeed : %f\n", Ball.m_BallSpeed);
-					if (CheckGameOver() == true)
+					//printf("BallSpeed : %f\n", Ball.m_BallSpeed);
+					if (CheckGameOver())
 					{
 						packetType = END;
 					}
