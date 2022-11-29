@@ -39,6 +39,7 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 {
 	Packet_Type pType{};
 	SC_MainPacket MainPacket{};
+	SC_EndPacket EndPacket{};
 
 	int retval = recv(m_sock, (char*)&pType, sizeof(Packet_Type), MSG_WAITALL);
 	if (retval == SOCKET_ERROR)
@@ -90,6 +91,10 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 		break;
 
 	case Packet_Type::END:
+		retval = recv(m_sock, (char*)&EndPacket, sizeof(SC_EndPacket), MSG_WAITALL);
+		PScore[0] = EndPacket.m_clientScore[0];
+		PScore[1] = EndPacket.m_clientScore[1];
+		PScore[2] = EndPacket.m_clientScore[2];
 		break;
 
 	case Packet_Type::NONE:

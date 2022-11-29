@@ -60,8 +60,11 @@ void WGameFramework::Render(HDC hdc)
 			}
 		}
 		//¥›»˘ ªÛ≈¬¿« πÆ
-		gRender.DoorIdle(hdc);
-		//UIEndMessage();
+		else {
+			gRender.DoorIdle(hdc);
+			gRender.UIEndMessage(hdc);
+		}
+
 	}
 	else	//(m_SceneType == MAIN)				// MAIN æ¿¿Ã∏È
 	{
@@ -133,6 +136,7 @@ void WGameFramework::Update(short Left, short Right, const float frameTime)
 		break;
 
 	case Packet_Type::END:
+
 		break;
 
 	case Packet_Type::NONE:

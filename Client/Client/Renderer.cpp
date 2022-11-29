@@ -277,6 +277,26 @@ void Renderer::UIScore(HDC hdc) // 현재 자신의 점수 표기 함수
 	DeleteObject(hFont);
 }
 
+void Renderer::UIEndMessage(HDC hdc)
+{
+	TCHAR lpOut1[100], IpOut2[100], IpOut3[100];
+	HFONT hFont, oldFont;
+	hFont = CreateFont((int)(200 * window_size), 0, 0, 0, FW_ULTRABOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEVICE_PRECIS, CLIP_CHARACTER_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, L"PowerIngElectric");
+	oldFont = (HFONT)SelectObject(hdc, hFont);
+
+	SetTextColor(hdc, RGB(Player1RGB[0], Player1RGB[1], Player1RGB[2]));
+	swprintf_s(lpOut1, 100, L"Score:\\%.0f ", PScore[0]);
+	TextOut(hdc, int(Pibot_x - 400 * window_size), int(Pibot_y - 210 * window_size), lpOut1, lstrlen(lpOut1));
+	SetTextColor(hdc, RGB(Player2RGB[0], Player2RGB[1], Player2RGB[2]));
+	swprintf_s(IpOut2, 100, L"Score:\\%.0f ", PScore[1]);
+	TextOut(hdc, int(Pibot_x - 400 * window_size), int(Pibot_y + 0 * window_size), IpOut2, lstrlen(IpOut2));
+	SetTextColor(hdc, RGB(Player3RGB[0], Player3RGB[1], Player3RGB[2]));
+	swprintf_s(IpOut3, 100, L"Score:\\%.0f ", PScore[2]);
+	TextOut(hdc, int(Pibot_x - 400 * window_size), int(Pibot_y + 210 * window_size), IpOut3, lstrlen(IpOut3));
+
+	TextOut(hdc, int(Pibot_x - 400 * window_size), int(Pibot_y - 410 * window_size), L"Game Over", lstrlen(L"Game Over"));
+}
+
 void Renderer::DisplayReflector(HDC hdc) // 리플렉터(반사판)들을 출력하는 함수
 {
 	// 1플레이어 패널

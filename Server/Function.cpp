@@ -38,7 +38,8 @@ void BarCollision()
 	{
 		for (int j = i + 1; j < PLAYERNUM; j++)
 		{
-			if (fabs(client[i].m_clientNextAngle - client[j].m_clientNextAngle) < 0.16)
+			if (fabs(client[i].m_clientNextAngle - client[j].m_clientNextAngle) < 0.16 ||
+				fabs(client[i].m_clientNextAngle - client[j].m_clientNextAngle) > 0.84)
 			{
 				client[i].m_clientNextAngle = client[i].m_clientAngle;
 				client[j].m_clientNextAngle = client[j].m_clientAngle;
@@ -323,7 +324,11 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID)
 	{
 		SC_EndPacket EndPacket;
 		cout << "end Scene" << endl;
-		retval = 10;
+		EndPacket.m_clientScore[0] = client[0].m_clientScore;
+		EndPacket.m_clientScore[1] = client[1].m_clientScore;
+		EndPacket.m_clientScore[2] = client[2].m_clientScore;
+		retval = send(client_sock, (char*)&EndPacket, sizeof(SC_EndPacket), 0);
+		//retval = 10;
 		break;
 	}
 	}

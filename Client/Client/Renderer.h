@@ -18,6 +18,7 @@ public:
 	virtual void UIButton(HDC hdc, int x, int y, int R, int G, int B, int SR, int SG, int SB, bool Seleted, const TCHAR String[30]);
 	void DoorAnimation(HDC hdc, int Time);												// 문 애니메이션
 	void UIScore(HDC hdc);
+	void UIEndMessage(HDC hdc);
 	
 	// MAIN 경기장 Draw
 	virtual void ReactorDraw(HDC hdc);
