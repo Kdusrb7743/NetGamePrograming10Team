@@ -323,7 +323,6 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID)
 	case PacketType::END:
 	{
 		SC_EndPacket EndPacket;
-		cout << "end Scene" << endl;
 		EndPacket.m_clientScore[0] = client[0].m_clientScore;
 		EndPacket.m_clientScore[1] = client[1].m_clientScore;
 		EndPacket.m_clientScore[2] = client[2].m_clientScore;

@@ -204,6 +204,7 @@ void Renderer::UIMenu(HDC hdc, bool Start, bool Module, bool Option, bool Quit)
 	oldFont = (HFONT)SelectObject(hdc, hFont);
 
 	SetTextColor(hdc, RGB(0, 255, 0));
+	SetBkMode(hdc, TRANSPARENT);
 	TextOut(hdc, int(Pibot_x - 800 * window_size), int(Pibot_y - 400 * window_size), L"Power Ing\\", lstrlen(L"Power Ing\\"));
 
 	hFont = CreateFont((int)(150 * window_size), 0, 0, 0, FW_ULTRABOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEVICE_PRECIS, CLIP_CHARACTER_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, L"PowerIngElectric");
@@ -224,11 +225,13 @@ void Renderer::UIButton(HDC hdc, int x, int y, int R, int G, int B, int SR, int 
 	if (Seleted)
 	{
 		SetTextColor(hdc, RGB(SR, SG, SB));
+		SetBkMode(hdc, TRANSPARENT);
 		swprintf_s(lpOut, 100, L"  \\%s", String);
 	}
 	else
 	{
 		SetTextColor(hdc, RGB(R, G, B));
+		SetBkMode(hdc, TRANSPARENT);
 		swprintf_s(lpOut, 100, L"%s", String);
 	}
 	TextOut(hdc, int(Pibot_x + x * window_size), int(Pibot_y + y * window_size), lpOut, lstrlen(lpOut));
@@ -265,6 +268,7 @@ void Renderer::UIScore(HDC hdc) // 현재 자신의 점수 표기 함수
 	hFont = CreateFont((int)(100 * window_size), 0, 0, 0, FW_ULTRABOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEVICE_PRECIS, CLIP_CHARACTER_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, L"PowerIngElectric");
 	oldFont = (HFONT)SelectObject(hdc, hFont);
 	SetTextColor(hdc, RGB(0, 255, 0));
+	SetBkMode(hdc, TRANSPARENT);
 	if (PScore[0] < 1000) swprintf_s(lpOut, 100, L"\\%.0f ", PScore[0]);
 	else if (PScore[0] < 1000000) swprintf_s(lpOut, 100, L"\\%.3gK", PScore[0] / 1000);
 	else if (PScore[0] < 1000000000) swprintf_s(lpOut, 100, L"\\%.3gM", PScore[0] / 1000000);
@@ -285,12 +289,15 @@ void Renderer::UIEndMessage(HDC hdc)
 	oldFont = (HFONT)SelectObject(hdc, hFont);
 
 	SetTextColor(hdc, RGB(Player1RGB[0], Player1RGB[1], Player1RGB[2]));
+	SetBkMode(hdc, TRANSPARENT);
 	swprintf_s(lpOut1, 100, L"Score:\\%.0f ", PScore[0]);
 	TextOut(hdc, int(Pibot_x - 400 * window_size), int(Pibot_y - 210 * window_size), lpOut1, lstrlen(lpOut1));
 	SetTextColor(hdc, RGB(Player2RGB[0], Player2RGB[1], Player2RGB[2]));
+	SetBkMode(hdc, TRANSPARENT);
 	swprintf_s(IpOut2, 100, L"Score:\\%.0f ", PScore[1]);
 	TextOut(hdc, int(Pibot_x - 400 * window_size), int(Pibot_y + 0 * window_size), IpOut2, lstrlen(IpOut2));
 	SetTextColor(hdc, RGB(Player3RGB[0], Player3RGB[1], Player3RGB[2]));
+	SetBkMode(hdc, TRANSPARENT);
 	swprintf_s(IpOut3, 100, L"Score:\\%.0f ", PScore[2]);
 	TextOut(hdc, int(Pibot_x - 400 * window_size), int(Pibot_y + 210 * window_size), IpOut3, lstrlen(IpOut3));
 

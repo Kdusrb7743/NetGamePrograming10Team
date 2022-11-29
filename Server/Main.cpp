@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 		addrlen = sizeof(clientaddr);
 		client_sock = accept(listen_sock, (struct sockaddr*)&clientaddr, &addrlen);
 		if (client_sock == INVALID_SOCKET) break;
-		printf("立加己傍\n");
+		// printf("立加己傍\n");
 		hThread[clientNum] = CreateThread(NULL, 0, ClientThread, (LPVOID)client_sock, 0, NULL);
 		if (hThread[clientNum] == NULL) { closesocket(client_sock); }
 

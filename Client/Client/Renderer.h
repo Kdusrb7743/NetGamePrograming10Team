@@ -35,5 +35,4 @@ public:
 	POINT ReflectorPaint1(struct Power_Reflector Reflector, double Vertical);
 	POINT ReflectorPaint2(struct Power_Reflector Reflector, double Vertical);
 	POINT ReflectorPaint3(struct Power_Reflector Reflector, double Vertical);
-
 };
