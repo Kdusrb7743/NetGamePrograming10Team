@@ -316,6 +316,7 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID)
 		MainPacket.m_clientPos[1] = client[1].m_clientAngle;
 		MainPacket.m_clientPos[2] = client[2].m_clientAngle;
 		MainPacket.m_clientScore = client[clientPID].m_clientScore;							//자기 스코어
+		//MainPacket.m_ballcount = Ball.m_BallCount;
 
 		retval = send(client_sock, (char*)&MainPacket, sizeof(SC_MainPacket), 0);			// 각도값 보내기
 		break;

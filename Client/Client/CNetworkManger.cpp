@@ -85,6 +85,7 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 		Reflectors[1].angle = MainPacket.m_clientPos[1];
 		Reflectors[2].angle = MainPacket.m_clientPos[2];
 		PScore[0] = MainPacket.m_clientScore;
+		//Orb.count = MainPacket.m_ballcount;
 
 		// Send(Reflectors[clientPID].angle);						// 일단 나의 각도 값만 보낸다. MyclientNum
 

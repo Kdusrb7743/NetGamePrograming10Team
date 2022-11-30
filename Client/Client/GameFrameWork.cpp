@@ -248,13 +248,16 @@ void WGameFramework::Mouse(UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		//POINTS MousePoint = MAKEPOINTS(lParam);
 		m_Startbutton = gRender.UIButtonSelected(-700, -135, 750, 150, MousePoint);
-		m_Modulebutton = gRender.UIButtonSelected(-700, 15, 750, 150, MousePoint);
-		m_Optionbutton = gRender.UIButtonSelected(-700, 165, 750, 150, MousePoint);
-		m_Quitbutton = gRender.UIButtonSelected(-700, 315, 750, 150, MousePoint);
+		//m_Modulebutton = gRender.UIButtonSelected(-700, 15, 750, 150, MousePoint);
+		//m_Optionbutton = gRender.UIButtonSelected(-700, 165, 750, 150, MousePoint);
+		//m_Quitbutton = gRender.UIButtonSelected(-700, 315, 750, 150, MousePoint);
 		break;
 
 	case WM_LBUTTONDOWN:
-		m_bReady = true;								//	Ready 변경점
+		if (m_Startbutton) {
+			m_bReady = true;								//	Ready 변경점
+		}
+
 		break;
 
 	case WM_LBUTTONUP:

@@ -4,7 +4,7 @@
 
 //-------------------------------------------------------------------------------------------------------------------
 // 전역변수 선언
-struct Power_Orb Orb = { 0.f, 0.f, 0.f, 0.f };
+struct Power_Orb Orb = { 0.f, 0.f, 0.f, 0.f, 0};
 
 Power_Reflector Reflectors[3] = {
 	{0.25f, 375.f, 375.f, 1.f},
@@ -211,9 +211,9 @@ void Renderer::UIMenu(HDC hdc, bool Start, bool Module, bool Option, bool Quit)
 	oldFont = (HFONT)SelectObject(hdc, hFont);
 
 	UIButton(hdc, -650, -125, 0, 255, 0, 0, 255, 255, Start, L"Ready!");
-	UIButton(hdc, -650, 25, 0, 255, 0, 0, 255, 255, Module, L"Module");
-	UIButton(hdc, -650, 175, 0, 255, 0, 0, 255, 255, Option, L"Options");
-	UIButton(hdc, -650, 325, 255, 255, 0, 255, 0, 0, Quit, L"Quit");
+	//UIButton(hdc, -650, 25, 0, 255, 0, 0, 255, 255, Module, L"Module");
+	//UIButton(hdc, -650, 175, 0, 255, 0, 0, 255, 255, Option, L"Options");
+	//UIButton(hdc, -650, 325, 255, 255, 0, 255, 0, 0, Quit, L"Quit");
 
 	SelectObject(hdc, oldFont);
 	DeleteObject(hFont);
@@ -261,9 +261,9 @@ void Renderer::DoorAnimation(HDC hdc, int Time)
 		Controllroom_size_y * (int)(Time / 5), Controllroom_size_x, Controllroom_size_y);
 }
 
-void Renderer::UIScore(HDC hdc) // 현재 자신의 점수 표기 함수
+void Renderer::UIScore(HDC hdc) // Main 씬에서의 현재 자신의 점수 표기 , 공개수 추가
 {
-	TCHAR lpOut[100];
+	TCHAR lpOut[100], Count[100];
 	HFONT hFont, oldFont;
 	hFont = CreateFont((int)(100 * window_size), 0, 0, 0, FW_ULTRABOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEVICE_PRECIS, CLIP_CHARACTER_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, L"PowerIngElectric");
 	oldFont = (HFONT)SelectObject(hdc, hFont);
@@ -276,6 +276,10 @@ void Renderer::UIScore(HDC hdc) // 현재 자신의 점수 표기 함수
 	else swprintf_s(lpOut, 100, L"\\MAX\\");
 	TextOut(hdc, 1600 * window_size, 525 * window_size, lpOut, lstrlen(lpOut));
 	TextOut(hdc, 1600 * window_size, 450 * window_size, L"Power", 5);
+
+	// 공 개수 추가
+	swprintf_s(Count, 100, L"%d", (int)Orb.count);
+	TextOut(hdc, 1600 * window_size + 100, 200 * window_size, Count, lstrlen(Count));
 
 	SelectObject(hdc, oldFont);
 	DeleteObject(hFont);

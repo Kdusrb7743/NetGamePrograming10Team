@@ -22,7 +22,7 @@ public:
 	
 	// MAIN 경기장 Draw
 	virtual void ReactorDraw(HDC hdc);
-	virtual void OrbDraw(HDC hdc);		// ???
+	virtual void OrbDraw(HDC hdc);
 
 	// 공, 패널 객체 Draw
 	virtual void DisplayReflector(HDC hdc);

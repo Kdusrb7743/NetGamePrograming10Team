@@ -78,6 +78,7 @@ struct SC_MainPacket
 {
 	PacketType ptype = MAIN;
 	PositionData m_ballPos;
+	//short m_ballcount = 3;				// 볼카운트
 	float m_clientPos[3];					// 본인 이외의 플레이어 각도
 	unsigned short m_clientScore;
 };

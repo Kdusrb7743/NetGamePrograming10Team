@@ -47,8 +47,11 @@ static Renderer gRender;
 struct Power_Orb
 {
 	int effect, effect_count;
-	float x, y, size = 30;
+	float x, y;
+	short count;
+	float size = 30;
 	//float afterx[25], aftery[25];
+	
 };
 
 struct Power_Reflector
