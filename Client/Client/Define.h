@@ -76,6 +76,7 @@ struct SC_LobbyPacket
 struct SC_MainPacket
 {
 	PositionData m_ballPos;
+	short m_ballcount = 3;
 	float m_clientPos[3]{0.25f, 0.583f, 0.915f };	// 본인 이외의 플레이어 좌표
 	unsigned short m_clientScore{ 0 };
 	//short m_ballcount = 3;
