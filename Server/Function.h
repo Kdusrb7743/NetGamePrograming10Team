@@ -38,3 +38,5 @@ float AnglePosition(float x, float y);
 int CS_RecvData(SOCKET client_sock, int clientPID);
 int SC_SendVariableData(SOCKET client_sock, int clientPID);
 bool Intersect(clientData, BallData);
+
+void ChangetoLobby();

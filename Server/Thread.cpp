@@ -27,6 +27,11 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 					if (CheckPlayerReady())
 					{
 						packetType = MAIN;
+						for (int i = 0; i < PLAYERNUM; ++i)
+						{
+							client[i].m_clientReady = false;
+							client[i].m_packetType = MAIN;
+						}
 						InitBall();
 						start = clock();
 					}
@@ -43,11 +48,17 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 					if (CheckGameOver())
 					{
 						packetType = END;
+						for (int i = 0; i < PLAYERNUM; ++i)
+						{
+							client[i].m_packetType = END;
+						}
+						Ball.m_BallCount = 3;	// InitGame으로 클라이언트 정보도 초기화해주기
 					}
 					break;
 				}
 				case PacketType::END:
 				{
+					ChangetoLobby();
 					break;
 				}
 				default:

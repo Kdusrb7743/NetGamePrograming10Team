@@ -136,7 +136,7 @@ void WGameFramework::Update(short Left, short Right, const float frameTime)
 		break;
 
 	case Packet_Type::END:
-
+		m_Net.Send(m_bExitEndScene);
 		break;
 
 	case Packet_Type::NONE:
@@ -257,7 +257,11 @@ void WGameFramework::Mouse(UINT iMessage, WPARAM wParam, LPARAM lParam)
 		if (m_Startbutton) {
 			m_bReady = true;								//	Ready ∫Ø∞Ê¡°
 		}
-
+		if (m_SceneType == END)
+		{
+			m_bReady = false;
+			m_bExitEndScene = true;
+		}
 		break;
 
 	case WM_LBUTTONUP:

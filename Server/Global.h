@@ -49,6 +49,8 @@ struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터
 	bool m_clientReady = false;
 	unsigned short m_clientScore;
 	char m_clientColor;				// RGB
+	bool m_ExitEndScene = false;
+	PacketType m_packetType = LOBBY;
 };
 
 #pragma pack(1)
@@ -62,6 +64,13 @@ struct CS_LobbyPacket
 struct CS_MainPacket
 {
 	PositionData m_clientPos;
+};
+#pragma pack()
+
+#pragma pack(1)
+struct CS_ENDPacket
+{
+	bool m_ExitEndScene = false;
 };
 #pragma pack()
 

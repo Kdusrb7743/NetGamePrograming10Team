@@ -74,7 +74,7 @@ void CalculateCollision()
 	//Check
 	//CheckBallCollision();
 	// 
-	cout << "x: " << Ball.m_BallPos.x << ", y: " << Ball.m_BallPos.y << endl;
+	//cout << "x: " << Ball.m_BallPos.x << ", y: " << Ball.m_BallPos.y << endl;
 
 	if (DistanceOvercmp(Ball.m_BallPos.x, Ball.m_BallPos.y, 510))	//	공이 화면 밖으로 나간다면
 	{
@@ -215,13 +215,16 @@ bool CheckPlayerReady()
 	int readyPlayerCNT = 0;
 	for (int i = 0; i < PLAYERNUM; i++)
 	{
-		if (client[i].m_clientReady)
+		if (client[i].m_clientReady == true)
 		{
 			readyPlayerCNT++;
 		}
 	}
 	if (readyPlayerCNT == PLAYERNUM)
+	{
+		readyPlayerCNT = 0;
 		return true;
+	}
 
 	return false;
 }
@@ -294,8 +297,9 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID)
 {
 	int retval;
 
-	switch (packetType)
+	switch (client[clientPID].m_packetType)
 	{
+		printf("%d : %d\n", clientPID, client[clientPID].m_packetType);
 	case PacketType::NONE:
 	{
 		printf("Packet Type Error!\n");
@@ -328,7 +332,6 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID)
 		EndPacket.m_clientScore[1] = client[1].m_clientScore;
 		EndPacket.m_clientScore[2] = client[2].m_clientScore;
 		retval = send(client_sock, (char*)&EndPacket, sizeof(SC_EndPacket), 0);
-		//retval = 10;
 		break;
 	}
 	}
@@ -339,7 +342,7 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 {
 	int retval;
 	int Trash;
-	switch (packetType)
+	switch (client[clientPID].m_packetType)
 	{
 		case PacketType::NONE:
 		{
@@ -367,7 +370,7 @@ int CS_RecvData(SOCKET client_sock, int clientPID)
 		}
 		case PacketType::END:
 		{
-			retval = 10;
+			retval = recv(client_sock, (char*)&(client[clientPID].m_ExitEndScene), sizeof(bool), MSG_WAITALL);
 			break;
 		}
 	}
@@ -382,4 +385,26 @@ bool Intersect(clientData _c, BallData _b)
 		return true;
 	else
 		return false;
+}
+
+void ChangetoLobby()
+{
+	int tempCnt = 0;
+	for (int i = 0; i < PLAYERNUM; ++i)
+	{
+		if (client[i].m_ExitEndScene == true)
+		{
+			client[i].m_packetType = LOBBY;
+			tempCnt++;
+		}
+	}
+	if (tempCnt == 3)
+	{
+		packetType = LOBBY;
+		for (int i = 0; i < PLAYERNUM; ++i)
+		{
+			client[i].m_ExitEndScene = false;
+		}
+	}
+
 }
