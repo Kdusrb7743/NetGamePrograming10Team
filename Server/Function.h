@@ -5,12 +5,10 @@
 void InitBall();
 void InitClient();
 void BarCollision();
-bool EndCheck();
 
 void UpdateBallData(double time);
 void CalculateCollision();
 
-// 추가부분
 bool AngleDetect(float x, float y, float Angle);
 float AngleOverflow(float Angle);
 bool Distancecmp(float x, float y, float dis);
@@ -19,8 +17,6 @@ void ReflectOrb(float Angle);
 bool ObtuseDetect(float Angle);
 float Reflect(float Angle, float Reflector);
 
-
-
 void SetBallPosition();
 void OrbSpeed();
 void SpeedCaculate(double time);
@@ -28,10 +24,6 @@ void SpeedCaculate(double time);
 bool CheckPlayerReady();
 bool CheckGameOver();
 
-void CheckBarCollision();
-void CheckBallCollision();
-void Collision_Ball();
-void CollisionDetect(struct Power_Orb* Orb);
 bool DistanceOvercmp(float x, float y, float dis);
 float AnglePosition(float x, float y);
 

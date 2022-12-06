@@ -48,9 +48,6 @@
     <ClInclude Include="CNetworkManger.h">
       <Filter>NetworkManger</Filter>
     </ClInclude>
-    <ClInclude Include="OriginalFunction.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>

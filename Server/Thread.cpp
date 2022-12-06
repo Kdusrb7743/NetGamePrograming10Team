@@ -26,7 +26,6 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 				{
 					if (CheckPlayerReady())
 					{
-						packetType = MAIN;
 						ChangePacket(MAIN);
 						InitBall();
 						InitClient();
@@ -38,15 +37,12 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 				{
 					clock_t end = clock();
 					double time = double(end - start) / CLOCKS_PER_SEC;
-					// printf("time : %lf\n", time);
 					UpdateBallData(time);
 					CalculateCollision();
-					//printf("BallSpeed : %f\n", Ball.m_BallSpeed);
 					if (CheckGameOver())
 					{
-						packetType = END;
 						ChangePacket(END);
-						Ball.m_BallCount = 3;	// InitGame으로 클라이언트 정보도 초기화해주기
+						Ball.m_BallCount = 3;
 					}
 					break;
 				}
@@ -91,7 +87,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		SetEvent(clientFlag[clientPID]);
 		WaitForSingleObject(processFlag, INFINITE);
 		ResetEvent(clientFlag[clientPID]);
-		//SC_SendVariableData(client_sock, clientPID);
 	}
 	return 0;
 }
