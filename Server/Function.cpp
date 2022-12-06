@@ -75,6 +75,7 @@ void CalculateCollision()
 	//CheckBallCollision();
 	// 
 	//cout << "x: " << Ball.m_BallPos.x << ", y: " << Ball.m_BallPos.y << endl;
+	cout << client[0].m_ReflectDelayTime << endl;
 
 	if (DistanceOvercmp(Ball.m_BallPos.x, Ball.m_BallPos.y, 510))	//	공이 화면 밖으로 나간다면
 	{
@@ -82,10 +83,10 @@ void CalculateCollision()
 		--Ball.m_BallCount;
 		std::cout << "Ball count: " << Ball.m_BallCount << endl;
 	}
-
 	else if (DistanceOvercmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375 - 110) &&
 		AngleDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, client[0].m_clientAngle) &&
 		Distancecmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375) &&
+		client[0].m_ReflectDelayTime == 0 &&
 		DistanceDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, AnglePosition(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0) - client[0].m_clientAngle, 375, 375))
 	{
 		//ReflectReflector(Orb, Reflector);
@@ -94,12 +95,14 @@ void CalculateCollision()
 		Ball.m_BallPos.x += Ball.m_BallSpeedx;
 		Ball.m_BallPos.y += Ball.m_BallSpeedy;
 		client[0].m_clientScore += 10;
+		client[0].m_ReflectDelayTime += 15;
 		cout << "튕겼다는 증거" << endl;
 	}
 
 	else if (DistanceOvercmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375 - 110) &&
 		AngleDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, client[1].m_clientAngle) &&
 		Distancecmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375) &&
+		client[1].m_ReflectDelayTime == 0 &&
 		DistanceDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, AnglePosition(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0) - client[1].m_clientAngle, 375, 375))
 	{
 		//ReflectReflector(Orb, Reflector);
@@ -108,12 +111,14 @@ void CalculateCollision()
 		Ball.m_BallPos.x += Ball.m_BallSpeedx;
 		Ball.m_BallPos.y += Ball.m_BallSpeedy;
 		client[1].m_clientScore += 10;
+		client[1].m_ReflectDelayTime += 15;
 		cout << "튕겼다는 증거" << endl;
 	}
 
 	else if (DistanceOvercmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375 - 110) &&
 		AngleDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, client[2].m_clientAngle) &&
 		Distancecmp(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, 375) &&
+		client[2].m_ReflectDelayTime == 0 &&
 		DistanceDetect(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0, AnglePosition(Ball.m_BallPos.x + 0, Ball.m_BallPos.y + 0) - client[2].m_clientAngle, 375, 375))
 	{
 		//ReflectReflector(Orb, Reflector);
@@ -122,9 +127,15 @@ void CalculateCollision()
 		Ball.m_BallPos.x += Ball.m_BallSpeedx;
 		Ball.m_BallPos.y += Ball.m_BallSpeedy;
 		client[2].m_clientScore += 10;
+		client[2].m_ReflectDelayTime += 15;
 		cout << "튕겼다는 증거" << endl;
 	}
 
+	for (int i = 0; i < 3; i++) {
+		if (client[i].m_ReflectDelayTime > 0) {
+			client[i].m_ReflectDelayTime--;
+		}
+	}
 }
 
 bool AngleDetect(float x, float y, float Angle)						// 충돌시 - 패널각도 감지 계산용

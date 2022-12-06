@@ -51,6 +51,8 @@ struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터
 	char m_clientColor;				// RGB
 	bool m_ExitEndScene = false;
 	PacketType m_packetType = LOBBY;
+
+	int m_ReflectDelayTime = 0; //
 };
 
 #pragma pack(1)
