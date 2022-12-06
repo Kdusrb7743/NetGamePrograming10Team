@@ -29,6 +29,9 @@ void InitClient()
 	client[0].m_clientAngle = 0.25f;
 	client[1].m_clientAngle = 0.583f;
 	client[2].m_clientAngle = 0.915f;
+	client[0].m_clientScore = 0;
+	client[1].m_clientScore = 0;
+	client[2].m_clientScore = 0;
 }
 
 
@@ -409,7 +412,8 @@ void ChangetoLobby()
 			tempCnt++;
 		}
 	}
-	if (tempCnt == 3)
+
+	if (tempCnt == PLAYERNUM)
 	{
 		packetType = LOBBY;
 		for (int i = 0; i < PLAYERNUM; ++i)
@@ -418,4 +422,13 @@ void ChangetoLobby()
 		}
 	}
 
+}
+
+void ChangePacket(PacketType pType)
+{
+	for (int i = 0; i < PLAYERNUM; ++i)
+	{
+		if (pType == MAIN) client[i].m_clientReady = false;
+		client[i].m_packetType = pType;
+	}
 }

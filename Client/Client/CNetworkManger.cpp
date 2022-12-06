@@ -56,14 +56,13 @@ void CNetworkManger::recv_data(Packet_Type* m_SceneType, bool* m_SceneChange, in
 		*m_SceneChange = true;
 		*m_SceneType = m_pType;
 		cout << "현재 Scene 타입: " << *m_SceneType << endl;
-		
 	}
 
 	//받은 키 입력을 토대로 다음 클라이언트 위치 값을 계산한다.
 	switch (pType)
 	{
 	case Packet_Type::LOBBY:
-									// 서버로부터 PID를 받음
+		// 서버로부터 PID를 받음
 		retval = recv(m_sock, (char*)clientPID, sizeof(SC_LobbyPacket), MSG_WAITALL);
 		cout << *clientPID << endl;
 		tempclientID = *clientPID;

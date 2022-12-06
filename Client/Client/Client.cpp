@@ -169,19 +169,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_TIMER:
 		{
-			//gGameFramework.Update();
-			if(tempclientID == 0)
-				gGameFramework.Update(GetAsyncKeyState(VK_LEFT), GetAsyncKeyState(VK_RIGHT));
-			else if (tempclientID == 1)
-				gGameFramework.Update(GetAsyncKeyState(VK_A), GetAsyncKeyState(VK_D));
-			else if (tempclientID == 2)
-				gGameFramework.Update(GetAsyncKeyState(VK_J), GetAsyncKeyState(VK_K));
-			//ReflectorPosition(ReflectorP1, GetAsyncKeyState(Reflector1Left), GetAsyncKeyState(Reflector1Right), GetAsyncKeyState(Reflector1Up), GetAsyncKeyState(Reflector1Down));
-			//if ((GetAsyncKeyState(VK_LEFT) & 0x8000 || GetAsyncKeyState(VK_RIGHT) & 0x8000) && gGameFramework.getType() == MAIN) {
-			//	//gGameFramework.KeyUpdate();
-			//	//gGameFramework.KeyUpdate(message, wParam, lParam, GetAsyncKeyState(VK_LEFT), GetAsyncKeyState(VK_RIGHT));
-			//}
-			
+			gGameFramework.Update(GetAsyncKeyState(VK_LEFT), GetAsyncKeyState(VK_RIGHT));
 
 			InvalidateRgn(hWnd, NULL, false);
 		}
@@ -189,10 +177,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_KEYDOWN:
 		{
-			//if (gGameFramework.getType() == MAIN)//씬 타입이 Main이 아니면 키보드를 받지 못한다.
-			//{
-			//	gGameFramework.KeyBoard(message, wParam, lParam);
-			//}
+
 		}
 		break;
 

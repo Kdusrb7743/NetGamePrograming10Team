@@ -256,6 +256,7 @@ void WGameFramework::Mouse(UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		if (m_Startbutton) {
 			m_bReady = true;								//	Ready ∫Ø∞Ê¡°
+			m_bExitEndScene = false;
 		}
 		if (m_SceneType == END)
 		{

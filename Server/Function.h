@@ -40,3 +40,4 @@ int SC_SendVariableData(SOCKET client_sock, int clientPID);
 bool Intersect(clientData, BallData);
 
 void ChangetoLobby();
+void ChangePacket(PacketType pType);
