@@ -155,7 +155,7 @@ void SpeedCaculate(double time)
 	Ball.m_BallSpeed = 1.f + 0.2f * (int)time;
 }
 
-bool CheckPlayerReady()
+bool ReadyCheck()
 {
 	int readyPlayerCNT = 0;
 	for (int i = 0; i < PLAYERNUM; i++)
@@ -174,7 +174,7 @@ bool CheckPlayerReady()
 	return false;
 }
 
-bool CheckGameOver()
+bool EndCheck()
 {
 	if (Ball.m_BallCount == 0)
 	{
@@ -193,7 +193,7 @@ float AnglePosition(float x, float y)
 	return atan2(-y, -x) / (PI * 2) + 0.5;
 }
 
-int SC_SendVariableData(SOCKET client_sock, int clientPID)
+int SC_SendData(SOCKET client_sock, int clientPID)
 {
 	int retval;
 

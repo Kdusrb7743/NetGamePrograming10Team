@@ -29,26 +29,24 @@ struct PositionData
 	float x = 0.f, y = 0.f;
 };
 
-struct BallData							// 서버에서 작업할 때, 필요한 Ball 데이터
+struct BallData			
 {
-	PositionData m_BallPos = {0.f, 0.f};// BallPosition					//----------서버에서 클라 줄 때는 위치값만 줌
-	float m_BallSpeed = 1.f;			// 1Frame당 공이 움직일 거리
-	float m_BallAngle;					// 공의 진행 각도
-	short m_BallCount = 3;				// 공의 개수
-	float m_BallSpeedx, m_BallSpeedy;	// 공의 각도에 따른 x, y 다음 위치 이동량
-
-	float size = 30.f;					// 공의 실제 크기 = 고정30
+	PositionData m_BallPos = {0.f, 0.f};
+	float m_BallSpeed = 1.f;			
+	float m_BallAngle;				
+	short m_BallCount = 3;			
+	float m_BallSpeedx, m_BallSpeedy;
+	float size = 30.f;
 };
 
-struct clientData					// 서버에서 작업할 때, 필요한 클라이언트(User) 데이터
+struct clientData
 {
-	float m_clientAngle;			// 패널 중심에 해당하는 각도값
-	float m_clientNextAngle;		// 패널 중심에 해당하는 각도값
+	float m_clientAngle;			
+	float m_clientNextAngle;	
 	bool m_clientReady = false;
 	unsigned short m_clientScore;
 	bool m_ExitEndScene = false;
 	PacketType m_packetType = LOBBY;
-
 	int m_ReflectDelayTime = 0;
 };
 
@@ -65,8 +63,8 @@ struct SC_MainPacket
 {
 	PacketType ptype = MAIN;
 	PositionData m_ballPos;
-	short m_ballcount = 3;				// 볼카운트
-	float m_clientPos[3];					// 본인 이외의 플레이어 각도
+	short m_ballcount = 3;
+	float m_clientPos[3];
 	unsigned short m_clientScore;
 };
 #pragma pack()

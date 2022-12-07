@@ -29,7 +29,7 @@
 
 using namespace std;
 
-#define LOOPBACK "127.0.0.1"
+#define LOOPBACK "127.0.0.1" // "10.30.2.39"
 #define NOW_IP LOOPBACK	
 
 static Renderer gRender;
@@ -43,8 +43,7 @@ struct Power_Orb
 
 struct Power_Reflector
 {
-	float angle, position, size, speed;
-	// angle = 초기위치, position = 375,  size = 375, speed = 1, age = -100 
+	float angle, position, size;
 };
 
 extern struct Power_Orb Orb;

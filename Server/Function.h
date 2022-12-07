@@ -21,15 +21,14 @@ void SetBallPosition();
 void OrbSpeed();
 void SpeedCaculate(double time);
 
-bool CheckPlayerReady();
-bool CheckGameOver();
+bool ReadyCheck();
+bool EndCheck();
 
 bool DistanceOvercmp(float x, float y, float dis);
 float AnglePosition(float x, float y);
 
 int CS_RecvData(SOCKET client_sock, int clientPID);
-int SC_SendVariableData(SOCKET client_sock, int clientPID);
-bool Intersect(clientData, BallData);
+int SC_SendData(SOCKET client_sock, int clientPID);
 
 void ChangetoLobby();
 void ChangePacket(PacketType pType);

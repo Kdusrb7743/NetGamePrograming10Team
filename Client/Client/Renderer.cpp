@@ -7,9 +7,9 @@
 struct Power_Orb Orb = { 0.f, 0.f, 0};
 
 Power_Reflector Reflectors[3] = {
-	{0.25f, 375.f, 375.f, 1.f},
-	{0.583f, 375.f, 375.f, 1.f},
-	{0.915f, 375.f, 375.f, 1.f}
+	{0.25f, 375.f, 375.f},
+	{0.583f, 375.f, 375.f},
+	{0.915f, 375.f, 375.f}
 };
 
 float PScore[3] = {0.f, 0.f, 0.f};				// 3명의 플레이어 스코어

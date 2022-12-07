@@ -24,7 +24,7 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 					break;
 				case PacketType::LOBBY:
 				{
-					if (CheckPlayerReady())
+					if (ReadyCheck())
 					{
 						ChangePacket(MAIN);
 						InitBall();
@@ -39,7 +39,7 @@ DWORD WINAPI ProcessThread(LPVOID arg)
 					double time = double(end - start) / CLOCKS_PER_SEC;
 					UpdateBallData(time);
 					CalculateCollision();
-					if (CheckGameOver())
+					if (EndCheck())
 					{
 						ChangePacket(END);
 						Ball.m_BallCount = 3;
@@ -72,7 +72,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 	SOCKET client_sock = (SOCKET)arg;
 	while (1)
 	{
-		retval = SC_SendVariableData(client_sock, clientPID);
+		retval = SC_SendData(client_sock, clientPID);
 		if (retval == SOCKET_ERROR)
 		{
 			std::cout << "SendVariableData Error!" << std::endl;
