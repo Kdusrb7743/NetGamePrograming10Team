@@ -10,18 +10,9 @@ WGameFramework::WGameFramework()
 	m_Quitbutton = false;
 
 	m_bReady = false;
-	Clear();
 }
 
 WGameFramework::~WGameFramework()
-{
-}
-
-void WGameFramework::Reset()
-{
-}
-
-void WGameFramework::Clear()
 {
 }
 
@@ -89,15 +80,9 @@ void WGameFramework::Render(HDC hdc)
 			// 공 그리기
 			gRender.DisplayOrb(hdc);
 
-			//이펙트 부분
-			//if (ReactorEffect < 12) Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, Reactor_size * (ReactorEffect % 6), Reactor_size * (int)(ReactorEffect / 6), Reactor_size, Reactor_size);
-			//else Reactor_EffectImg.Draw(hdc, Pibot_x - Reactor_half, Pibot_y - Reactor_half, Reactor_window, Reactor_window, 5000, 1000, Reactor_size, Reactor_size);
-
 			//// 디버그 출력, UI-점수, 이펙트 출력
 			//if (debug)	UIDebugInfo();
 			gRender.UIScore(hdc);				//인자로 현재 자신이 몇번 플레이어인지에 따라 점수 출력부가 다름.
-
-			//EffectPrint(EffectHead);
 		}
 	}
 }
@@ -105,8 +90,7 @@ void WGameFramework::Render(HDC hdc)
 void WGameFramework::Update(short Left, short Right, const float frameTime)
 {
 	m_Net.recv_data(&m_SceneType, &m_SceneChange, &clientPID);				
-	//cout << clientPID << endl;
-	
+
 	if (Left & 0x8000) {
 		Reflectors[clientPID].angle += 0.01;
 		cout << "왼쪽 이동" << endl;
@@ -120,19 +104,10 @@ void WGameFramework::Update(short Left, short Right, const float frameTime)
 	{
 	case Packet_Type::LOBBY:
 		m_Net.Send(m_bReady);
-		//m_Net.Recv(char a);
 		break;
 
 	case Packet_Type::MAIN:
-
-		//	클라이언트의 post position을 send()한다.	// 3. 각도값 전송
-
-		m_Net.Send(Reflectors[clientPID].angle);				// 일단 나의 각도 값만 보낸다.
-
-		//	서버로 부터 승인된 post position을 recv()한다.
-
-		//m_Net.recv_variable();
-
+		m_Net.Send(Reflectors[clientPID].angle);
 		break;
 
 	case Packet_Type::END:
@@ -143,98 +118,6 @@ void WGameFramework::Update(short Left, short Right, const float frameTime)
 		m_Net.Send(false);
 		break;
 	}
-}
-
-void WGameFramework::PostUpdate(const float frameTime)
-{
-}
-
-void WGameFramework::KeyUpdate(UINT iMessage, WPARAM wParam, LPARAM lParam, short Left, short Right)
-{
-
-	m_Net.recv_data(&m_SceneType, &m_SceneChange, &clientPID);
-
-	if (Left & 0x8000) {
-		Reflectors[clientPID].angle += 0.01;
-		cout << "왼쪽 이동" << endl;
-	}
-	if (Right & 0x8000) {
-		Reflectors[clientPID].angle -= 0.01;
-		cout << "오른쪽 이동" << endl;
-	}
-
-	switch (m_SceneType)
-	{
-	case Packet_Type::LOBBY:
-		//m_Net.Send(m_bReady);
-		//m_Net.Recv(char a);
-		break;
-
-	case Packet_Type::MAIN:
-		m_Net.Send(Reflectors[clientPID].angle);				// 일단 나의 각도 값만 보낸다.
-
-		break;
-
-	case Packet_Type::END:
-		break;
-
-	case Packet_Type::NONE:
-		m_Net.Send(false);
-		break;
-	}
-
-}
-
-void WGameFramework::KeyBoard(UINT iMessage, WPARAM wParam, LPARAM lParam)
-{
-	m_Net.recv_data(&m_SceneType, &m_SceneChange, &clientPID);
-
-	switch (iMessage)
-	{
-		case WM_KEYDOWN:
-		{
-			if (wParam == VK_Q)
-			{
-				SendMessage(m_hWnd, WM_DESTROY, 0, 0);
-				return;
-			}
-			else if (wParam == VK_RIGHT)
-			{
-				GetAsyncKeyState(VK_RIGHT);
-				// 임시로 패널 움직이기
-				// Reflectors[clientPID].angle -= 0.01;
-				cout << "오른쪽으로 이동\n";
-			}
-			else if (wParam == VK_LEFT)
-			{
-				GetAsyncKeyState(VK_RIGHT);
-				// 임시로 패널 움직이기
-				// Reflectors[clientPID].angle += 0.01;
-				cout << "왼쪽으로 이동\n";
-			}
-		}
-		break;
-
-	}
-
-	switch (m_SceneType)
-	{
-	case Packet_Type::LOBBY:
-		break;
-
-	case Packet_Type::MAIN:
-		m_Net.Send(Reflectors[clientPID].angle);				// 일단 나의 각도 값만 보낸다.
-
-		break;
-
-	case Packet_Type::END:
-		break;
-
-	case Packet_Type::NONE:
-		m_Net.Send(false);
-		break;
-	}
-
 }
 
 void WGameFramework::Mouse(UINT iMessage, WPARAM wParam, LPARAM lParam)

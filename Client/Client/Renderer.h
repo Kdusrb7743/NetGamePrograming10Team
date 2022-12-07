@@ -9,24 +9,23 @@ private:
 
 public:
 	//김연규 2주차 - Render() 부분
-	virtual void DisplayLoad();						// 이미지 로드
-	virtual void DisplayColorApply();				// 이미지 색상 적용
+	void DisplayLoad();						// 이미지 로드
+	void DisplayColorApply();				// 이미지 색상 적용
 
-	virtual void DoorIdle(HDC hdc);														// 로비씬 문 Draw												
-	virtual void UIMenu(HDC hdc, bool Start, bool Module, bool Option, bool Quit);		// 로비씬 UI를 출력하는 함수
-	virtual bool UIButtonSelected(int x, int y, int sizex, int sizey, POINTS Mouse);	// 버튼이 선택 됐는지
-	virtual void UIButton(HDC hdc, int x, int y, int R, int G, int B, int SR, int SG, int SB, bool Seleted, const TCHAR String[30]);
+	void DoorIdle(HDC hdc);														// 로비씬 문 Draw												
+	void UIMenu(HDC hdc, bool Start, bool Module, bool Option, bool Quit);		// 로비씬 UI를 출력하는 함수
+	bool UIButtonSelected(int x, int y, int sizex, int sizey, POINTS Mouse);	// 버튼이 선택 됐는지
+	void UIButton(HDC hdc, int x, int y, int R, int G, int B, int SR, int SG, int SB, bool Seleted, const TCHAR String[30]);
 	void DoorAnimation(HDC hdc, int Time);												// 문 애니메이션
 	void UIScore(HDC hdc);
 	void UIEndMessage(HDC hdc);
 	
 	// MAIN 경기장 Draw
-	virtual void ReactorDraw(HDC hdc);
-	virtual void OrbDraw(HDC hdc);
+	void ReactorDraw(HDC hdc);
 
 	// 공, 패널 객체 Draw
-	virtual void DisplayReflector(HDC hdc);
-	virtual void DisplayOrb(HDC hdc);
+	void DisplayReflector(HDC hdc);
+	void DisplayOrb(HDC hdc);
 
 public:
 	// 렌더용 이미지 회전점 계산함수 

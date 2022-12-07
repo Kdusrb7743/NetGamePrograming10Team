@@ -29,20 +29,13 @@
 
 using namespace std;
 
-
-// 여기서 프로그램에 필요한 추가 헤더를 참조합니다.
-
 #define LOOPBACK "127.0.0.1"
-#define NOW_IP LOOPBACK					//	IP주소 설정란
-
-
-// extern 선언
+#define NOW_IP LOOPBACK	
 
 static Renderer gRender;
 
 struct Power_Orb
 {
-	int effect, effect_count;
 	float x, y;
 	short count;
 	float size = 30;
@@ -52,11 +45,7 @@ struct Power_Reflector
 {
 	float angle, position, size, speed;
 	// angle = 초기위치, position = 375,  size = 375, speed = 1, age = -100 
-	// int age, effect;
 };
-
-//static은 다른 파일에서 include 할 때 메모리를 복사해서 주기 때문에(포인터 주지 않음) 원본은 바뀌지 않는다.
-//따라서 이런 위험성 때문에 한 곳에서만 전역변수로 선언하고 나머지 파일들에 extern을 써준다.
 
 extern struct Power_Orb Orb;
 
@@ -69,9 +58,6 @@ extern float PScore[3];
 extern int Player1RGB[3];			// 색 정보
 extern int Player2RGB[3];
 extern int Player3RGB[3];
-
-//윈도우 사이즈 변수
-//extern float window_size = 0.96;					// 메인 사이즈
 
 extern double window_half;
 extern double window_size_x, window_size_y, Pibot_x, Pibot_y;

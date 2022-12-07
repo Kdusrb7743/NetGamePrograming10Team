@@ -4,7 +4,7 @@
 
 //-------------------------------------------------------------------------------------------------------------------
 // 전역변수 선언
-struct Power_Orb Orb = { 0.f, 0.f, 0.f, 0.f, 0};
+struct Power_Orb Orb = { 0.f, 0.f, 0};
 
 Power_Reflector Reflectors[3] = {
 	{0.25f, 375.f, 375.f, 1.f},
@@ -18,9 +18,6 @@ int Player1RGB[3] = { 255, 255, 0 };			// 색 정보
 int Player2RGB[3] = { 255, 0, 0 };
 int Player3RGB[3] = { 0, 255, 0 };
 int RailRGB[3] = { 255, 255, 255 };
-
-//윈도우 사이즈 변수
-// float window_size = 0.96;					// 메인 사이즈
 
 double window_half = window_size * 0.5;
 double window_size_x = 2000 * window_size, window_size_y = 1125 * window_size, Pibot_x = window_size_x * 0.5, Pibot_y = window_size_y * 0.5;
@@ -243,11 +240,6 @@ void Renderer::ReactorDraw(HDC hdc)
 	Reactor_RailImg.Draw(hdc, Pibot_x - 782 * window_half, Pibot_y - 782 * window_half, 782 * window_size, 782 * window_size, 0, 0, 782, 782);
 }
 
-void Renderer::OrbDraw(HDC hdc)
-{
-
-}
-
 bool Renderer::UIButtonSelected(int x, int y, int sizex, int sizey, POINTS Mouse)
 {
 	return (Pibot_x + x * window_size < Mouse.x&& Mouse.x < Pibot_x + (x + sizex) * window_size && Pibot_y + y * window_size < Mouse.y&& Mouse.y < Pibot_y + (y + sizey) * window_size);
@@ -345,10 +337,7 @@ void Renderer::DisplayReflector(HDC hdc) // 리플렉터(반사판)들을 출력하는 함수
 
 void Renderer::DisplayOrb(HDC hdc) // 오브들을 출력하는 함수
 {
-	// 이펙트 후순위 변경
-
 	OrbImg.Draw(hdc, int(Pibot_x + (Orb.x - Orb.size) * window_size), int(Pibot_y + (Orb.y - Orb.size) * window_size), int(Orb.size * 2 * window_size), int(Orb.size * 2 * window_size), Orb_size * (0 + 10 * 1), Orb_size * 2, Orb_size, Orb_size);
-
 }
 
 float Renderer::PointRotationX(float x, float y, float angle)					// 이미지 회전 출력을 위한 X좌표 계산

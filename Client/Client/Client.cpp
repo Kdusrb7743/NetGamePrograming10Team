@@ -65,8 +65,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 	}
 
-	gGameFramework.Clear();
-
     return (int) msg.wParam;
 }
 
@@ -174,14 +172,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			InvalidateRgn(hWnd, NULL, false);
 		}
 		break;
-
-		case WM_KEYDOWN:
-		{
-
-		}
-		break;
-
-		case WM_KEYUP:
 
 		case WM_LBUTTONDOWN:
 
